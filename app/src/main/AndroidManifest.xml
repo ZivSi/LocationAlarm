@@ -5,9 +5,11 @@
     <!-- Always include this permission -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
 
-
     <!-- Include only if your app benefits from precise location access. -->
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
+    <!-- Alarm manager -->
+    <uses-permission android:name="android.permission.SET_ALARM" />
 
     <application
         android:allowBackup="true"
