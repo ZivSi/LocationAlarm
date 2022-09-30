@@ -1,7 +1,5 @@
 package com.example.locationalarm;
 
-import java.util.ArrayList;
-
 public class ItemData {
     private String name;
     private String address;
@@ -24,7 +22,7 @@ public class ItemData {
         return this.name;
     }
 
-    public int getAlarmDistance() {
+    public String getAlarmDistance() {
         return this.alarmDistance;
     }
 

@@ -39,8 +39,7 @@ public class MainActivity extends AppCompatActivity {
         // 2. Add to map
         try {
             data = LoadData(FILE);
-        } catch (IOException ignored) {
-        }
+        } catch (IOException ignored) {}
 
         // 3. Add to array from map
         dataArrayList = dataAsArray(data);
@@ -58,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
         return temp;
     }
 
-    private void SaveData(HashMap<String, ItemData> data, String file_name) throws IOException {
-        properties = new Properties();
+    static void SaveData(HashMap<String, ItemData> data, String file_name) throws IOException {
+        Properties properties = new Properties();
 
         for (Map.Entry<String, ItemData> entry : data.entrySet()) {
             properties.put(entry.getKey(), entry.getValue());
