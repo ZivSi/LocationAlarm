@@ -5,10 +5,10 @@ public class ItemData {
     private String address;
     private String latitude;
     private String longitude;
-    private int alarmDistance; // in meters
+    private String alarmDistance; // in meters
     private String ringtone;
 
-    public ItemData(String name, String address, String latitude, String longitude, int alarmDistance, String ringtone) {
+    public ItemData(String name, String address, String latitude, String longitude, String alarmDistance, String ringtone) {
         this.name = name;
         this.address = address;
         this.latitude = latitude;
@@ -47,7 +47,7 @@ public class ItemData {
         this.address = address;
     }
 
-    public void setAlarmDistance(int alarmDistance) {
+    public void setAlarmDistance(String alarmDistance) {
         this.alarmDistance = alarmDistance;
     }
 

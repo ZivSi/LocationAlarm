@@ -1,6 +1,8 @@
 package com.example.locationalarm;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,8 +19,12 @@ import java.util.Properties;
 public class MainActivity extends AppCompatActivity {
     static final String FILE = "data.properties";
 
-    Intent intent = new Intent(MainActivity.this, EditLayout.class);
+    //Intent intent = new Intent(MainActivity.this, EditLayout.class);
     Properties properties;
+
+    RecyclerView recyclerView;
+    RecyclerAdapter adapter;
+
     HashMap<String, ItemData> data = new HashMap<>();
     ArrayList<ItemData> dataArrayList = new ArrayList<>();
 
@@ -27,13 +33,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // TODO: Read data from properties file, add to map, add to array from map, and add to recyclerview
-        /*
-        1. Read from file
-        2. Add to map
-        3. Add to array from map
-        4. Add to recyclerView
-         */
 
         // 1. Read from file
         // 2. Add to map
@@ -44,9 +43,20 @@ public class MainActivity extends AppCompatActivity {
         // 3. Add to array from map
         dataArrayList = dataAsArray(data);
 
-        // TODO: Add to recyclerView
+        // for testing:
+        dataArrayList.add(new ItemData("test", "addr", "38.55", "36.88", "100", "ring1"));
+        dataArrayList.add(new ItemData("test2", "ad2dr", "38.554444444", "36.4444488", "134340", "ring1"));
+        dataArrayList.add(new ItemData("tesat2", "ad2dr", "38.554444444", "36.4488", "134", "ring1"));
+        // 4. Set adapter
+        recyclerView = findViewById(R.id.recyclerView);
+        adapter = new RecyclerAdapter(dataArrayList, this);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
     }
 
+    /*
+    turn a hashmap of string and itemdata into an arraylist of itemdata
+     */
     private ArrayList<ItemData> dataAsArray(HashMap<String, ItemData> data) {
         ArrayList<ItemData> temp = new ArrayList<>();
 
@@ -57,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
         return temp;
     }
 
+    /*
+    save a hashmap of string and itemdata to a file
+     */
     static void SaveData(HashMap<String, ItemData> data, String file_name) throws IOException {
         Properties properties = new Properties();
 
@@ -67,6 +80,9 @@ public class MainActivity extends AppCompatActivity {
         properties.store(new FileOutputStream(file_name), null);
     }
 
+    /*
+    load a hashmap of string and itemdata from a file
+     */
     private HashMap<String, ItemData> LoadData(String file_name) throws IOException {
         HashMap<String, ItemData> map_from_file = new HashMap<>();
         properties = new Properties();
@@ -82,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void OpenEditLayout(View view) {
         // When press 'add' button
-        startActivity(intent);
+        //startActivity(intent);
         finish();
     }
 }
