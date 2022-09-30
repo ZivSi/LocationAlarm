@@ -19,7 +19,6 @@ import java.util.Properties;
 public class MainActivity extends AppCompatActivity {
     static final String FILE = "data.properties";
 
-    //Intent intent = new Intent(MainActivity.this, EditLayout.class);
     Properties properties;
 
     RecyclerView recyclerView;
@@ -38,7 +37,8 @@ public class MainActivity extends AppCompatActivity {
         // 2. Add to map
         try {
             data = LoadData(FILE);
-        } catch (IOException ignored) {}
+        } catch (IOException ignored) {
+        }
 
         // 3. Add to array from map
         dataArrayList = dataAsArray(data);
@@ -98,7 +98,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void OpenEditLayout(View view) {
         // When press 'add' button
-        //startActivity(intent);
-        finish();
+        startActivity(new Intent(this, EditLayout.class));
     }
 }

@@ -32,22 +32,31 @@
             android:id="@+id/nameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:text="School"
+            android:layout_marginStart="15dp"
+            android:text="School - Some Text :)"
             android:textColor="@color/black"
             android:textSize="26sp"
             app:layout_constraintStart_toEndOf="@+id/locationImageView"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/straighten_48px"
+            app:layout_constraintBottom_toBottomOf="@+id/distanceAlertFromLocation"
+            app:layout_constraintStart_toStartOf="@+id/locationImageView"
+            app:layout_constraintTop_toTopOf="@+id/distanceAlertFromLocation" />
+
 
         <com.google.android.material.chip.Chip
             android:id="@+id/distanceAlertFromLocation"
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
             android:text="50M"
             android:textSize="12sp"
             app:chipBackgroundColor="@color/LightGreen"
-            app:chipIcon="@drawable/straighten_48px"
             app:chipIconVisible="true"
             app:layout_constraintStart_toStartOf="@+id/nameTextView"
             app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
@@ -56,12 +65,10 @@
             android:id="@+id/xCoordinatesChip"
             android:layout_width="120dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
             android:text="X: 33.343424"
             app:chipBackgroundColor="@color/Aquamarine"
-            app:chipIcon="@drawable/my_location_48px"
-            app:layout_constraintStart_toEndOf="@+id/distanceAlertFromLocation"
-            app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
+            app:layout_constraintStart_toStartOf="@+id/distanceAlertFromLocation"
+            app:layout_constraintTop_toBottomOf="@+id/distanceAlertFromLocation" />
 
         <com.google.android.material.chip.Chip
             android:id="@+id/yCoordinatesChip"
@@ -70,8 +77,16 @@
             android:layout_marginStart="5dp"
             android:text="Y: 38.343424"
             app:chipBackgroundColor="@color/Aquamarine"
-            app:chipIcon="@drawable/my_location_48px"
             app:layout_constraintStart_toEndOf="@+id/xCoordinatesChip"
-            app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
+            app:layout_constraintTop_toTopOf="@+id/xCoordinatesChip" />
+
+        <ImageView
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:src="@drawable/my_location_48px"
+            app:layout_constraintBottom_toBottomOf="@+id/xCoordinatesChip"
+            app:layout_constraintStart_toStartOf="@+id/locationImageView"
+            app:layout_constraintTop_toTopOf="@+id/xCoordinatesChip" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
