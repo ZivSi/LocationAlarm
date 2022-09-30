@@ -10,15 +10,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.Arrays;
 import java.util.HashMap;
 
-public class RecyclerAddapter extends RecyclerView.Adapter<RecyclerAddapter.ViewHolders> {
+public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolders> {
     @NonNull
     @Override
-    public RecyclerAddapter.ViewHolders onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerAdapter.ViewHolders onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return null;
     }
 
     @Override
-    public void onBindViewHolder(@NonNull RecyclerAddapter.ViewHolders holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerAdapter.ViewHolders holder, int position) {
 
     }
 
