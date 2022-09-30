@@ -11,9 +11,11 @@
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:clipToPadding="false"
-        tools:itemCount="4"
         android:backgroundTint="@color/Background"
+        android:clipToPadding="false"
+        android:padding="10dp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:itemCount="4"
+        tools:layout_editor_absoluteX="10dp"
         tools:listitem="@layout/saved_location_item" />
 </androidx.constraintlayout.widget.ConstraintLayout>
