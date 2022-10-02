@@ -4,9 +4,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.SearchView;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -48,10 +50,8 @@ public class MainActivity extends AppCompatActivity {
         dataArrayList.add(new ItemData("test2", "ad2dr", "38.554444444", "36.4444488", "134340", "ring1"));
         dataArrayList.add(new ItemData("tesat2", "ad2dr", "38.554444444", "36.4488", "134", "ring1"));
         // 4. Set adapter
-        recyclerView = findViewById(R.id.recyclerView);
-        adapter = new RecyclerAdapter(dataArrayList, this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        initRecyclerView(dataArrayList, this);
+        initSearchRecycler();
     }
 
     /*
@@ -100,4 +100,38 @@ public class MainActivity extends AppCompatActivity {
         // When press 'add' button
         startActivity(new Intent(this, EditLayout.class));
     }
+
+    private void initRecyclerView(ArrayList<ItemData> data, Context context) {
+        RecyclerView recyclerView = findViewById(R.id.recyclerView);
+        RecyclerAdapter adapter = new RecyclerAdapter(data, context);
+        recyclerView.setAdapter(adapter);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+    }
+
+    private void initSearchRecycler(){
+        SearchView searchView = (SearchView) findViewById(R.id.searchView);
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) { // change text on search
+                ArrayList<ItemData> filterdList = new ArrayList<>();
+
+                for(ItemData entry : dataArrayList){// find matching items
+                    if(entry.getName().toLowerCase().contains(newText.toLowerCase())){
+                        filterdList.add(entry);
+                    }
+                }
+
+                initRecyclerView(filterdList, getApplicationContext()); // update recycler view
+                return false;
+            }
+        });
+
+    }
+
+
 }

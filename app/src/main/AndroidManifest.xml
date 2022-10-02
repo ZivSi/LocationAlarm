@@ -14,6 +14,7 @@
         android:supportsRtl="false"
         android:theme="@style/Theme.LocationAlarm">
         <activity
+            android:parentActivityName=".MainActivity"
             android:name=".EditLayout"
             android:exported="false" />
         <activity
