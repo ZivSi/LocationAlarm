@@ -6,6 +6,7 @@ import android.content.res.ColorStateList;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -26,6 +27,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         private TextView titleLocation;
         private TextInputEditText textInputEditText;
         private Chip x, y, distanceAlert;
+        private ConstraintLayout constLayout;
 
         public ViewHolder(View view) {
             super(view);
@@ -35,7 +37,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             x = view.findViewById(R.id.xCoordinatesChip);
             y = view.findViewById(R.id.yCoordinatesChip);
             distanceAlert = view.findViewById(R.id.distanceAlertFromLocation);
-
+            constLayout = view.findViewById(R.id.cardLayout);
 
             // * Click listeners
 
@@ -94,6 +96,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         } else if (Integer.parseInt(dataArray.get(position).getAlarmDistance()) > 1000) {
             holder.getDistanceAlert().setChipBackgroundColor(ColorStateList.valueOf(context.getResources().getColor(R.color.Peru)));
         }
+
+        holder.constLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                    PopupForCard popup = new PopupForCard();
+                    popup.showPopup(view, context);
+                }
+            });
+
     }
 
     @Override
