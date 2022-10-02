@@ -101,6 +101,11 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(this, EditLayout.class));
     }
 
+
+    /**
+     * @param data    array of data to be displayed
+     * @param context context of the activity
+     */
     private void initRecyclerView(ArrayList<ItemData> data, Context context) {
         RecyclerView recyclerView = findViewById(R.id.recyclerView);
         RecyclerAdapter adapter = new RecyclerAdapter(data, context);
@@ -108,29 +113,32 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
     }
 
-    private void initSearchRecycler(){
-        SearchView searchView = (SearchView) findViewById(R.id.searchView);
 
+    /**
+     * when search bar is used, update the recycler view to show only the items that match the search
+     */
+    private void initSearchRecycler() {
+        SearchView searchView = (SearchView) findViewById(R.id.searchView);
+        // set onclick listener
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 return false;
             }
+
             @Override
             public boolean onQueryTextChange(String newText) { // change text on search
                 ArrayList<ItemData> filterdList = new ArrayList<>();
 
-                for(ItemData entry : dataArrayList){// find matching items
-                    if(entry.getName().toLowerCase().contains(newText.toLowerCase())){
+                for (ItemData entry : dataArrayList) {// find matching items
+                    if (entry.getName().toLowerCase().contains(newText.toLowerCase())) {
                         filterdList.add(entry);
                     }
                 }
-
                 initRecyclerView(filterdList, getApplicationContext()); // update recycler view
                 return false;
             }
         });
-
     }
 
 
