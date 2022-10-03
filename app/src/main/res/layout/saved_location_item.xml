@@ -41,6 +41,13 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_baseline_keyboard_arrow_up_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:src="@drawable/straighten_48px"

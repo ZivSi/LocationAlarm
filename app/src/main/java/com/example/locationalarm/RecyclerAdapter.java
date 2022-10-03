@@ -101,9 +101,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.constLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                PopupForCard popup = new PopupForCard();
-                // show a popup menu and give it the item selected
-                dataArray = popup.showPopup(view, context, dataArray, holder.getAdapterPosition());
+                // todo: add arrow that on click turns around and expands the recyclerview
             }
             });
     }
