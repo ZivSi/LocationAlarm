@@ -3,6 +3,7 @@ package com.example.locationalarm;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -100,15 +101,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.constLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                    PopupForCard popup = new PopupForCard();
-                    popup.showPopup(view, context);
-                }
+                PopupForCard popup = new PopupForCard();
+                // show a popup menu and give it the item selected
+                dataArray = popup.showPopup(view, context, dataArray, holder.getAdapterPosition());
+            }
             });
-
     }
 
     @Override
     public int getItemCount() {
         return dataArray.size();
     }
+
 }
