@@ -28,6 +28,7 @@ public class EditLayout extends AppCompatActivity {
         initViews();
     }
 
+    // Initialize all the views
     private void initViews() {
         nameBox = findViewById(R.id.nameBox);
         xCoordiantesBox = findViewById(R.id.xCoordinatesBox);
@@ -55,7 +56,12 @@ public class EditLayout extends AppCompatActivity {
         finish();
     }
 
+    /**
+     * take the input data from the user and save it to a ItemData object then save it to the data map
+     * @param view view
+     */
     public void saveData(View view) {
+        // get fields
         String name = nameBox.getText().toString();
         String x = xCoordiantesBox.getText().toString();
         String y = yCoordinatesBox.getText().toString();
@@ -78,7 +84,6 @@ public class EditLayout extends AppCompatActivity {
         MainActivity.data.put(name, new ItemData(name, " ", x, y, String.valueOf(distance), " "));
         finish();
     }
-
 
     // get the distance from the seekbar, set it to correct value and update textview
     private int getDistance() {
@@ -122,6 +127,5 @@ public class EditLayout extends AppCompatActivity {
         distanceTextView.setText(distance);
         return dist;
     }
-
 
 }
