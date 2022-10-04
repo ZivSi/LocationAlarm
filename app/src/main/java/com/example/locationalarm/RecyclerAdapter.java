@@ -76,8 +76,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         this.dataArray = new ArrayList<>(dataArray);
         this.context = context;
 
-         flip_back = AnimationUtils.loadAnimation(context, R.anim.arrow_flip_back);
-         flip = AnimationUtils.loadAnimation(context, R.anim.arrow_flip);
+        flip_back = AnimationUtils.loadAnimation(context, R.anim.arrow_flip_back);
+        flip = AnimationUtils.loadAnimation(context, R.anim.arrow_flip);
     }
 
     @NonNull
@@ -111,15 +111,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             holder.getDistanceAlert().setChipBackgroundColor(ColorStateList.valueOf(context.getResources().getColor(R.color.Peru)));
         }
 
-       holder.arrowButton.setOnClickListener((v) -> {
-           if(currentItem.isExpanded()) {
-               holder.arrowButton.startAnimation(flip_back);
-               currentItem.setExpanded(false);
-           } else {
-               holder.arrowButton.startAnimation(flip);
-               currentItem.setExpanded(true);
-           }
-       });
+        holder.arrowButton.setOnClickListener((v) -> {
+            if (currentItem.isExpanded()) {
+                holder.arrowButton.startAnimation(flip_back);
+                currentItem.setExpanded(false);
+            } else {
+                holder.arrowButton.startAnimation(flip);
+                currentItem.setExpanded(true);
+            }
+        });
     }
 
     @Override

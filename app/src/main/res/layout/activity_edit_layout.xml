@@ -4,92 +4,140 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:padding="20dp"
     tools:context=".EditLayout">
 
-    <SeekBar
-        android:id="@+id/seekBar"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="232dp"
-        android:layout_height="44dp"
-        android:layout_marginTop="8dp"
-        android:max="10"
-        android:progress="5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.402"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <EditText
-        android:id="@+id/editTextTextPersonName"
-        android:layout_width="267dp"
-        android:layout_height="58dp"
-        android:layout_marginTop="48dp"
-        android:ems="10"
-        android:inputType="textPersonName"
-        android:hint="Name"
+    <TextView
+        android:id="@+id/headText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Location Settings"
+        android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editTextTextPersonName2"
-        android:layout_width="203dp"
-        android:layout_height="49dp"
-        android:layout_marginTop="36dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:hint="x coordinate"
+    <!-- Name of location -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/nameBoxLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.413"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName" />
+        app:layout_constraintTop_toBottomOf="@id/headText">
 
-    <com.google.android.material.textfield.TextInputEditText
-        android:id="@+id/editTextTextPersonName3"
-        android:layout_width="203dp"
-        android:layout_height="49dp"
-        android:layout_marginTop="32dp"
-        android:ems="10"
-        android:inputType="numberDecimal"
-        android:hint="y coordinate"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/nameBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter location name"
+            android:inputType="textPersonName"
+            android:lines="1"
+            android:maxLines="1" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- X of location -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/xCoordinatesLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.413"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName2" />
+        app:layout_constraintTop_toBottomOf="@+id/nameBoxLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/xBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Enter X coordinates"
+            android:inputType="textPersonName"
+            android:lines="1"
+            android:maxLines="1"
+            tools:layout_editor_absoluteX="25dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <!-- Y of location -->
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/yCoordinates"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/xCoordinatesLayout">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/yBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:hint="Enter Y coordinates"
+            android:inputType="textPersonName"
+            android:lines="1"
+            android:maxLines="1"
+            tools:layout_editor_absoluteX="25dp" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <TextView
         android:id="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="40dp"
-        android:text="distance: 1000 meters"
+        android:layout_marginTop="64dp"
+        android:text="Distance: 100M"
         android:textColor="@color/black"
         android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextPersonName3" />
+        app:layout_constraintTop_toBottomOf="@+id/yCoordinates" />
 
-    <Spinner
-        android:id="@+id/spinner1"
-        android:layout_width="114dp"
-        android:layout_height="35dp"
-        android:layout_marginStart="8dp"
-        android:background="@android:drawable/btn_dropdown"
-        android:spinnerMode="dropdown"
-        android:textAlignment="center"
-        app:layout_constraintBottom_toBottomOf="@+id/textView3"
-        app:layout_constraintStart_toEndOf="@+id/textView3"
-        app:layout_constraintTop_toTopOf="@+id/textView3" />
+    <SeekBar
+        android:id="@+id/seekBar"
+        style="@style/Widget.AppCompat.SeekBar.Discrete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:max="10"
+        android:progress="2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/ringtoneTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="84dp"
         android:layout_marginTop="48dp"
-        android:text="ringtone:"
+        android:text="Ringtone:"
+        android:textStyle="bold"
         android:textColor="@color/black"
         android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/textView2"
+        app:layout_constraintStart_toStartOf="@+id/seekBar"
         app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chipRingtoneSelection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Select"
+        android:textColor="@color/white"
+        app:chipBackgroundColor="@color/MediumPurple"
+        app:layout_constraintBottom_toBottomOf="@+id/ringtoneTextView"
+        app:layout_constraintEnd_toEndOf="@+id/seekBar"
+        app:layout_constraintHorizontal_bias="0.377"
+        app:layout_constraintStart_toStartOf="@+id/textView2"
+        app:layout_constraintTop_toTopOf="@+id/ringtoneTextView"
+        app:layout_constraintVertical_bias="0.571" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
