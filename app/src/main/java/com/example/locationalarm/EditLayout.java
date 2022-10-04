@@ -8,6 +8,7 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -16,14 +17,16 @@ public class EditLayout extends AppCompatActivity {
 
     TextView distanceTextView;
     SeekBar seekBar;
-    Chip ringtoneChip, saveChip, backChip;
+    Chip saveChip;
+    MaterialButton chooseRingtone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_layout);
 
-        getSupportActionBar().hide();
+        getSupportActionBar().setTitle("");
+
 
         initViews();
     }
@@ -34,9 +37,8 @@ public class EditLayout extends AppCompatActivity {
         xCoordiantesBox = findViewById(R.id.xCoordinatesBox);
         yCoordinatesBox = findViewById(R.id.yCoordinatesBox);
         distanceTextView = findViewById(R.id.distanceTextView);
-        ringtoneChip = findViewById(R.id.chipRingtoneSelection);
+        chooseRingtone = findViewById(R.id.chooseRingtomeMaterialButton);
         saveChip = findViewById(R.id.saveButton);
-        backChip = findViewById(R.id.backButton);
         seekBar = findViewById(R.id.seekBar);
         // onchange listener for seekbar
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -44,20 +46,21 @@ public class EditLayout extends AppCompatActivity {
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 getDistance();
             }
+
             @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {}
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
             @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {}
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
         });
     }
 
 
-    public void backToMain(View view) {
-        finish();
-    }
-
     /**
      * take the input data from the user and save it to a ItemData object then save it to the data map
+     *
      * @param view view
      */
     public void saveData(View view) {
@@ -69,12 +72,14 @@ public class EditLayout extends AppCompatActivity {
         // todo: add ringtone
 
         // check for empty fields
-        if(name.isEmpty() || x.isEmpty() || y.isEmpty()) {
+        if (name.isEmpty() || x.isEmpty() || y.isEmpty()) {
+            // TODO: Snackbar error
             Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
             return;
         }
         // check if the name is already taken
         if (MainActivity.data.containsKey(name)) {
+            // TODO: Snackbar error
             Toast.makeText(this, "Name already exists", Toast.LENGTH_SHORT).show();
             return;
         }
@@ -82,6 +87,8 @@ public class EditLayout extends AppCompatActivity {
         // address is curently empty untill we add the google maps api
         // ringtone is empty until we add the ringtone selection
         MainActivity.data.put(name, new ItemData(name, " ", x, y, String.valueOf(distance), " "));
+
+        // TODO: Save map in file
         finish();
     }
 
@@ -89,7 +96,7 @@ public class EditLayout extends AppCompatActivity {
     private int getDistance() {
         int dist = seekBar.getProgress();
 
-        switch (dist){
+        switch (dist) {
             case 0:
                 dist = 10;
                 break;
@@ -120,9 +127,9 @@ public class EditLayout extends AppCompatActivity {
             case 9:
                 dist = 10000;
                 break;
-            default:
-                dist = 100;
         }
+        // Default will never be called...
+
         String distance = "Distance: " + dist + "m";
         distanceTextView.setText(distance);
         return dist;

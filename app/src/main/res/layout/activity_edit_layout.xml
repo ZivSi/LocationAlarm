@@ -128,43 +128,27 @@
         app:layout_constraintStart_toStartOf="@+id/seekBar"
         app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
-    <com.google.android.material.chip.Chip
-        android:id="@+id/chipRingtoneSelection"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/chooseRingtomeMaterialButton"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Select"
-        android:textColor="@color/white"
-        app:chipBackgroundColor="@color/MediumPurple"
+        android:text="Choose"
         app:layout_constraintBottom_toBottomOf="@+id/ringtoneTextView"
-        app:layout_constraintEnd_toEndOf="@+id/seekBar"
-        app:layout_constraintHorizontal_bias="0.452"
-        app:layout_constraintStart_toStartOf="@+id/distanceTextView"
-        app:layout_constraintTop_toTopOf="@+id/ringtoneTextView"
-        app:layout_constraintVertical_bias="0.523" />
+        app:layout_constraintEnd_toEndOf="@+id/distanceTextView"
+        app:layout_constraintStart_toEndOf="@+id/ringtoneTextView"
+        app:layout_constraintTop_toTopOf="@+id/ringtoneTextView" />
 
     <com.google.android.material.chip.Chip
         android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
+        android:onClick="saveData"
         android:text="Save"
         android:textColor="@color/white"
-        android:onClick="saveData"
+        android:textSize="20sp"
         app:chipBackgroundColor="@color/LightGreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
-
-    <com.google.android.material.chip.Chip
-        android:id="@+id/backButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="4dp"
-        android:textSize="20sp"
-        android:text="back"
-        android:textColor="@color/white"
-        android:onClick="backToMain"
-        app:chipBackgroundColor="@color/LightGrey"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
