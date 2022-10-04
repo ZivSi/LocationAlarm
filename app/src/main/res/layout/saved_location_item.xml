@@ -62,7 +62,9 @@
             android:layout_marginTop="10dp"
             android:text="50M"
             android:textSize="12sp"
-            app:chipBackgroundColor="@color/LightGreen"
+            app:chipIconTint="@color/white"
+            app:chipBackgroundColor="@color/purple_700"
+            android:textColor="@color/white"
             app:chipIcon="@drawable/straighten_48px"
             app:chipIconVisible="true"
             app:layout_constraintStart_toStartOf="@+id/nameTextView"
@@ -73,7 +75,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="X: 33.343424"
-            app:chipBackgroundColor="@color/Aquamarine"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/purple_200"
             app:layout_constraintStart_toStartOf="@+id/distanceAlertFromLocation"
             app:layout_constraintTop_toBottomOf="@+id/distanceAlertFromLocation" />
 
@@ -83,7 +86,8 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:text="Y: 38.343424"
-            app:chipBackgroundColor="@color/Aquamarine"
+            android:textColor="@color/white"
+            app:chipBackgroundColor="@color/purple_200"
             app:layout_constraintStart_toEndOf="@+id/xCoordinatesChip"
             app:layout_constraintTop_toTopOf="@+id/xCoordinatesChip" />
 

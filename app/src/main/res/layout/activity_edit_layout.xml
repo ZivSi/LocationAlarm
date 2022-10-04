@@ -139,16 +139,4 @@
         app:layout_constraintStart_toEndOf="@+id/ringtoneTextView"
         app:layout_constraintTop_toTopOf="@+id/ringtoneTextView" />
 
-    <com.google.android.material.chip.Chip
-        android:id="@+id/saveButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:onClick="saveData"
-        android:text="Save"
-        android:textColor="@color/white"
-        android:textSize="20sp"
-        app:chipBackgroundColor="@color/LightGreen"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
 </androidx.constraintlayout.widget.ConstraintLayout>

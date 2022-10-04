@@ -3,6 +3,8 @@ package com.example.locationalarm;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
@@ -17,7 +19,6 @@ public class EditLayout extends AppCompatActivity {
 
     TextView distanceTextView;
     SeekBar seekBar;
-    Chip saveChip;
     MaterialButton chooseRingtone;
 
     @Override
@@ -38,7 +39,6 @@ public class EditLayout extends AppCompatActivity {
         yCoordinatesBox = findViewById(R.id.yCoordinatesBox);
         distanceTextView = findViewById(R.id.distanceTextView);
         chooseRingtone = findViewById(R.id.chooseRingtomeMaterialButton);
-        saveChip = findViewById(R.id.saveButton);
         seekBar = findViewById(R.id.seekBar);
         // onchange listener for seekbar
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -59,11 +59,9 @@ public class EditLayout extends AppCompatActivity {
 
 
     /**
-     * take the input data from the user and save it to a ItemData object then save it to the data map
-     *
-     * @param view view
+     * Save the new data in file, after checked all properties are valid
      */
-    public void saveData(View view) {
+    public void saveData() {
         // get fields
         String name = nameBox.getText().toString();
         String x = xCoordiantesBox.getText().toString();
@@ -133,6 +131,30 @@ public class EditLayout extends AppCompatActivity {
         String distance = "Distance: " + dist + "m";
         distanceTextView.setText(distance);
         return dist;
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_edit_location, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        if (id == R.id.check_button_menu) {
+            // Pressed on save button in action bar
+            saveData();
+
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
 }
