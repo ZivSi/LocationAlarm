@@ -140,4 +140,27 @@
         app:layout_constraintTop_toTopOf="@+id/ringtoneTextView"
         app:layout_constraintVertical_bias="0.571" />
 
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chipRingtoneSelection2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:text="Save"
+        android:textColor="@color/white"
+        app:chipBackgroundColor="@color/LightGreen"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/chipRingtoneSelection3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="4dp"
+        android:textSize="20sp"
+        android:text="back"
+        android:textColor="@color/white"
+        app:chipBackgroundColor="@color/LightGrey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

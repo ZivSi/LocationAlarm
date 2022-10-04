@@ -34,4 +34,6 @@ public class EditLayout extends AppCompatActivity {
         seekBar = findViewById(R.id.seekBar);
         chip = findViewById(R.id.chipRingtoneSelection);
     }
+
+    
 }

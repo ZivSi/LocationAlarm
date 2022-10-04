@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
 
     HashMap<String, ItemData> data = new HashMap<>();
     ArrayList<ItemData> dataArrayList = new ArrayList<>();
-    ArrayList<ItemData> fixedData = new ArrayList<>();
+    static ArrayList<ItemData> fixedData = new ArrayList<>();
 
     TextInputEditText searchBox;
 
