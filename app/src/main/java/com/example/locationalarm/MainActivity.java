@@ -47,8 +47,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        searchBox = findViewById(R.id.searchBox);
-        recyclerView = findViewById(R.id.recyclerView);
+        initViews();
 
 
         // Read from file and add to tha map
@@ -68,13 +67,18 @@ public class MainActivity extends AppCompatActivity {
         // * fixedData will never change - used to filter
         fixedData = new ArrayList<>(dataArrayList);
 
-        // 4. Set adapter
+        // Set adapter and create recyclerview object
         initRecyclerView(this);
         initSearchRecycler();
     }
 
+    private void initViews() {
+        searchBox = findViewById(R.id.searchBox);
+        recyclerView = findViewById(R.id.recyclerView);
+    }
+
     /**
-     * when search bar is used, update the recycler view to show only the items that match the search
+     * When searching in the search bar, update the recylcerview
      */
     private void initSearchRecycler() {
         // set onclick listener
