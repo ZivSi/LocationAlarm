@@ -15,5 +15,11 @@
         <!-- Customize your theme here. -->
 
         <item name="font">@font/roboto_regular</item>
+
+        <item name="snackbarStyle">@style/Widget.SnackBar</item>
+    </style>
+
+    <style name="Widget.SnackBar" parent="Widget.MaterialComponents.Snackbar">
+        <item name="android:layout_margin">0dp</item>
     </style>
 </resources>

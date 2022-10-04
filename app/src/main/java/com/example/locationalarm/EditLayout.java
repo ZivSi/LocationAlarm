@@ -1,7 +1,9 @@
 package com.example.locationalarm;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -12,6 +14,7 @@ import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class EditLayout extends AppCompatActivity {
@@ -20,6 +23,10 @@ public class EditLayout extends AppCompatActivity {
     TextView distanceTextView;
     SeekBar seekBar;
     MaterialButton chooseRingtone;
+
+    Snackbar snackbar;
+    Snackbar.SnackbarLayout snackbarView;
+    ConstraintLayout layout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,6 +47,16 @@ public class EditLayout extends AppCompatActivity {
         distanceTextView = findViewById(R.id.distanceTextView);
         chooseRingtone = findViewById(R.id.chooseRingtomeMaterialButton);
         seekBar = findViewById(R.id.seekBar);
+        layout = findViewById(R.id.mainEditLayout);
+        snackbar = Snackbar.make(layout, "", Snackbar.LENGTH_SHORT);
+        View custom_view = getLayoutInflater().inflate(R.layout.snackbar_error, null);
+
+        snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
+        snackbarView = (Snackbar.SnackbarLayout) snackbar.getView();
+        snackbarView.setPadding(-10, 0, -10, 0);
+        snackbarView.addView(custom_view, 0);
+
+
         // onchange listener for seekbar
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -71,14 +88,14 @@ public class EditLayout extends AppCompatActivity {
 
         // check for empty fields
         if (name.isEmpty() || x.isEmpty() || y.isEmpty()) {
-            // TODO: Snackbar error
-            Toast.makeText(this, "Please fill all the fields", Toast.LENGTH_SHORT).show();
+            ((TextView) snackbarView.findViewById(R.id.error_message)).setText("Please fill all the fields");
+            snackbar.show();
             return;
         }
         // check if the name is already taken
         if (MainActivity.data.containsKey(name)) {
-            // TODO: Snackbar error
-            Toast.makeText(this, "Name already exists", Toast.LENGTH_SHORT).show();
+            ((TextView) snackbarView.findViewById(R.id.error_message)).setText("Name already exists");
+            snackbar.show();
             return;
         }
 
