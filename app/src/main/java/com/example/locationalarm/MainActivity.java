@@ -36,9 +36,9 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     RecyclerAdapter adapter;
 
-    HashMap<String, ItemData> data = new HashMap<>();
+    static HashMap<String, ItemData> data = new HashMap<>();
     ArrayList<ItemData> dataArrayList = new ArrayList<>();
-    static ArrayList<ItemData> fixedData = new ArrayList<>();
+    ArrayList<ItemData> fixedData = new ArrayList<>();
 
     TextInputEditText searchBox;
 
@@ -59,18 +59,31 @@ public class MainActivity extends AppCompatActivity {
 
         // Create an array from the data in the map
         dataArrayList = dataAsArray(data);
-
-        // for testing:
-        dataArrayList.add(new ItemData("test", "Israel, Nofey Prat", "38.55", "36.88", "100", "ring1"));
-        dataArrayList.add(new ItemData("test2", "USA", "38.554444444", "36.4444488", "134340", "ring1"));
-        dataArrayList.add(new ItemData("test3", "England", "38.554444444", "36.4488", "134", "ring1"));
-
         // * fixedData will never change - used to filter
         fixedData = new ArrayList<>(dataArrayList);
 
         // Set adapter and create recyclerview object
         initRecyclerView(this);
         initSearchRecycler();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // save data to file
+        if (data.size() > 0) {
+
+            try {
+                SaveData(data, FILE); // fixme: not saving data correctly for some reason - when exit it gets deleted
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            Log.d("asdf", "entry: " + data.entrySet());
+            Log.d("asdf", "key: " + data.keySet());
+            dataArrayList = dataAsArray(data);
+            fixedData = new ArrayList<>(dataArrayList);
+            adapter.updateData(dataArrayList);
+        }
     }
 
     private void initViews() {
@@ -86,12 +99,9 @@ public class MainActivity extends AppCompatActivity {
         searchBox.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
             }
-
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-
             }
 
             @Override
@@ -180,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
     public void OpenEditLayout(View view) {
         // When press 'add' button
         startActivity(new Intent(this, EditLayout.class));
+        // todo: update after returning from edit layout
     }
 
 

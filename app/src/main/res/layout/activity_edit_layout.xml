@@ -56,7 +56,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Enter X coordinates"
-            android:inputType="textPersonName"
+            android:inputType="numberDecimal"
             android:lines="1"
             android:maxLines="1"
             tools:layout_editor_absoluteX="25dp" />
@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:ems="10"
             android:hint="Enter Y coordinates"
-            android:inputType="textPersonName"
+            android:inputType="numberDecimal"
             android:lines="1"
             android:maxLines="1"
             tools:layout_editor_absoluteX="25dp" />
@@ -89,10 +89,10 @@
 
     <TextView
         android:id="@+id/distanceTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="175dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
-        android:text="Distance: 100M"
+        android:text="Distance: 10000M"
         android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -106,7 +106,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:max="10"
+        android:max="9"
         android:progress="2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -119,10 +119,11 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
         android:text="Ringtone:"
-        android:textStyle="bold"
         android:textColor="@color/black"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/distanceTextView"
+        app:layout_constraintHorizontal_bias="0.475"
         app:layout_constraintStart_toStartOf="@+id/seekBar"
         app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
@@ -135,30 +136,32 @@
         app:chipBackgroundColor="@color/MediumPurple"
         app:layout_constraintBottom_toBottomOf="@+id/ringtoneTextView"
         app:layout_constraintEnd_toEndOf="@+id/seekBar"
-        app:layout_constraintHorizontal_bias="0.377"
+        app:layout_constraintHorizontal_bias="0.452"
         app:layout_constraintStart_toStartOf="@+id/distanceTextView"
         app:layout_constraintTop_toTopOf="@+id/ringtoneTextView"
-        app:layout_constraintVertical_bias="0.571" />
+        app:layout_constraintVertical_bias="0.523" />
 
     <com.google.android.material.chip.Chip
-        android:id="@+id/chipRingtoneSelection2"
+        android:id="@+id/saveButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="20sp"
         android:text="Save"
         android:textColor="@color/white"
+        android:onClick="saveData"
         app:chipBackgroundColor="@color/LightGreen"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <com.google.android.material.chip.Chip
-        android:id="@+id/chipRingtoneSelection3"
+        android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="4dp"
         android:textSize="20sp"
         android:text="back"
         android:textColor="@color/white"
+        android:onClick="backToMain"
         app:chipBackgroundColor="@color/LightGrey"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
