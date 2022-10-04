@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Background"
-    android:padding="10dp"
+    android:padding="15dp"
     tools:context=".MainActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -39,11 +39,11 @@
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="14dp"
         app:endIconDrawable="@drawable/ic_baseline_close_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/infoLayout"
         app:startIconDrawable="@drawable/ic_baseline_search_24">
 
         <com.google.android.material.textfield.TextInputEditText
@@ -55,5 +55,60 @@
             android:lines="1"
             android:maxLines="1" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/infoLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/youHaveTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="You have:"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/totalLocations"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="3 total locations"
+            android:textColor="@color/MediumPurple"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="@+id/youHaveTextView"
+            app:layout_constraintStart_toEndOf="@+id/youHaveTextView"
+            app:layout_constraintTop_toTopOf="@+id/youHaveTextView" />
+
+        <TextView
+            android:id="@+id/andTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="and"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toStartOf="@id/youHaveTextView"
+            app:layout_constraintTop_toBottomOf="@id/youHaveTextView" />
+
+        <TextView
+            android:id="@+id/activeLocations"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:text="2 active locations"
+            android:textColor="@color/green"
+            android:textSize="23sp"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@id/andTextView"
+            app:layout_constraintTop_toBottomOf="@id/youHaveTextView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

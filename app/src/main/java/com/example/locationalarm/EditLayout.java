@@ -21,6 +21,8 @@ public class EditLayout extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_layout);
 
+        getSupportActionBar().hide();
+
         initViews();
     }
 
