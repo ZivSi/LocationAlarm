@@ -12,6 +12,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.google.android.material.chip.Chip;
@@ -23,12 +26,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     // All data that will be in the recycler view will be here
     ArrayList<ItemData> dataArray;
     Context context;
+    Animation flip, flip_back;
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView titleLocation;
         private TextInputEditText textInputEditText;
         private Chip x, y, distanceAlert;
         private ConstraintLayout constLayout;
+        private ImageButton arrowButton;
 
         public ViewHolder(View view) {
             super(view);
@@ -39,9 +44,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             y = view.findViewById(R.id.yCoordinatesChip);
             distanceAlert = view.findViewById(R.id.distanceAlertFromLocation);
             constLayout = view.findViewById(R.id.cardLayout);
+            arrowButton = view.findViewById(R.id.arrow_button);
 
             // * Click listeners
-
         }
 
         public TextView getTitleLocation() {
@@ -59,6 +64,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         public Chip getDistanceAlert() {
             return distanceAlert;
         }
+
+        public ImageButton getArrowButton() {
+            return arrowButton;
+        }
     }
 
     // Constructor to initialize data
@@ -66,13 +75,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         // Copy data
         this.dataArray = new ArrayList<>(dataArray);
         this.context = context;
+
+         flip_back = AnimationUtils.loadAnimation(context, R.anim.arrow_flip_back);
+         flip = AnimationUtils.loadAnimation(context, R.anim.arrow_flip);
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        // * With creation of every view
-
+        // * With creation of every view, inflate the layout
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.saved_location_item, parent, false);
 
@@ -81,34 +92,44 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        ItemData currentItem = dataArray.get(position);
+
         // * Set all properties when creating the item
 
-        holder.getTitleLocation().setText(dataArray.get(position).getName());
-        holder.getX().setText(dataArray.get(position).getLongitude());
-        holder.getY().setText(dataArray.get(position).getLatitude());
+        holder.getTitleLocation().setText(currentItem.getName());
+        holder.getX().setText(currentItem.getLongitude());
+        holder.getY().setText(currentItem.getLatitude());
 
         // TODO: Set length for chips
 
-        holder.getDistanceAlert().setText(dataArray.get(position).getAlarmDistance() + "M");
+        holder.getDistanceAlert().setText(currentItem.getAlarmDistance() + "M");
 
         // Set color to chip distance by far or close
-        if (Integer.parseInt(dataArray.get(position).getAlarmDistance()) > 10000) {
+        if (Integer.parseInt(currentItem.getAlarmDistance()) > 10000) {
             holder.getDistanceAlert().setChipBackgroundColor(ColorStateList.valueOf(context.getResources().getColor(R.color.OrangeRed)));
-        } else if (Integer.parseInt(dataArray.get(position).getAlarmDistance()) > 1000) {
+        } else if (Integer.parseInt(currentItem.getAlarmDistance()) > 1000) {
             holder.getDistanceAlert().setChipBackgroundColor(ColorStateList.valueOf(context.getResources().getColor(R.color.Peru)));
         }
 
-        holder.constLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // todo: add arrow that on click turns around and expands the recyclerview
-            }
-            });
+       holder.arrowButton.setOnClickListener((v) -> {
+           if(currentItem.isExpanded()) {
+               holder.arrowButton.startAnimation(flip_back);
+               currentItem.setExpanded(false);
+           } else {
+               holder.arrowButton.startAnimation(flip);
+               currentItem.setExpanded(true);
+           }
+       });
     }
 
     @Override
     public int getItemCount() {
         return dataArray.size();
+    }
+
+    public void updateData(ArrayList<ItemData> newData) {
+        dataArray = newData;
+        this.notifyDataSetChanged();
     }
 
 }

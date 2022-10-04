@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         searchBox = findViewById(R.id.searchBox);
+        recyclerView = findViewById(R.id.recyclerView);
 
 
         // Read from file and add to tha map
@@ -95,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
 
                 int index = 0;
 
+                dataArrayList.clear();
+
                 for (ItemData item : fixedData) {
                     Log.d(TAG, "afterTextChanged: Checking item: " + item.getName());
                     if (item.getName().toLowerCase().contains(String.valueOf(s).toLowerCase()) ||
@@ -102,12 +105,17 @@ public class MainActivity extends AppCompatActivity {
                             item.getLatitude().toLowerCase().contains(String.valueOf(s).toLowerCase()) ||
                             item.getLongitude().toLowerCase().contains(String.valueOf(s).toLowerCase())) {
 
+                        Log.d(TAG, "afterTextChanged: " + item.getName() + " Should be");
                         if (!dataArrayList.contains(item)) {
+                            Log.d(TAG, "afterTextChanged: " + item.getName() + " Added");
                             dataArrayList.add(item);
                         }
 
                     } else {
+                        Log.d(TAG, "afterTextChanged: " + item.getName() + " Should not be");
+
                         if (dataArrayList.contains(item)) {
+                            Log.d(TAG, "afterTextChanged: " + item.getName() + " Removed");
                             dataArrayList.remove(item);
                         }
                     }
@@ -115,8 +123,8 @@ public class MainActivity extends AppCompatActivity {
                     index++;
                 }
 
-                // Update
-                adapter.notifyDataSetChanged();
+                // TODO: make with animations
+                adapter.updateData(dataArrayList);
             }
         });
     }
@@ -174,10 +182,9 @@ public class MainActivity extends AppCompatActivity {
      * @param context context of the activity
      */
     private void initRecyclerView(Context context) {
-        RecyclerView recyclerView = findViewById(R.id.recyclerView);
         adapter = new RecyclerAdapter(dataArrayList, context);
-        recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        recyclerView.setAdapter(adapter);
     }
 
 }
