@@ -27,7 +27,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/nameTextView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/nameTextView"
-            app:tint="@color/black" />
+            app:tint="@color/purple_900" />
 
         <TextView
             android:id="@+id/nameTextView"

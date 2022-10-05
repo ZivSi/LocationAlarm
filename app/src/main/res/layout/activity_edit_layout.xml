@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/mainEditLayout"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainEditLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="20dp"
@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:text="Location Settings"
         android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+        android:textColor="@color/purple_700"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,6 +26,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        app:boxStrokeColor="@color/purple_500"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/headText">
@@ -47,6 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
+        app:boxStrokeColor="@color/purple_500"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameBoxLayout">
@@ -71,6 +74,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        app:boxStrokeColor="@color/purple_500"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/xCoordinatesLayout">
@@ -90,12 +94,13 @@
 
     <TextView
         android:id="@+id/distanceTextView"
-        android:layout_width="175dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="64dp"
         android:text="Distance: 100M"
-        android:textColor="@color/black"
+        android:textColor="@color/purple_900"
         android:textSize="20sp"
+        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
@@ -110,10 +115,33 @@
         android:max="9"
         android:progress="2"
         android:progressTint="@color/black"
+        android:thumbTint="@color/purple_700"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/distanceTextView" />
+
+    <ImageButton
+        android:id="@+id/infoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:background="@color/white"
+        android:src="@drawable/ic_baseline_info_24"
+        app:layout_constraintBottom_toBottomOf="@+id/distanceTextView"
+        app:layout_constraintEnd_toStartOf="@+id/distanceTextView"
+        app:layout_constraintTop_toTopOf="@+id/distanceTextView" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:rotation="5"
+        android:src="@drawable/ic_baseline_audiotrack_24"
+        app:layout_constraintBottom_toBottomOf="@+id/ringtoneTextView"
+        app:layout_constraintEnd_toStartOf="@+id/ringtoneTextView"
+        app:layout_constraintTop_toTopOf="@+id/ringtoneTextView"
+        app:tint="@color/purple_900" />
 
     <TextView
         android:id="@+id/ringtoneTextView"
@@ -130,14 +158,28 @@
         app:layout_constraintTop_toBottomOf="@+id/seekBar" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/chooseRingtomeMaterialButton"
+        android:id="@+id/chooseRingtoneMaterialButton"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
         android:text="Choose"
+        android:textColor="@color/purple_700"
         app:layout_constraintBottom_toBottomOf="@+id/ringtoneTextView"
         app:layout_constraintEnd_toEndOf="@+id/distanceTextView"
         app:layout_constraintStart_toEndOf="@+id/ringtoneTextView"
         app:layout_constraintTop_toTopOf="@+id/ringtoneTextView" />
+
+    <TextView
+        android:id="@+id/chosenRingtoneTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="MilkMan Karlson - track 02"
+        android:textColor="@color/purple_200"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="@id/chooseRingtoneMaterialButton"
+        app:layout_constraintStart_toStartOf="@id/ringtoneTextView"
+        app:layout_constraintTop_toBottomOf="@id/ringtoneTextView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
