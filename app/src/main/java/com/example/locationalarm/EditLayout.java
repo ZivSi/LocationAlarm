@@ -45,7 +45,7 @@ public class EditLayout extends AppCompatActivity {
         xCoordiantesBox = findViewById(R.id.xCoordinatesBox);
         yCoordinatesBox = findViewById(R.id.yCoordinatesBox);
         distanceTextView = findViewById(R.id.distanceTextView);
-        chooseRingtone = findViewById(R.id.chooseRingtomeMaterialButton);
+        chooseRingtone = findViewById(R.id.chooseRingtoneMaterialButton);
         seekBar = findViewById(R.id.seekBar);
         layout = findViewById(R.id.mainEditLayout);
         snackbar = Snackbar.make(layout, "", Snackbar.LENGTH_SHORT);
