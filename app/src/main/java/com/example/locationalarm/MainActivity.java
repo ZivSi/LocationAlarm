@@ -14,6 +14,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.SearchView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayList<ItemData> fixedData = new ArrayList<>();
 
     TextInputEditText searchBox;
+    TextView noLocationsTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +63,10 @@ public class MainActivity extends AppCompatActivity {
         dataArrayList = dataAsArray(data);
         // * fixedData will never change - used to filter
         fixedData = new ArrayList<>(dataArrayList);
+
+        if(fixedData.size() == 0) {
+            noLocationsTextView.setVisibility(View.VISIBLE);
+        }
 
         // Set adapter and create recyclerview object
         initRecyclerView(this);
@@ -89,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
     private void initViews() {
         searchBox = findViewById(R.id.searchBox);
         recyclerView = findViewById(R.id.recyclerView);
+        noLocationsTextView = findViewById(R.id.noLocationsTextView);
     }
 
     /**
