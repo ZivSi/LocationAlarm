@@ -115,18 +115,6 @@
             app:layout_constraintStart_toStartOf="@+id/xCoordinatesChip"
             app:layout_constraintTop_toBottomOf="@+id/xCoordinatesChip" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/deleteButton"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="Delete"
-            android:textColor="@color/Red"
-            app:layout_constraintStart_toEndOf="@+id/activateButton"
-            app:layout_constraintTop_toTopOf="@+id/activateButton"
-            app:strokeColor="@color/Red"
-            app:strokeWidth="2dp" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
+

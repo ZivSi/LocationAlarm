@@ -49,7 +49,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             arrowButton = view.findViewById(R.id.arrow_button);
             address = view.findViewById(R.id.addressChip);
             activateButton = view.findViewById(R.id.activateButton);
-            deleteButton = view.findViewById(R.id.deleteButton);
             cardLayout = view.findViewById(R.id.cardLayout);
             params = cardLayout.getLayoutParams();
             cardSize = params.width;
