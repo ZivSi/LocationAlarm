@@ -59,6 +59,19 @@ public class MainActivity extends AppCompatActivity {
         } catch (IOException ignored) {
         }
 
+        // ! Testing - remove later
+        data.put("My School", new ItemData("Name", "Nofei Prat",
+                "33.23423", "33.4324", "300", "Hello Darkness"));
+
+        data.put("My School2", new ItemData("Name", "Nofei Prat",
+                "33.23423", "33.4324", "300", "Hello Darkness"));
+
+        data.put("My School3", new ItemData("Name", "Nofei Prat",
+                "33.23423", "33.4324", "300", "Hello Darkness"));
+
+        data.put("My School4", new ItemData("Name", "Nofei Prat",
+                "33.23423", "33.4324", "300", "Hello Darkness"));
+
         // Create an array from the data in the map
         dataArrayList = dataAsArray(data);
         // * fixedData will never change - used to filter

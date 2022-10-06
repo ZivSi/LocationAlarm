@@ -9,6 +9,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.SeekBar;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,8 @@ public class EditLayout extends AppCompatActivity {
     Snackbar snackbar;
     Snackbar.SnackbarLayout snackbarView;
     ConstraintLayout layout;
+
+    Switch vibrateSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +51,7 @@ public class EditLayout extends AppCompatActivity {
         chooseRingtone = findViewById(R.id.chooseRingtoneMaterialButton);
         seekBar = findViewById(R.id.seekBar);
         layout = findViewById(R.id.mainEditLayout);
+        vibrateSwitch = findViewById(R.id.vibrateSwitch);
         snackbar = Snackbar.make(layout, "", Snackbar.LENGTH_SHORT);
         View custom_view = getLayoutInflater().inflate(R.layout.snackbar_error, null);
 
@@ -146,7 +150,7 @@ public class EditLayout extends AppCompatActivity {
         // Default will never be called...
 
         String distance;
-        if(dist >= 1000) {
+        if (dist >= 1000) {
             dist /= 1000;
 
             distance = dist + "Km";

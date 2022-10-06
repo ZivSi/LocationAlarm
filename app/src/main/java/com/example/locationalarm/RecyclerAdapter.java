@@ -3,7 +3,6 @@ package com.example.locationalarm;
 
 import android.content.Context;
 import android.content.res.ColorStateList;
-import android.util.Log;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -16,9 +15,10 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
-import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.ArrayList;
 
@@ -27,13 +27,16 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     ArrayList<ItemData> dataArray;
     Context context;
     Animation flip, flip_back;
+    ViewGroup.LayoutParams params;
+    int cardSize;
+    final int COLLAPSE_SIZE = 480;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView titleLocation;
-        private TextInputEditText textInputEditText;
-        private Chip x, y, distanceAlert;
-        private ConstraintLayout constLayout;
+        private Chip x, y, distanceAlert, address;
         private ImageButton arrowButton;
+        private MaterialButton activateButton, deleteButton;
+        private ConstraintLayout cardLayout;
 
         public ViewHolder(View view) {
             super(view);
@@ -43,10 +46,13 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             x = view.findViewById(R.id.xCoordinatesChip);
             y = view.findViewById(R.id.yCoordinatesChip);
             distanceAlert = view.findViewById(R.id.distanceAlertFromLocation);
-            constLayout = view.findViewById(R.id.cardLayout);
             arrowButton = view.findViewById(R.id.arrow_button);
-
-            // * Click listeners
+            address = view.findViewById(R.id.addressChip);
+            activateButton = view.findViewById(R.id.activateButton);
+            deleteButton = view.findViewById(R.id.deleteButton);
+            cardLayout = view.findViewById(R.id.cardLayout);
+            params = cardLayout.getLayoutParams();
+            cardSize = params.width;
         }
 
         public TextView getTitleLocation() {
@@ -68,6 +74,46 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         public ImageButton getArrowButton() {
             return arrowButton;
         }
+
+        public Chip getAddress() {
+            return address;
+        }
+
+        public ConstraintLayout getCardLayout() {
+            return cardLayout;
+        }
+
+        public MaterialButton getActivateButton() {
+            return activateButton;
+        }
+
+        public MaterialButton getDeleteButton() {
+            return deleteButton;
+        }
+    }
+
+    private void collapse(ConstraintLayout cardLayout, ItemData itemData) {
+        params = cardLayout.getLayoutParams();
+
+        // Size
+        params.height = COLLAPSE_SIZE;
+        params.width = cardSize;
+
+        cardLayout.setLayoutParams(params);
+
+        itemData.setExpanded(false);
+    }
+
+    private void expand(ConstraintLayout cardLayout, ItemData itemData) {
+        params = cardLayout.getLayoutParams();
+
+        // Size
+        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+        params.width = cardSize;
+
+        cardLayout.setLayoutParams(params);
+
+        itemData.setExpanded(true);
     }
 
     // Constructor to initialize data
@@ -94,13 +140,21 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ItemData currentItem = dataArray.get(position);
 
-        // * Set all properties when creating the item
+        // Collapse when creating the current item as default
+        collapse(holder.getCardLayout(), currentItem);
 
         holder.getTitleLocation().setText(currentItem.getName());
-        holder.getX().setText(currentItem.getLongitude());
-        holder.getY().setText(currentItem.getLatitude());
+        holder.getX().setText("X: " + currentItem.getLongitude());
+        holder.getY().setText("Y: " + currentItem.getLatitude());
 
         // TODO: Set length for chips
+
+        // Address too long
+        if(currentItem.getAddress().length() > 30) {
+            holder.getAddress().setText("Address: " + currentItem.getAddress().substring(0, 30) + "...");
+        } else {
+            holder.getAddress().setText("Address: " + currentItem.getAddress());
+        }
 
         holder.getDistanceAlert().setText(currentItem.getAlarmDistance() + "M");
 
@@ -115,10 +169,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             if (currentItem.isExpanded()) {
                 holder.arrowButton.startAnimation(flip_back);
                 currentItem.setExpanded(false);
+
+                collapse(holder.getCardLayout(), currentItem);
             } else {
                 holder.arrowButton.startAnimation(flip);
                 currentItem.setExpanded(true);
+
+                expand(holder.getCardLayout(), currentItem);
             }
+
         });
     }
 
