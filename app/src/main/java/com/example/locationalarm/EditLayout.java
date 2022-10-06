@@ -145,7 +145,15 @@ public class EditLayout extends AppCompatActivity {
         }
         // Default will never be called...
 
-        String distance = "Distance: " + dist + "m";
+        String distance;
+        if(dist >= 1000) {
+            dist /= 1000;
+
+            distance = dist + "Km";
+        } else {
+            distance = dist + "M";
+        }
+
         distanceTextView.setText(distance);
         return dist;
     }
