@@ -1,6 +1,7 @@
 package com.example.locationalarm;
 
 
+import android.animation.LayoutTransition;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.ViewGroup;
@@ -139,7 +140,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ItemData currentItem = dataArray.get(position);
 
-        // Collapse when creating the current item as default
+        // Collapse when creating the current item as default with animation
+        holder.cardLayout.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
         collapse(holder.getCardLayout(), currentItem);
 
         holder.getTitleLocation().setText(currentItem.getName());
