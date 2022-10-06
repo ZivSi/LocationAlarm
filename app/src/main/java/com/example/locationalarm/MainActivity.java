@@ -224,4 +224,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
     }
 
+    public void OpenSettings(View view) {
+        startActivity(new Intent(this, Settings.class));
+    }
 }

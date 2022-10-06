@@ -157,7 +157,7 @@ public class EditLayout extends AppCompatActivity {
             distance = dist + "M";
         }
 
-        distanceTextView.setText(distance);
+        distanceTextView.setText("Distance: " + distance);
         return dist;
     }
 

@@ -13,12 +13,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="false"
         android:theme="@style/Theme.LocationAlarm">
-
+        <activity
+            android:name=".Settings"
+            android:exported="false"
+            android:label="@string/title_activity_settings" />
         <activity
             android:name=".EditLayout"
             android:exported="false"
             android:parentActivityName=".MainActivity" />
-
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -29,4 +31,5 @@
             </intent-filter>
         </activity>
     </application>
+
 </manifest>
