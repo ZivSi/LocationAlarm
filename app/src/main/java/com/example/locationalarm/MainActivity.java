@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         // * fixedData will never change - used to filter
         fixedData = new ArrayList<>(dataArrayList);
 
-        if(fixedData.size() == 0) {
+        if (fixedData.size() == 0) {
             noLocationsTextView.setVisibility(View.VISIBLE);
         }
 

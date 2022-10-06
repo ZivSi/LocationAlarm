@@ -11,10 +11,8 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
-import com.google.android.material.chip.Chip;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -84,6 +82,7 @@ public class EditLayout extends AppCompatActivity {
      */
     public void saveData() {
         // get fields
+
         String name = nameBox.getText().toString();
         String x = xCoordiantesBox.getText().toString();
         String y = yCoordinatesBox.getText().toString();

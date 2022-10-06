@@ -15,7 +15,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
@@ -150,7 +149,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         // TODO: Set length for chips
 
         // Address too long
-        if(currentItem.getAddress().length() > 30) {
+        if (currentItem.getAddress().length() > 30) {
             holder.getAddress().setText("Address: " + currentItem.getAddress().substring(0, 30) + "...");
         } else {
             holder.getAddress().setText("Address: " + currentItem.getAddress());
