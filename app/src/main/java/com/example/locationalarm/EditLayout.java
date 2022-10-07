@@ -17,17 +17,15 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 public class EditLayout extends AppCompatActivity {
+    // main variables
     TextInputEditText nameBox, xCoordiantesBox, yCoordinatesBox;
-
     TextView distanceTextView;
     SeekBar seekBar;
-    MaterialButton chooseRingtone;
 
+    // error snackbar
     Snackbar snackbar;
     Snackbar.SnackbarLayout snackbarView;
     ConstraintLayout layout;
-
-    Switch vibrateSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,7 +33,6 @@ public class EditLayout extends AppCompatActivity {
         setContentView(R.layout.activity_edit_layout);
 
         getSupportActionBar().setTitle("");
-
 
         initViews();
     }
@@ -46,10 +43,8 @@ public class EditLayout extends AppCompatActivity {
         xCoordiantesBox = findViewById(R.id.xCoordinatesBox);
         yCoordinatesBox = findViewById(R.id.yCoordinatesBox);
         distanceTextView = findViewById(R.id.distanceTextView);
-        chooseRingtone = findViewById(R.id.chooseRingtoneMaterialButton);
         seekBar = findViewById(R.id.seekBar);
         layout = findViewById(R.id.mainEditLayout);
-        vibrateSwitch = findViewById(R.id.vibrateSwitch);
         snackbar = Snackbar.make(layout, "", Snackbar.LENGTH_SHORT);
         View custom_view = getLayoutInflater().inflate(R.layout.snackbar_error, null);
 
@@ -69,7 +64,6 @@ public class EditLayout extends AppCompatActivity {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
@@ -87,7 +81,6 @@ public class EditLayout extends AppCompatActivity {
         String x = xCoordiantesBox.getText().toString();
         String y = yCoordinatesBox.getText().toString();
         int distance = getDistance();
-        // todo: add ringtone
 
         // check for empty fields
         if (name.isEmpty() || x.isEmpty() || y.isEmpty()) {
@@ -103,8 +96,7 @@ public class EditLayout extends AppCompatActivity {
         }
 
         // address is curently empty untill we add the google maps api
-        // ringtone is empty until we add the ringtone selection
-        MainActivity.data.put(name, new ItemData(name, " ", x, y, String.valueOf(distance), " "));
+        MainActivity.data.put(name, new ItemData(name, " ", x, y, String.valueOf(distance)));
 
         // TODO: Save map in file
         finish();
@@ -148,6 +140,7 @@ public class EditLayout extends AppCompatActivity {
         }
         // Default will never be called...
 
+        // change the meter sign to km if needed
         String distance;
         if (dist >= 1000) {
             dist /= 1000;
