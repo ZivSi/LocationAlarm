@@ -9,4 +9,30 @@
         <item>123.mpg</item>
         <item>change this to real ring</item>
     </string-array>
+
+    <!-- Distance Preference -->
+    <integer-array name="distances_values">
+        <item>10</item>
+        <item>50</item>
+        <item>100</item>
+        <item>250</item>
+        <item>500</item>
+        <item>750</item>
+        <item>1000</item>
+        <item>2000</item>
+        <item>5000</item>
+        <item>10000</item>
+    </integer-array>
+    <string-array name="distances_names">
+        <item>10m</item>
+        <item>50m</item>
+        <item>100m</item>
+        <item>250m</item>
+        <item>500m</item>
+        <item>750m</item>
+        <item>1km</item>
+        <item>2km</item>
+        <item>5km</item>
+        <item>10km</item>
+    </string-array>
 </resources>
