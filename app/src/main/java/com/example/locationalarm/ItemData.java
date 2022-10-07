@@ -7,7 +7,6 @@ public class ItemData {
     private String longitude;
     private String alarmDistance; // in meters
     private String ringtone;
-    private boolean expanded = false;
 
     public ItemData(String name, String address, String latitude, String longitude, String alarmDistance, String ringtone) {
         this.name = name;
@@ -43,10 +42,6 @@ public class ItemData {
         return this.ringtone;
     }
 
-    public boolean isExpanded() {
-        return expanded;
-    }
-
     public void setAddress(String address) {
         this.address = address;
     }
@@ -71,7 +66,4 @@ public class ItemData {
         this.ringtone = ringtone;
     }
 
-    public void setExpanded(boolean expanded) {
-        this.expanded = expanded;
-    }
 }

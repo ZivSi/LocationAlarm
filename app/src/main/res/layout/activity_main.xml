@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="10dp"
     android:background="@color/Background"
+    android:padding="15dp"
     tools:context=".MainActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -23,7 +23,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="590dp"
+        android:layout_height="651dp"
         android:backgroundTint="@color/Background"
         android:clipToPadding="false"
         android:padding="10dp"
@@ -50,7 +50,7 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingRight="10dp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -60,9 +60,8 @@
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/searchView"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingHorizontal="10dp"
             app:endIconDrawable="@drawable/ic_baseline_close_24"
 
             app:layout_constraintStart_toStartOf="@id/constraintLayout"
@@ -71,29 +70,13 @@
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/searchBox"
-                android:layout_width="300dp"
-                android:layout_height="49dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:hint="Search Here"
                 android:inputType="text"
                 android:lines="1"
                 android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
-
-        <ImageView
-            android:id="@+id/settingsBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="12dp"
-            android:clickable="true"
-            android:onClick="OpenSettings"
-            android:scaleX="1.5"
-            android:scaleY="1.5"
-            android:src="@drawable/ic_settings"
-            app:layout_constraintBottom_toBottomOf="@+id/searchView"
-            app:layout_constraintEnd_toEndOf="@id/constraintLayout"
-            app:layout_constraintStart_toEndOf="@id/searchView"
-            app:layout_constraintTop_toTopOf="@+id/searchView"
-            app:tint="@color/purple_900" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

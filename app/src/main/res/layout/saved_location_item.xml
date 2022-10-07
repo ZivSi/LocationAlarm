@@ -72,28 +72,6 @@
             app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
 
         <com.google.android.material.chip.Chip
-            android:id="@+id/xCoordinatesChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="X: 33.343424"
-            android:textColor="@color/white"
-            app:chipBackgroundColor="@color/purple_200"
-            app:layout_constraintStart_toStartOf="@+id/distanceAlertFromLocation"
-            app:layout_constraintTop_toBottomOf="@+id/addressChip" />
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/yCoordinatesChip"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:text="Y: 38.343424"
-            android:textColor="@color/white"
-            app:chipBackgroundColor="@color/purple_200"
-            app:layout_constraintStart_toEndOf="@+id/xCoordinatesChip"
-            app:layout_constraintTop_toTopOf="@+id/xCoordinatesChip" />
-
-
-        <com.google.android.material.chip.Chip
             android:id="@+id/addressChip"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -102,18 +80,8 @@
             app:chipBackgroundColor="@color/purple_500"
             app:chipIcon="@drawable/ic_baseline_home_24"
             app:chipIconTint="@color/white"
-            app:layout_constraintStart_toStartOf="@+id/xCoordinatesChip"
+            app:layout_constraintStart_toStartOf="@+id/distanceAlertFromLocation"
             app:layout_constraintTop_toBottomOf="@+id/distanceAlertFromLocation" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/activateButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="Activate"
-            app:backgroundTint="@color/Green"
-            app:layout_constraintStart_toStartOf="@+id/xCoordinatesChip"
-            app:layout_constraintTop_toBottomOf="@+id/xCoordinatesChip" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

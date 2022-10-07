@@ -27,13 +27,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     ArrayList<ItemData> dataArray;
     Context context;
     Animation flip, flip_back;
-    ViewGroup.LayoutParams params;
-    int cardSize;
-    final int COLLAPSE_SIZE = 480;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView titleLocation;
-        private Chip x, y, distanceAlert, address;
+        private Chip distanceAlert, address;
         private ImageButton arrowButton;
         private MaterialButton activateButton, deleteButton;
         private ConstraintLayout cardLayout;
@@ -43,27 +40,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
             // Define click listeners for all the ViewHolder's View
             titleLocation = view.findViewById(R.id.nameTextView);
-            x = view.findViewById(R.id.xCoordinatesChip);
-            y = view.findViewById(R.id.yCoordinatesChip);
             distanceAlert = view.findViewById(R.id.distanceAlertFromLocation);
             arrowButton = view.findViewById(R.id.arrow_button);
             address = view.findViewById(R.id.addressChip);
-            activateButton = view.findViewById(R.id.activateButton);
             cardLayout = view.findViewById(R.id.cardLayout);
-            params = cardLayout.getLayoutParams();
-            cardSize = params.width;
         }
 
         public TextView getTitleLocation() {
             return titleLocation;
-        }
-
-        public Chip getX() {
-            return x;
-        }
-
-        public Chip getY() {
-            return y;
         }
 
         public Chip getDistanceAlert() {
@@ -91,30 +75,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         }
     }
 
-    private void collapse(ConstraintLayout cardLayout, ItemData itemData) {
-        params = cardLayout.getLayoutParams();
-
-        // Size
-        params.height = COLLAPSE_SIZE;
-        params.width = cardSize;
-
-        cardLayout.setLayoutParams(params);
-
-        itemData.setExpanded(false);
-    }
-
-    private void expand(ConstraintLayout cardLayout, ItemData itemData) {
-        params = cardLayout.getLayoutParams();
-
-        // Size
-        params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
-        params.width = cardSize;
-
-        cardLayout.setLayoutParams(params);
-
-        itemData.setExpanded(true);
-    }
-
     // Constructor to initialize data
     public RecyclerAdapter(ArrayList<ItemData> dataArray, Context context) {
         // Copy data
@@ -139,13 +99,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ItemData currentItem = dataArray.get(position);
 
-        // Collapse when creating the current item as default with animation
-        holder.cardLayout.getLayoutTransition().enableTransitionType(LayoutTransition.CHANGING);
-        collapse(holder.getCardLayout(), currentItem);
-
         holder.getTitleLocation().setText(currentItem.getName());
-        holder.getX().setText("X: " + currentItem.getLongitude());
-        holder.getY().setText("Y: " + currentItem.getLatitude());
 
         // TODO: Set length for chips
 
@@ -166,18 +120,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         }
 
         holder.arrowButton.setOnClickListener((v) -> {
-            if (currentItem.isExpanded()) {
-                holder.arrowButton.startAnimation(flip_back);
-                currentItem.setExpanded(false);
-
-                collapse(holder.getCardLayout(), currentItem);
-            } else {
-                holder.arrowButton.startAnimation(flip);
-                currentItem.setExpanded(true);
-
-                expand(holder.getCardLayout(), currentItem);
-            }
-
+            // TODO: Open popup window
         });
     }
 
