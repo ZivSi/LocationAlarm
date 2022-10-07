@@ -79,7 +79,8 @@ public class EditLayout extends AppCompatActivity {
 
     private void setDefaultDist() {
         Settings.getInfo(this);
-        seekBar.setProgress((int)Settings.allEntries.get("default_distance"));
+        // get the value from the settings
+        seekBar.setProgress(Integer.parseInt(String.valueOf(Settings.allEntries.get("default_distance"))));
         getDistance();
     }
 
@@ -117,7 +118,7 @@ public class EditLayout extends AppCompatActivity {
     // get the distance from the seekbar, set it to correct value and update textview
     private int getDistance() {
         int dist = seekBar.getProgress();
-        int[] distances = {10, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000};
+        int[] distances = {10, 50, 100, 250, 500, 750, 1000, 2000, 5000, 10000};
         dist = distances[dist];
 
         // change the meter sign to km if needed
