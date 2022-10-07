@@ -12,12 +12,13 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.SearchView;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
+import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -25,8 +26,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
@@ -46,6 +45,9 @@ public class MainActivity extends AppCompatActivity {
     TextInputEditText searchBox;
     TextView noLocationsTextView;
 
+    ImageView settingsButton;
+    RotateAnimation rotate = new RotateAnimation(0, 90, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,46 +56,35 @@ public class MainActivity extends AppCompatActivity {
 
         initViews();
 
+        data = LoadData(FILE); // FixMe: function returns null
 
-        // Read from file and add to tha map
-        try {
-            data = LoadData(FILE);
-        } catch (IOException ignored) {
-        }
+        data = new HashMap<>();
 
-        // ! Testing - remove later
-        data.put("My School", new ItemData("Name", "Nofei Prat",
-                "2.23423", "12.4324", "300", "Hello Darkness"));
-
-        data.put("My School2", new ItemData("Name2", "Jerusalem",
-                "64.33", "23.3454", "4000", "Hello Darkness"));
-
-        data.put("My School3", new ItemData("Name3", "Springfield",
-                "31.4", "33.43244", "100", "Hello Darkness"));
-
-        data.put("My School4", new ItemData("Name4", "UK",
-                "36.345", "32.434", "1200", "Hello Darkness"));
+        // putTestingData();
 
         // Create an array from the data in the map
         dataArrayList = dataAsArray(data);
-        // * fixedData will never change - used to filter
-        fixedData = new ArrayList<>(dataArrayList);
+        fixedData = new ArrayList<>(dataArrayList); // Array that will never change, only when removing/adding item to map
 
-        if (fixedData.size() == 0) {
-            noLocationsTextView.setVisibility(View.VISIBLE);
-        }
+        showTextIfEmpty(); // Shoe textview if there are no items in recyclerview
 
         // Set adapter and create recyclerview object
         initRecyclerView(this);
         initSearchRecycler();
     }
 
+    private void showTextIfEmpty() {
+        if (fixedData.size() == 0) {
+            noLocationsTextView.setVisibility(View.VISIBLE);
+        }
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
-        // save data to file
-        if (data.size() > 0) {
 
+        // Save data to file
+        if (data.size() > 0) {
             try {
                 SaveData(data, FILE); // fixme: not saving data correctly for some reason - when exit it gets deleted
             } catch (IOException e) {
@@ -101,16 +92,40 @@ public class MainActivity extends AppCompatActivity {
             }
             Log.d("asdf", "entry: " + data.entrySet());
             Log.d("asdf", "key: " + data.keySet());
+
             dataArrayList = dataAsArray(data);
             fixedData = new ArrayList<>(dataArrayList);
             adapter.updateData(dataArrayList);
         }
     }
 
+    /**
+     * Init to all id's and views to create objects
+     */
     private void initViews() {
         searchBox = findViewById(R.id.searchBox);
         recyclerView = findViewById(R.id.recyclerView);
         noLocationsTextView = findViewById(R.id.noLocationsTextView);
+        settingsButton = findViewById(R.id.settingsButton);
+
+        // Settings animation rotate
+        rotate.setDuration(300);
+        rotate.setInterpolator(new LinearInterpolator());
+        rotate.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                // Open settings
+                startActivity(new Intent(MainActivity.this, Settings.class));
+            }
+        });
     }
 
     /**
@@ -197,28 +212,31 @@ public class MainActivity extends AppCompatActivity {
     /*
     load a hashmap of string and itemdata from a file
      */
-    private HashMap<String, ItemData> LoadData(String file_name) throws IOException {
+    private HashMap<String, ItemData> LoadData(String file_name) {
         HashMap<String, ItemData> map_from_file = new HashMap<>();
-        properties = new Properties();
 
-        properties.load(new FileInputStream(file_name));
+        try {
+            properties = new Properties();
 
-        for (String key : properties.stringPropertyNames()) {
-            map_from_file.put(key, (ItemData) properties.get(key));
+            properties.load(new FileInputStream(file_name));
+
+            for (String key : properties.stringPropertyNames()) {
+                map_from_file.put(key, (ItemData) properties.get(key));
+            }
+        } catch (IOException ignored) {
+            return null;
         }
 
         return map_from_file;
     }
 
     public void OpenEditLayout(View view) {
-        // When press 'add' button
         startActivity(new Intent(this, EditLayout.class));
-        // todo: update after returning from edit layout
     }
 
 
     /**
-     * @param context context of the activity
+     * Create object of the recyclerview using context of MainActivity
      */
     private void initRecyclerView(Context context) {
         adapter = new RecyclerAdapter(dataArrayList, context);
@@ -227,6 +245,22 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void OpenSettings(View view) {
-        startActivity(new Intent(this, Settings.class));
+        // Animate
+        settingsButton.startAnimation(rotate);
+    }
+
+    private void putTestingData() {
+        MainActivity.data.put("My School", new ItemData("Name", "Nofei Prat",
+                "2.23423", "12.4324", "300", "Hello Darkness"));
+
+        MainActivity.data.put("My School2", new ItemData("Name2", "Jerusalem",
+                "64.33", "23.3454", "4000", "Hello Darkness"));
+
+        MainActivity.data.put("My School3", new ItemData("Name3", "Springfield",
+                "31.4", "33.43244", "100", "Hello Darkness"));
+
+        MainActivity.data.put("My School4", new ItemData("Name4", "UK",
+                "36.345", "32.434", "1200", "Hello Darkness"));
+
     }
 }

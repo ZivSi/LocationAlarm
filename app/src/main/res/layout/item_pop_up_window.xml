@@ -56,7 +56,7 @@
         android:layout_marginTop="10dp"
         android:text="Address: Israel, Some long address to test chips length"
         android:textColor="@color/white"
-        app:chipBackgroundColor="@color/purple_500"
+        app:chipBackgroundColor="@color/purple_200"
         app:chipIcon="@drawable/ic_baseline_home_24"
         app:chipIconTint="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
@@ -95,7 +95,7 @@
         android:layout_marginEnd="5dp"
         android:text="X: 33.343424"
         android:textColor="@color/white"
-        app:chipBackgroundColor="@color/purple_200"
+        app:chipBackgroundColor="@color/purple_500"
         app:layout_constraintEnd_toStartOf="@+id/guideLine"
         app:layout_constraintTop_toBottomOf="@+id/coordinatesTitleTextView" />
 
@@ -106,7 +106,7 @@
         android:layout_marginStart="5dp"
         android:text="Y: 38.343424"
         android:textColor="@color/white"
-        app:chipBackgroundColor="@color/purple_200"
+        app:chipBackgroundColor="@color/purple_500"
         app:layout_constraintStart_toEndOf="@+id/xCoordinatesChip"
         app:layout_constraintTop_toTopOf="@+id/xCoordinatesChip" />
 

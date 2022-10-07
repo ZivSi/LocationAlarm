@@ -77,7 +77,7 @@
             android:layout_height="wrap_content"
             android:text="Address: Israel, Some long address to test chips length"
             android:textColor="@color/white"
-            app:chipBackgroundColor="@color/purple_500"
+            app:chipBackgroundColor="@color/purple_200"
             app:chipIcon="@drawable/ic_baseline_home_24"
             app:chipIconTint="@color/white"
             app:layout_constraintStart_toStartOf="@+id/distanceAlertFromLocation"
