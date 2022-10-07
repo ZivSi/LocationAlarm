@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="20dp">
+
+    <ImageView
+        android:id="@+id/dismissButton"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:background="@drawable/round_button"
+        android:src="@drawable/ic_baseline_close_24"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/itemNameTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Item Name"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/addressTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:text="Address"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/itemNameTextView" />
+
+    <ImageView
+        android:id="@+id/addressImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/ic_baseline_home_24"
+        app:layout_constraintBottom_toBottomOf="@+id/addressTitleTextView"
+        app:layout_constraintEnd_toStartOf="@+id/addressTitleTextView"
+        app:layout_constraintTop_toTopOf="@+id/addressTitleTextView" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/addressChip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Address: Israel, Some long address to test chips length"
+        android:textColor="@color/white"
+        app:chipBackgroundColor="@color/purple_500"
+        app:chipIcon="@drawable/ic_baseline_home_24"
+        app:chipIconTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addressTitleTextView" />
+
+
+    <TextView
+        android:id="@+id/coordinatesTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="130dp"
+        android:text="Coordinates"
+        android:textSize="22sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/addressTitleTextView" />
+
+    <ImageView
+        android:id="@+id/coordinatesImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="10dp"
+        android:src="@drawable/ic_baseline_my_location_24"
+        app:layout_constraintBottom_toBottomOf="@+id/coordinatesTitleTextView"
+        app:layout_constraintEnd_toStartOf="@+id/coordinatesTitleTextView"
+        app:layout_constraintTop_toTopOf="@+id/coordinatesTitleTextView" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/xCoordinatesChip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="5dp"
+        android:text="X: 33.343424"
+        android:textColor="@color/white"
+        app:chipBackgroundColor="@color/purple_200"
+        app:layout_constraintEnd_toStartOf="@+id/guideLine"
+        app:layout_constraintTop_toBottomOf="@+id/coordinatesTitleTextView" />
+
+    <com.google.android.material.chip.Chip
+        android:id="@+id/yCoordinatesChip"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:text="Y: 38.343424"
+        android:textColor="@color/white"
+        app:chipBackgroundColor="@color/purple_200"
+        app:layout_constraintStart_toEndOf="@+id/xCoordinatesChip"
+        app:layout_constraintTop_toTopOf="@+id/xCoordinatesChip" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.5" />
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/activateButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="68dp"
+        android:text="Activate"
+        app:backgroundTint="@color/Green"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/xCoordinatesChip" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/card_shape"
-        android:padding="10dp"
+        android:padding="5dp"
         app:layout_constraintTop_toTopOf="parent">
 
 
@@ -65,7 +65,7 @@
             android:textColor="@color/white"
             android:textSize="12sp"
             app:chipBackgroundColor="@color/purple_700"
-            app:chipIcon="@drawable/straighten_48px"
+            app:chipIcon="@drawable/ic_baseline_straighten_24"
             app:chipIconTint="@color/white"
             app:chipIconVisible="true"
             app:layout_constraintStart_toStartOf="@+id/nameTextView"

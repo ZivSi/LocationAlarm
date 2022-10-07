@@ -50,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().setTitle("");
+        getSupportActionBar().hide();
 
         initViews();
 
@@ -63,16 +63,16 @@ public class MainActivity extends AppCompatActivity {
 
         // ! Testing - remove later
         data.put("My School", new ItemData("Name", "Nofei Prat",
-                "33.23423", "33.4324", "300", "Hello Darkness"));
+                "2.23423", "12.4324", "300", "Hello Darkness"));
 
-        data.put("My School2", new ItemData("Name", "Nofei Prat",
-                "33.23423", "33.4324", "300", "Hello Darkness"));
+        data.put("My School2", new ItemData("Name2", "Jerusalem",
+                "64.33", "23.3454", "4000", "Hello Darkness"));
 
-        data.put("My School3", new ItemData("Name", "Nofei Prat",
-                "33.23423", "33.4324", "300", "Hello Darkness"));
+        data.put("My School3", new ItemData("Name3", "Springfield",
+                "31.4", "33.43244", "100", "Hello Darkness"));
 
-        data.put("My School4", new ItemData("Name", "Nofei Prat",
-                "33.23423", "33.4324", "300", "Hello Darkness"));
+        data.put("My School4", new ItemData("Name4", "UK",
+                "36.345", "32.434", "1200", "Hello Darkness"));
 
         // Create an array from the data in the map
         dataArrayList = dataAsArray(data);
