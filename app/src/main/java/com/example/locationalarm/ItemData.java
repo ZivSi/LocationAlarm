@@ -6,15 +6,13 @@ public class ItemData {
     private String latitude;
     private String longitude;
     private String alarmDistance; // in meters
-    private String ringtone;
 
-    public ItemData(String name, String address, String latitude, String longitude, String alarmDistance, String ringtone) {
+    public ItemData(String name, String address, String latitude, String longitude, String alarmDistance) {
         this.name = name;
         this.address = address;
         this.latitude = latitude;
         this.longitude = longitude;
         this.alarmDistance = alarmDistance;
-        this.ringtone = ringtone;
     }
 
 
@@ -38,9 +36,6 @@ public class ItemData {
         return this.longitude;
     }
 
-    public String getRingtone() {
-        return this.ringtone;
-    }
 
     public void setAddress(String address) {
         this.address = address;
@@ -60,10 +55,6 @@ public class ItemData {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public void setRingtone(String ringtone) {
-        this.ringtone = ringtone;
     }
 
 }

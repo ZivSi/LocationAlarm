@@ -14,6 +14,13 @@
             app:key="vibrate"
             app:title="vibrate" />
 
+        <DropDownPreference
+            app:entries="@array/distances_names"
+            app:entryValues="@array/distances_values"
+            app:key="default_distance"
+            app:title="default distance"
+            app:useSimpleSummaryProvider="true" />
+
     </PreferenceCategory>
 
 </PreferenceScreen>
