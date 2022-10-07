@@ -11,7 +11,7 @@
     </string-array>
 
     <!-- Distance Preference -->
-    <integer-array name="distances_values">
+    <string-array name="distances_values">
         <item>10</item>
         <item>50</item>
         <item>100</item>
@@ -22,14 +22,15 @@
         <item>2000</item>
         <item>5000</item>
         <item>10000</item>
-    </integer-array>
+    </string-array>
+
     <string-array name="distances_names">
-        <item>10m</item>
-        <item>50m</item>
-        <item>100m</item>
-        <item>250m</item>
-        <item>500m</item>
-        <item>750m</item>
+        <item>10M</item>
+        <item>50M</item>
+        <item>100M</item>
+        <item>250M</item>
+        <item>500M</item>
+        <item>750M</item>
         <item>1km</item>
         <item>2km</item>
         <item>5km</item>

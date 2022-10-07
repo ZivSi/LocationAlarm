@@ -147,8 +147,6 @@ public class MainActivity extends AppCompatActivity {
                 // S is new content
                 // Filter data array
 
-                int index = 0;
-
                 dataArrayList.clear();
 
                 for (ItemData item : fixedData) {
@@ -172,8 +170,6 @@ public class MainActivity extends AppCompatActivity {
                             dataArrayList.remove(item);
                         }
                     }
-
-                    index++;
                 }
 
                 // TODO: make with animations
@@ -251,16 +247,16 @@ public class MainActivity extends AppCompatActivity {
 
     private void putTestingData() {
         MainActivity.data.put("My School", new ItemData("Name", "Nofei Prat",
-                "2.23423", "12.4324", "300", "Hello Darkness"));
+                "2.23423", "12.4324", "300"));
 
         MainActivity.data.put("My School2", new ItemData("Name2", "Jerusalem",
-                "64.33", "23.3454", "4000", "Hello Darkness"));
+                "64.33", "23.3454", "4000"));
 
         MainActivity.data.put("My School3", new ItemData("Name3", "Springfield",
-                "31.4", "33.43244", "100", "Hello Darkness"));
+                "31.4", "33.43244", "5000"));
 
         MainActivity.data.put("My School4", new ItemData("Name4", "UK",
-                "36.345", "32.434", "1200", "Hello Darkness"));
+                "36.345", "32.434", "1200"));
 
     }
 }

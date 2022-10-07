@@ -1,23 +1,26 @@
 <PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <PreferenceCategory app:title="general">
+    <PreferenceCategory app:title="General">
 
 
         <ListPreference
             app:entries="@array/ringtones"
             app:entryValues="@array/ringtone_files"
             app:key="ringtone"
-            app:title="ringtone"
+            app:icon="@drawable/ic_baseline_volume_up_24"
+            app:title="Ringtone"
             app:useSimpleSummaryProvider="true" />
 
         <SwitchPreferenceCompat
             app:key="vibrate"
-            app:title="vibrate" />
+            app:title="Vibrate"
+            app:icon="@drawable/ic_baseline_vibration_24"/>
 
         <DropDownPreference
             app:entries="@array/distances_names"
             app:entryValues="@array/distances_values"
             app:key="default_distance"
+            app:icon="@drawable/ic_baseline_straighten_24"
             app:title="default distance"
             app:useSimpleSummaryProvider="true" />
 
