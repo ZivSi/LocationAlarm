@@ -1,16 +1,26 @@
 package com.example.locationalarm;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.PreferenceManager;
+
+import java.util.Map;
+import java.util.Objects;
 
 public class Settings extends AppCompatActivity {
+    static Map<String, ?> allEntries;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        // check actions bar exists and set title
+        Objects.requireNonNull(getSupportActionBar()).setTitle("Settings");
+
         setContentView(R.layout.settings_activity);
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -30,4 +40,19 @@ public class Settings extends AppCompatActivity {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
         }
     }
+
+
+    public static void getInfo(Context ct){
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ct);
+        allEntries = sp.getAll();
+    }
 }
+
+
+
+
+
+
+
+
+

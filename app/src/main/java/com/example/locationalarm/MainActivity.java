@@ -109,21 +109,19 @@ public class MainActivity extends AppCompatActivity {
         settingsButton = findViewById(R.id.settingsButton);
 
         // Settings animation rotate
-        rotate.setDuration(300);
+        rotate.setDuration(100);
         rotate.setInterpolator(new LinearInterpolator());
         rotate.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
+                // Open settings
+                startActivity(new Intent(MainActivity.this, Settings.class));
             }
-
             @Override
             public void onAnimationRepeat(Animation animation) {
             }
-
             @Override
             public void onAnimationEnd(Animation animation) {
-                // Open settings
-                startActivity(new Intent(MainActivity.this, Settings.class));
             }
         });
     }

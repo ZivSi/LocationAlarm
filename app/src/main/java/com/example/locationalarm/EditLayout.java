@@ -5,6 +5,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,8 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
+
+import java.util.Map;
 
 public class EditLayout extends AppCompatActivity {
     // main variables
@@ -33,8 +36,8 @@ public class EditLayout extends AppCompatActivity {
         setContentView(R.layout.activity_edit_layout);
 
         getSupportActionBar().setTitle("");
-
         initViews();
+        setDefultSettings();
     }
 
     // Initialize all the views
@@ -54,6 +57,8 @@ public class EditLayout extends AppCompatActivity {
         snackbarView.addView(custom_view, 0);
 
 
+        Settings.getInfo(this);
+
         // onchange listener for seekbar
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -70,6 +75,17 @@ public class EditLayout extends AppCompatActivity {
         });
     }
 
+
+    private void setDefultSettings() {
+        /*
+        D/stng: ringtone: 123.mpg
+D/stng: reply: reply
+D/stng: default_distance: 500
+D/stng: sync: false
+         */
+        Settings.getInfo(this);
+        seekBar.setProgress((int)Settings.allEntries.get("default_distance"));
+    }
 
     /**
      * Save the new data in file, after checked all properties are valid
