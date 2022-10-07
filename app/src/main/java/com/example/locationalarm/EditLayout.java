@@ -18,6 +18,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Map;
+import java.util.Optional;
 
 public class EditLayout extends AppCompatActivity {
     // main variables
@@ -37,7 +38,7 @@ public class EditLayout extends AppCompatActivity {
 
         getSupportActionBar().setTitle("");
         initViews();
-        setDefultSettings();
+        setDefaultDist();
     }
 
     // Initialize all the views
@@ -76,15 +77,10 @@ public class EditLayout extends AppCompatActivity {
     }
 
 
-    private void setDefultSettings() {
-        /*
-        D/stng: ringtone: 123.mpg
-D/stng: reply: reply
-D/stng: default_distance: 500
-D/stng: sync: false
-         */
+    private void setDefaultDist() {
         Settings.getInfo(this);
         seekBar.setProgress((int)Settings.allEntries.get("default_distance"));
+        getDistance();
     }
 
     /**
@@ -121,40 +117,8 @@ D/stng: sync: false
     // get the distance from the seekbar, set it to correct value and update textview
     private int getDistance() {
         int dist = seekBar.getProgress();
-
-        switch (dist) {
-            case 0:
-                dist = 10;
-                break;
-            case 1:
-                dist = 50;
-                break;
-            case 2:
-                dist = 100;
-                break;
-            case 3:
-                dist = 250;
-                break;
-            case 4:
-                dist = 500;
-                break;
-            case 5:
-                dist = 750;
-                break;
-            case 6:
-                dist = 1000;
-                break;
-            case 7:
-                dist = 2000;
-                break;
-            case 8:
-                dist = 5000;
-                break;
-            case 9:
-                dist = 10000;
-                break;
-        }
-        // Default will never be called...
+        int[] distances = {10, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000, 100000};
+        dist = distances[dist];
 
         // change the meter sign to km if needed
         String distance;
