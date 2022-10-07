@@ -25,15 +25,15 @@
     </string-array>
 
     <string-array name="distances_names">
-        <item>10 meters</item>
-        <item>50 meters</item>
-        <item>100 meters</item>
-        <item>250 meters</item>
-        <item>500 meters</item>
-        <item>750 meters</item>
-        <item>1 kilometers</item>
-        <item>2k kilometers</item>
-        <item>5k kilometers</item>
-        <item>10k kilometers</item>
+        <item>10 Meters</item>
+        <item>50 Meters</item>
+        <item>100 Meters</item>
+        <item>250 Meters</item>
+        <item>500 Meters</item>
+        <item>750 Meters</item>
+        <item>1 Kilometers</item>
+        <item>2 Kilometers</item>
+        <item>5 Kilometers</item>
+        <item>10 Kilometers</item>
     </string-array>
 </resources>
