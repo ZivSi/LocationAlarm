@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         dataArrayList = dataAsArray(data);
         fixedData = new ArrayList<>(dataArrayList); // Array that will never change, only when removing/adding item to map
 
-        showTextIfEmpty(); // Shoe textview if there are no items in recyclerview
+        showTextIfEmpty(); // Show textview if there are no items in recyclerview
 
         // Set adapter and create recyclerview object
         initRecyclerView(this);
@@ -92,11 +92,8 @@ public class MainActivity extends AppCompatActivity {
 
         // Save data to file
         if (data.size() > 0) {
-            try {
-                SaveData(data, FILE_PATH);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+            SaveData(data, FILE_PATH);
+
             Log.d("asdf", "entry: " + data.entrySet());
             Log.d("asdf", "key: " + data.keySet());
 
@@ -202,14 +199,19 @@ public class MainActivity extends AppCompatActivity {
     /*
     save a hashmap of string and itemdata to a file
      */
-    static void SaveData(HashMap<String, ItemData> data, String file_name) throws IOException {
+    static void SaveData(HashMap<String, ItemData> data, String file_name) {
         Properties properties = new Properties();
 
-        for (Map.Entry<String, ItemData> entry : data.entrySet()) {
-            properties.put(entry.getKey(), entry.getValue());
-        }
+        try {
+            // Empty file completly before storing
+            properties.store(new FileOutputStream(file_name), null);
 
-        properties.store(new FileOutputStream(file_name), null);
+            for (Map.Entry<String, ItemData> entry : data.entrySet()) {
+                properties.put(entry.getKey(), entry.getValue());
+            }
+
+            properties.store(new FileOutputStream(file_name), null);
+        } catch (IOException ioException) {}
     }
 
     /*

@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.graphics.Color;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
@@ -17,6 +19,9 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 
@@ -30,6 +35,11 @@ public class EditLayout extends AppCompatActivity {
     Snackbar snackbar;
     Snackbar.SnackbarLayout snackbarView;
     ConstraintLayout layout;
+
+    // Get address from coordinates
+    Geocoder geocoder;
+    List<Address> addresses;
+    String country;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +80,7 @@ public class EditLayout extends AppCompatActivity {
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
             }
+
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
@@ -88,8 +99,10 @@ public class EditLayout extends AppCompatActivity {
      * Save the new data in file, after checked all properties are valid
      */
     public void saveData() {
-        // get fields
 
+        geocoder = new Geocoder(this, Locale.getDefault());
+
+        // get fields
         String name = nameBox.getText().toString();
         String x = xCoordiantesBox.getText().toString();
         String y = yCoordinatesBox.getText().toString();
@@ -108,10 +121,25 @@ public class EditLayout extends AppCompatActivity {
             return;
         }
 
-        // address is curently empty untill we add the google maps api
-        MainActivity.data.put(name, new ItemData(name, " ", x, y, String.valueOf(distance)));
+        // Get address
+        try {
+            addresses = geocoder.getFromLocation(Double.parseDouble(x), Double.parseDouble(y), 1);
+        } catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
 
-        // TODO: Save map in file
+        // No country found
+        if (addresses.get(0).getCountryName() == null) {
+            country = "";
+        } else {
+            country = addresses.get(0).getCountryName() + ", ";
+        }
+
+        // address is curently empty untill we add the google maps api
+        MainActivity.data.put(name, new ItemData(name, country + addresses.get(0).getAddressLine(0)
+                , x, y, String.valueOf(distance)));
+
+        MainActivity.SaveData(MainActivity.data, MainActivity.FILE_PATH);
         finish();
     }
 
