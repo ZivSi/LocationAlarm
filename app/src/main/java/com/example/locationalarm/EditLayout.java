@@ -39,7 +39,8 @@ public class EditLayout extends AppCompatActivity {
     // Get address from coordinates
     Geocoder geocoder;
     List<Address> addresses;
-    String country;
+    String country = "";
+    String address = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,14 +130,14 @@ public class EditLayout extends AppCompatActivity {
         }
 
         // No country found
-        if (addresses.get(0).getCountryName() == null) {
-            country = "";
+        if(addresses.size() == 0) {
+            country = "Not Found";
         } else {
             country = addresses.get(0).getCountryName() + ", ";
         }
 
         // address is curently empty untill we add the google maps api
-        MainActivity.data.put(name, new ItemData(name, country + addresses.get(0).getAddressLine(0)
+        MainActivity.data.put(name, new ItemData(name, country + address
                 , x, y, String.valueOf(distance)));
 
         MainActivity.SaveData(MainActivity.data, MainActivity.FILE_PATH);
