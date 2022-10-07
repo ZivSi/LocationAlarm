@@ -21,7 +21,7 @@
             app:entryValues="@array/distances_values"
             app:key="default_distance"
             app:icon="@drawable/ic_baseline_straighten_24"
-            app:title="default distance"
+            app:title="Default Distance"
             app:defaultValue="100"
             app:useSimpleSummaryProvider="true" />
 

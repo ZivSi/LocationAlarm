@@ -19,21 +19,27 @@ import android.view.animation.LinearInterpolator;
 import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
 public class MainActivity extends AppCompatActivity {
-    static final String FILE = "data.properties";
+    static String FILE;
 
-    Properties properties;
+    Properties properties = new Properties();
 
     RecyclerView recyclerView;
     RecyclerAdapter adapter;
@@ -54,9 +60,14 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
+        FILE = this.getFilesDir() + "data.properties";
+
         initViews();
 
-        data = LoadData(FILE); // FixMe: function returns null
+        // Ceate file if not exists
+        createIfNoFile(FILE);
+
+        data = LoadData(FILE); // FixMe: function may return null
 
         data = new HashMap<>();
 
@@ -117,9 +128,11 @@ public class MainActivity extends AppCompatActivity {
                 // Open settings
                 startActivity(new Intent(MainActivity.this, Settings.class));
             }
+
             @Override
             public void onAnimationRepeat(Animation animation) {
             }
+
             @Override
             public void onAnimationEnd(Animation animation) {
             }
@@ -256,5 +269,25 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.data.put("My School4", new ItemData("Name4", "UK",
                 "36.345", "32.434", "1200"));
 
+    }
+
+    /**
+     * Function that checks if file exists, and if not, creates one
+     */
+    private void createIfNoFile(String path) {
+        try {
+            properties.load(new FileInputStream(path));
+        } catch (IOException e) {
+            e.printStackTrace();
+
+            try {
+                OutputStream inputStream = new FileOutputStream(FILE);
+            } // Create file
+            catch (FileNotFoundException fnfe) {
+                fnfe.printStackTrace();
+            }
+        }
+
+        properties = new Properties(); // Clean after checking
     }
 }
