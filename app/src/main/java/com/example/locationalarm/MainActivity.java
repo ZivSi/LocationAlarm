@@ -37,7 +37,8 @@ import java.util.Map;
 import java.util.Properties;
 
 public class MainActivity extends AppCompatActivity {
-    static String FILE;
+    static File file = new File("res/raw/data.properties");
+    static final String FILE_PATH = file.getAbsolutePath();
 
     Properties properties = new Properties();
 
@@ -60,18 +61,13 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
-        FILE = this.getFilesDir() + "data.properties";
-
         initViews();
 
-        // Ceate file if not exists
-        createIfNoFile(FILE);
-
-        data = LoadData(FILE); // FixMe: function may return null
+        data = LoadData(FILE_PATH);
 
         data = new HashMap<>();
 
-        // putTestingData();
+        putTestingData();
 
         // Create an array from the data in the map
         dataArrayList = dataAsArray(data);
@@ -97,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
         // Save data to file
         if (data.size() > 0) {
             try {
-                SaveData(data, FILE); // fixme: not saving data correctly for some reason - when exit it gets deleted
+                SaveData(data, FILE_PATH);
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -230,9 +226,7 @@ public class MainActivity extends AppCompatActivity {
             for (String key : properties.stringPropertyNames()) {
                 map_from_file.put(key, (ItemData) properties.get(key));
             }
-        } catch (IOException ignored) {
-            return null;
-        }
+        } catch (IOException ignored) {ignored.printStackTrace();}
 
         return map_from_file;
     }
@@ -269,25 +263,5 @@ public class MainActivity extends AppCompatActivity {
         MainActivity.data.put("My School4", new ItemData("Name4", "UK",
                 "36.345", "32.434", "1200"));
 
-    }
-
-    /**
-     * Function that checks if file exists, and if not, creates one
-     */
-    private void createIfNoFile(String path) {
-        try {
-            properties.load(new FileInputStream(path));
-        } catch (IOException e) {
-            e.printStackTrace();
-
-            try {
-                OutputStream inputStream = new FileOutputStream(FILE);
-            } // Create file
-            catch (FileNotFoundException fnfe) {
-                fnfe.printStackTrace();
-            }
-        }
-
-        properties = new Properties(); // Clean after checking
     }
 }
