@@ -37,8 +37,8 @@
             android:layout_height="wrap_content"
             android:hint="Enter location name"
             android:inputType="textPersonName"
-            android:maxLength="30"
             android:lines="1"
+            android:maxLength="30"
             android:maxLines="1" />
 
     </com.google.android.material.textfield.TextInputLayout>

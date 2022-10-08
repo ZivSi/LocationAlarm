@@ -1,46 +1,26 @@
 package com.example.locationalarm;
 
-import static android.service.controls.ControlsProviderService.TAG;
-
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.LinearInterpolator;
-import android.view.animation.RotateAnimation;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
-
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
-import java.util.Properties;
+import java.util.Objects;
+
 
 public class MainActivity extends AppCompatActivity {
     static File file = new File("res/raw/data.properties");
     static final String FILE_PATH = file.getAbsolutePath();
-
-    Properties properties = new Properties();
 
     RecyclerView recyclerView;
     RecyclerAdapter adapter;
@@ -56,15 +36,15 @@ public class MainActivity extends AppCompatActivity {
 
     Animation settings_animation;
 
-    Thread openSettingsThred;
+    Thread openSettingsThread;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        getSupportActionBar().hide();
+        Objects.requireNonNull(getSupportActionBar()).hide(); // Prevent null pointer exception
 
-        openSettingsThred = new Thread(() -> {
+        openSettingsThread = new Thread(() -> {
             startActivity(new Intent(MainActivity.this, Settings.class));
         });
 
@@ -83,11 +63,12 @@ public class MainActivity extends AppCompatActivity {
         Functions.showTextIfEmpty(fixedData, noLocationsTextView); // Show textview if there are no items in recyclerview
 
         // Set adapter and create recyclerview object
+        // Get ass array because java cannot pass by reference
         ArrayList<Object> items = Functions.initRecyclerView(this, adapter, dataArrayList, recyclerView);
 
         recyclerView = (RecyclerView) items.get(0);
         adapter = (RecyclerAdapter) items.get(1);
-        adapter = Functions.initSearchRecycler(searchBox, dataArrayList, fixedData, adapter);
+        Functions.initSearchRecycler(searchBox, dataArrayList, fixedData, adapter);
     }
 
     @Override
@@ -97,9 +78,6 @@ public class MainActivity extends AppCompatActivity {
         // Save data to file
         if (data.size() > 0) {
             Functions.SaveData(data, FILE_PATH);
-
-            Log.d("asdf", "entry: " + data.entrySet());
-            Log.d("asdf", "key: " + data.keySet());
 
             dataArrayList = Functions.dataAsArray(data);
             fixedData = new ArrayList<>(dataArrayList);
@@ -126,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onAnimationEnd(Animation animation) {
                 // Open settings
-                openSettingsThred.start();
+                openSettingsThread.start();
             }
 
             @Override

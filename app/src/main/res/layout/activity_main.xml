@@ -13,8 +13,8 @@
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:background="@drawable/round_button"
-        android:src="@drawable/ic_settings"
         android:onClick="OpenSettings"
+        android:src="@drawable/ic_settings"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:tint="@color/purple_900" />

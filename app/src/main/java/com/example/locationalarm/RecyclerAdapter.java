@@ -89,8 +89,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         // * With creation of every view, inflate the layout
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.saved_location_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.saved_location_item, parent, false);
 
         return new ViewHolder(view);
     }

@@ -40,10 +40,7 @@ turn a hashmap of string and itemdata into an arraylist of itemdata
     /**
      * When searching in the search bar, update the recylcerview
      */
-    static RecyclerAdapter initSearchRecycler(TextInputEditText searchBox,
-                                   ArrayList<ItemData> dataArrayList,
-                                   ArrayList<ItemData> fixedData,
-                                   RecyclerAdapter adapter) {
+    static void initSearchRecycler(TextInputEditText searchBox, ArrayList<ItemData> dataArrayList, ArrayList<ItemData> fixedData, RecyclerAdapter adapter) {
         // set onclick listener
         searchBox.addTextChangedListener(new TextWatcher() {
             @Override
@@ -63,10 +60,7 @@ turn a hashmap of string and itemdata into an arraylist of itemdata
 
                 for (ItemData item : fixedData) {
                     Log.d(TAG, "afterTextChanged: Checking item: " + item.getName());
-                    if (item.getName().toLowerCase().contains(String.valueOf(s).toLowerCase()) ||
-                            item.getAddress().toLowerCase().contains(String.valueOf(s).toLowerCase()) ||
-                            item.getLatitude().toLowerCase().contains(String.valueOf(s).toLowerCase()) ||
-                            item.getLongitude().toLowerCase().contains(String.valueOf(s).toLowerCase())) {
+                    if (item.getName().toLowerCase().contains(String.valueOf(s).toLowerCase()) || item.getAddress().toLowerCase().contains(String.valueOf(s).toLowerCase()) || item.getLatitude().toLowerCase().contains(String.valueOf(s).toLowerCase()) || item.getLongitude().toLowerCase().contains(String.valueOf(s).toLowerCase())) {
 
                         Log.d(TAG, "afterTextChanged: " + item.getName() + " Should be");
                         if (!dataArrayList.contains(item)) {
@@ -88,16 +82,12 @@ turn a hashmap of string and itemdata into an arraylist of itemdata
                 adapter.updateData(dataArrayList);
             }
         });
-
-        return adapter;
     }
 
     /**
      * Create object of the recyclerview using context of MainActivity
      */
-    static ArrayList<Object> initRecyclerView(Context context, RecyclerAdapter adapter,
-                                 ArrayList<ItemData> dataArrayList,
-                                 RecyclerView recyclerView) {
+    static ArrayList<Object> initRecyclerView(Context context, RecyclerAdapter adapter, ArrayList<ItemData> dataArrayList, RecyclerView recyclerView) {
         adapter = new RecyclerAdapter(dataArrayList, context);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         recyclerView.setAdapter(adapter);
@@ -115,17 +105,13 @@ turn a hashmap of string and itemdata into an arraylist of itemdata
     }
 
     static void putTestingData() {
-        MainActivity.data.put("My School", new ItemData("Name", "Nofei Prat",
-                "2.23423", "12.4324", "300"));
+        MainActivity.data.put("My School", new ItemData("Name", "Nofei Prat", "2.23423", "12.4324", "300"));
 
-        MainActivity.data.put("My School2", new ItemData("Name2", "Jerusalem",
-                "64.33", "23.3454", "4000"));
+        MainActivity.data.put("My School2", new ItemData("Name2", "Jerusalem", "64.33", "23.3454", "4000"));
 
-        MainActivity.data.put("My School3", new ItemData("Name3", "Springfield",
-                "31.4", "33.43244", "5000"));
+        MainActivity.data.put("My School3", new ItemData("Name3", "Springfield", "31.4", "33.43244", "5000"));
 
-        MainActivity.data.put("My School4", new ItemData("Name4", "UK",
-                "36.345", "32.434", "1200"));
+        MainActivity.data.put("My School4", new ItemData("Name4", "UK", "36.345", "32.434", "1200"));
 
     }
 
