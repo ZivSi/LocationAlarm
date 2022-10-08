@@ -26,6 +26,7 @@ import java.util.Map;
 import java.util.Optional;
 
 public class EditLayout extends AppCompatActivity {
+    boolean isEdit = false;
     // main variables
     TextInputEditText nameBox, xCoordiantesBox, yCoordinatesBox;
     TextView distanceTextView;
@@ -42,14 +43,25 @@ public class EditLayout extends AppCompatActivity {
     String country = "";
     String address = "";
 
+    ItemData editItem;
+    final int[] distances = {100, 250, 500, 750, 1000, 2000, 3000, 5000, 7000, 10000};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_layout);
 
+        // get extras
+        String name;
+        Bundle extras = getIntent().getExtras();
+        if (extras != null){
+            isEdit = true;
+            name = extras.getString("name");
+            editItem = MainActivity.data.get(name);
+        }
         getSupportActionBar().setTitle("");
         initViews();
-        setDefaultDist();
+        if (!isEdit) setDefaultDist();
     }
 
     // Initialize all the views
@@ -62,6 +74,15 @@ public class EditLayout extends AppCompatActivity {
         layout = findViewById(R.id.mainEditLayout);
         snackbar = Snackbar.make(layout, "", Snackbar.LENGTH_SHORT);
         View custom_view = getLayoutInflater().inflate(R.layout.snackbar_error, null);
+
+        if (isEdit){ // if the user is editing an item set the values of the boxes to the current item
+            nameBox.setText(editItem.getName());
+            xCoordiantesBox.setText(editItem.getLongitude());
+            yCoordinatesBox.setText(editItem.getLatitude());
+            distanceTextView.setText(editItem.getAlarmDistance());
+            seekBar.setProgress(getDistFromFullValue(Integer.parseInt(editItem.getAlarmDistance())));
+            getDistance();
+        }
 
         snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
         snackbarView = (Snackbar.SnackbarLayout) snackbar.getView();
@@ -101,6 +122,7 @@ public class EditLayout extends AppCompatActivity {
      */
     public void saveData() {
 
+        if (isEdit)MainActivity.data.remove(editItem.getName()); // remove the original and save the new one
         geocoder = new Geocoder(this, Locale.getDefault());
 
         // get fields
@@ -108,6 +130,7 @@ public class EditLayout extends AppCompatActivity {
         String x = xCoordiantesBox.getText().toString();
         String y = yCoordinatesBox.getText().toString();
         int distance = getDistance();
+
 
         // check for empty fields
         if (name.isEmpty() || x.isEmpty() || y.isEmpty()) {
@@ -147,21 +170,31 @@ public class EditLayout extends AppCompatActivity {
     // get the distance from the seekbar, set it to correct value and update textview
     private int getDistance() {
         int dist = seekBar.getProgress();
-        int[] distances = {10, 50, 100, 250, 500, 750, 1000, 2000, 5000, 10000};
         dist = distances[dist];
 
         // change the meter sign to km if needed
         String distance;
-        if (dist >= 1000) {
-            dist /= 1000;
+        int dupe = dist;
+        if (dupe >= 1000) {
+            dupe /= 1000;
 
-            distance = dist + "Km";
+            distance = dupe + "Km";
         } else {
-            distance = dist + "M";
+            distance = dupe + "M";
         }
 
         distanceTextView.setText("Distance: " + distance);
         return dist;
+    }
+
+    // get the distance for the seekbar from a full value (ex: 1000m return 6)
+    public int getDistFromFullValue(int value) {
+        for (int i = 0; i < distances.length; i++) {
+            if (distances[i] == value) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     @Override

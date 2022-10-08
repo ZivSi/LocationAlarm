@@ -1,12 +1,16 @@
 package com.example.locationalarm;
 
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -18,7 +22,9 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
@@ -130,7 +136,34 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         }
 
         holder.moreButton.setOnClickListener((v) -> {
+            // Initializing the popup menu and giving the reference as current context
+            PopupMenu popupMenu = new PopupMenu(context, holder.moreButton);
 
+            // Inflating popup menu from popup_menu.xml file
+            popupMenu.getMenuInflater().inflate(R.menu.edit_delete_menu, popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    String name = holder.getTitleLocation().getText().toString();
+                    ItemData item = MainActivity.data.get(name);
+                    // Toast message on menu item clicked
+                    if (menuItem.getItemId() == R.id.edit_button_menu) {
+                        // create intent of the edit activity
+                        Intent intent = new Intent(context, EditLayout.class);
+                        intent.putExtra("name", name);
+                        startActivity(context, intent, null);
+
+                    } else if (menuItem.getItemId() == R.id.delete_button_menu) {
+                        // delete item from the database
+                        assert item != null;
+                        MainActivity.data.remove(item.getName());
+                        // todo: update recycler view
+                    }
+                    return true;
+                }
+            });
+            // Showing the popup menu
+            popupMenu.show();
         });
 
         holder.openActivatePopupBtn.setOnClickListener((v) -> {
@@ -149,6 +182,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             // get the data of the current item clicked and set the variables to the data
             String name = holder.getTitleLocation().getText().toString();
             ItemData item = MainActivity.data.get(name);
+            assert item != null;
             popupTitle.setText(item.getName());
             popupAddress.setText(item.getAddress());
             popupX.setText("X: " + item.getLongitude());
