@@ -53,13 +53,20 @@ public class MainActivity extends AppCompatActivity {
     TextView noLocationsTextView;
 
     ImageView settingsButton;
-    RotateAnimation rotate = new RotateAnimation(0, 90, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+
+    Animation settings_animation;
+
+    Thread openSettingsThred;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
+
+        openSettingsThred = new Thread(() -> {
+            startActivity(new Intent(MainActivity.this, Settings.class));
+        });
 
         initViews();
 
@@ -112,22 +119,22 @@ public class MainActivity extends AppCompatActivity {
         noLocationsTextView = findViewById(R.id.noLocationsTextView);
         settingsButton = findViewById(R.id.settingsButton);
 
-        // Settings animation rotate
-        rotate.setDuration(100);
-        rotate.setInterpolator(new LinearInterpolator());
-        rotate.setAnimationListener(new Animation.AnimationListener() {
+        settings_animation = AnimationUtils.loadAnimation(this, R.anim.settings_animation);
+
+        settings_animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
-                // Open settings
-                startActivity(new Intent(MainActivity.this, Settings.class));
-            }
-
-            @Override
-            public void onAnimationRepeat(Animation animation) {
             }
 
             @Override
             public void onAnimationEnd(Animation animation) {
+                // Open settings
+                openSettingsThred.start();
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
             }
         });
     }
@@ -211,7 +218,8 @@ public class MainActivity extends AppCompatActivity {
             }
 
             properties.store(new FileOutputStream(file_name), null);
-        } catch (IOException ioException) {}
+        } catch (IOException ioException) {
+        }
     }
 
     /*
@@ -228,7 +236,9 @@ public class MainActivity extends AppCompatActivity {
             for (String key : properties.stringPropertyNames()) {
                 map_from_file.put(key, (ItemData) properties.get(key));
             }
-        } catch (IOException ignored) {ignored.printStackTrace();}
+        } catch (IOException ignored) {
+            ignored.printStackTrace();
+        }
 
         return map_from_file;
     }
@@ -249,7 +259,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void OpenSettings(View view) {
         // Animate
-        settingsButton.startAnimation(rotate);
+        settingsButton.startAnimation(settings_animation);
     }
 
     private void putTestingData() {

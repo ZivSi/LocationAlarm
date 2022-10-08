@@ -129,7 +129,7 @@ public class EditLayout extends AppCompatActivity {
             ioException.printStackTrace();
         }
 
-        // No country found
+        // No data found
         if(addresses.size() == 0) {
             country = "Not Found";
         } else {
