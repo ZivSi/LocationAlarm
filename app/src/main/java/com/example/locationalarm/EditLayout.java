@@ -130,7 +130,7 @@ public class EditLayout extends AppCompatActivity {
         }
 
         // No data found
-        if(addresses.size() == 0) {
+        if (addresses.size() == 0) {
             country = "Not Found";
         } else {
             country = addresses.get(0).getCountryName() + ", ";
@@ -140,7 +140,7 @@ public class EditLayout extends AppCompatActivity {
         MainActivity.data.put(name, new ItemData(name, country + address
                 , x, y, String.valueOf(distance)));
 
-        MainActivity.SaveData(MainActivity.data, MainActivity.FILE_PATH);
+        Functions.SaveData(MainActivity.data, MainActivity.FILE_PATH);
         finish();
     }
 
