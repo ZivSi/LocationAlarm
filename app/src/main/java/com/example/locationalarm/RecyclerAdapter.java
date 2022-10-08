@@ -130,13 +130,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         }
 
         holder.moreButton.setOnClickListener((v) -> {
-            // TODO: Open popup menu
+
         });
 
         holder.openActivatePopupBtn.setOnClickListener((v) -> {
             // create builder and inflate view
             builder = new AlertDialog.Builder(context);
             final View popupView = LayoutInflater.from(context).inflate(R.layout.item_pop_up_window, null);
+
             // set variables in the popup window
             dismissButton = popupView.findViewById(R.id.dismissButton);
             activateButton = popupView.findViewById(R.id.activateButton);
