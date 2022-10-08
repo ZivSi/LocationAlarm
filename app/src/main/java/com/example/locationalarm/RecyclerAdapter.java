@@ -2,9 +2,11 @@ package com.example.locationalarm;
 
 
 import android.animation.LayoutTransition;
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
+import android.util.Log;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -29,10 +31,14 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     Context context;
     Animation flip, flip_back;
 
+    // popup menu variables
     private AlertDialog.Builder builder;
     private AlertDialog dialog;
     private ImageButton dismissButton;
     private MaterialButton activateButton;
+    private TextView popupTitle;
+    private Chip popupAddress, popupX, popupY;
+
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView titleLocation;
@@ -98,6 +104,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return new ViewHolder(view);
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ItemData currentItem = dataArray.get(position);
@@ -127,16 +134,31 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         });
 
         holder.openActivatePopupBtn.setOnClickListener((v) -> {
+            // create builder and inflate view
             builder = new AlertDialog.Builder(context);
             final View popupView = LayoutInflater.from(context).inflate(R.layout.item_pop_up_window, null);
+            // set variables in the popup window
             dismissButton = popupView.findViewById(R.id.dismissButton);
             activateButton = popupView.findViewById(R.id.activateButton);
+            popupTitle = popupView.findViewById(R.id.popupTitle);
+            popupAddress = popupView.findViewById(R.id.popupAddressChip);
+            popupX = popupView.findViewById(R.id.xCoordinatesChip);
+            popupY = popupView.findViewById(R.id.yCoordinatesChip);
 
+            // get the data of the current item clicked and set the variables to the data
+            String name = holder.getTitleLocation().getText().toString();
+            ItemData item = MainActivity.data.get(name);
+            popupTitle.setText(item.getName());
+            popupAddress.setText(item.getAddress());
+            popupX.setText("X: " + item.getLongitude());
+            popupY.setText("Y: " + item.getLatitude());
+
+
+            // create and show dialog
             builder.setView(popupView);
             dialog = builder.create();
             dialog.show();
 
-        // todo: set activate button
             dismissButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -162,5 +184,4 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         dataArray = newData;
         this.notifyDataSetChanged();
     }
-
 }
