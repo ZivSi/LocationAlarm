@@ -115,16 +115,16 @@ turn a hashmap of string and itemdata into an arraylist of itemdata
     }
 
     static void putTestingData() {
-        MainActivity.data.put("My School", new ItemData("Name", "Nofei Prat",
+        MainActivity.data.put("Name", new ItemData("Name", "Nofei Prat",
                 "2.23423", "12.4324", "300"));
 
-        MainActivity.data.put("My School2", new ItemData("Name2", "Jerusalem",
+        MainActivity.data.put("Name2", new ItemData("Name2", "Jerusalem",
                 "64.33", "23.3454", "4000"));
 
-        MainActivity.data.put("My School3", new ItemData("Name3", "Springfield",
+        MainActivity.data.put("Name3", new ItemData("Name3", "Springfield",
                 "31.4", "33.43244", "5000"));
 
-        MainActivity.data.put("My School4", new ItemData("Name4", "UK",
+        MainActivity.data.put("Name4", new ItemData("Name4", "UK",
                 "36.345", "32.434", "1200"));
 
     }
