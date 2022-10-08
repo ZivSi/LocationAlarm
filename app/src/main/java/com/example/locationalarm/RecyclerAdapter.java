@@ -2,6 +2,7 @@ package com.example.locationalarm;
 
 
 import android.animation.LayoutTransition;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.res.ColorStateList;
 import android.view.ViewGroup;
@@ -28,11 +29,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     Context context;
     Animation flip, flip_back;
 
+    private AlertDialog.Builder builder;
+    private AlertDialog dialog;
+    private ImageButton dismissButton;
+    private MaterialButton activateButton;
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView titleLocation;
         private Chip distanceAlert, address;
-        private ImageButton arrowButton;
-        private MaterialButton activateButton, deleteButton;
+        private ImageButton moreButton, openActivatePopupBtn;
         private ConstraintLayout cardLayout;
 
         public ViewHolder(View view) {
@@ -41,9 +46,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             // Define click listeners for all the ViewHolder's View
             titleLocation = view.findViewById(R.id.nameTextView);
             distanceAlert = view.findViewById(R.id.distanceAlertFromLocation);
-            arrowButton = view.findViewById(R.id.arrow_button);
             address = view.findViewById(R.id.addressChip);
             cardLayout = view.findViewById(R.id.cardLayout);
+            moreButton = view.findViewById(R.id.moreBtn);
+            openActivatePopupBtn = view.findViewById(R.id.openActivatePopup);
         }
 
         public TextView getTitleLocation() {
@@ -54,8 +60,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             return distanceAlert;
         }
 
-        public ImageButton getArrowButton() {
-            return arrowButton;
+        public ImageButton getMoreButton() {
+            return moreButton;
         }
 
         public Chip getAddress() {
@@ -66,13 +72,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             return cardLayout;
         }
 
-        public MaterialButton getActivateButton() {
-            return activateButton;
+        public ImageButton getOpenActivatePopupBtn() {
+            return openActivatePopupBtn;
         }
 
-        public MaterialButton getDeleteButton() {
-            return deleteButton;
-        }
     }
 
     // Constructor to initialize data
@@ -119,8 +122,34 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             holder.getDistanceAlert().setChipBackgroundColor(ColorStateList.valueOf(context.getResources().getColor(R.color.PaleVioletRed)));
         }
 
-        holder.arrowButton.setOnClickListener((v) -> {
-            // TODO: Open popup window
+        holder.moreButton.setOnClickListener((v) -> {
+            // TODO: Open popup menu
+        });
+
+        holder.openActivatePopupBtn.setOnClickListener((v) -> {
+            builder = new AlertDialog.Builder(context);
+            final View popupView = LayoutInflater.from(context).inflate(R.layout.item_pop_up_window, null);
+            dismissButton = popupView.findViewById(R.id.dismissButton);
+            activateButton = popupView.findViewById(R.id.activateButton);
+
+            builder.setView(popupView);
+            dialog = builder.create();
+            dialog.show();
+
+        // todo: set activate button
+            dismissButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            activateButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // todo: activate alarm
+                }
+            });
         });
     }
 

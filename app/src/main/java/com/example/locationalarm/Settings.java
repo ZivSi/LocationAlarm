@@ -41,7 +41,7 @@ public class Settings extends AppCompatActivity {
         }
     }
 
-
+    // put the settings in variable
     public static void getInfo(Context ct){
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ct);
         allEntries = sp.getAll();

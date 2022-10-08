@@ -2,6 +2,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -42,16 +43,33 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageButton
-            android:id="@+id/arrow_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/moreBtn"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:background="@drawable/circle"
+            android:layout_marginTop="10dp"
+            android:backgroundTint="@color/white"
+            android:rotationX="180"
+            android:scaleX="0.7"
+            android:scaleY="0.6"
+            android:src="@drawable/more_icon"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/gray" />
+
+        <ImageButton
+            android:id="@+id/openActivatePopup"
+            android:layout_width="35dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="5dp"
             android:background="@drawable/circle"
             android:backgroundTint="@color/white"
             android:rotationX="180"
-            android:scaleX="0.8"
-            android:scaleY="0.8"
-            android:src="@drawable/ic_baseline_keyboard_arrow_up_24"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleX="0.7"
+            android:scaleY="0.6"
+            android:src="@drawable/play_arrow"
+            app:layout_constraintEnd_toStartOf="@+id/moreBtn"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/gray" />
 
