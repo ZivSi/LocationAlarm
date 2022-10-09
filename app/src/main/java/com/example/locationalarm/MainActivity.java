@@ -56,6 +56,9 @@ public class MainActivity extends AppCompatActivity {
         // Load data
         data = Functions.LoadData(this);
 
+        // data.clear();
+        // Functions.SaveData(this, data);
+
         // Create an array from the data in the map
         dataArrayList = Functions.dataAsArray(data);
         fixedData = new ArrayList<>(dataArrayList); // Array that will never change, only when removing/adding item to map

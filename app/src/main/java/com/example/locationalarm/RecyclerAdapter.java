@@ -124,8 +124,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             holder.getAddress().setText("Address: " + currentItem.getAddress());
         }
 
-        holder.getDistanceAlert().setText(currentItem.getAlarmDistance() + "M");
-
         // Set color to chip distance by far or close
         if (Integer.parseInt(currentItem.getAlarmDistance()) > 2000) {
             holder.getDistanceAlert().setChipBackgroundColor(ColorStateList.valueOf(context.getResources().getColor(R.color.OrangeRed)));

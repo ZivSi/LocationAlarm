@@ -136,11 +136,6 @@ turn a hashmap of string and itemdata into an arraylist of itemdata
             temp.append("\n");
         }
 
-        // Remove last \n
-        try {
-            temp = new StringBuilder(temp.substring(0, temp.length() - 1));
-        } catch (StringIndexOutOfBoundsException ignored) {}
-
         return temp.toString();
     }
 
@@ -194,7 +189,7 @@ turn a hashmap of string and itemdata into an arraylist of itemdata
             String line = br.readLine();
 
             while (line != null) {
-                content.append(line);
+                content.append(line + "\n");
                 line = br.readLine();
             }
 
