@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.preference.ListPreference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.PreferenceManager;
 
@@ -21,6 +22,7 @@ public class Settings extends AppCompatActivity {
         // check actions bar exists and set title
         Objects.requireNonNull(getSupportActionBar()).setTitle("Settings");
 
+        // load settings fragment
         setContentView(R.layout.settings_activity);
         if (savedInstanceState == null) {
             getSupportFragmentManager()
@@ -28,6 +30,7 @@ public class Settings extends AppCompatActivity {
                     .replace(R.id.settings, new SettingsFragment())
                     .commit();
         }
+        // set action bar back button
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -41,7 +44,7 @@ public class Settings extends AppCompatActivity {
         }
     }
 
-
+    // put the settings in variable
     public static void getInfo(Context ct){
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ct);
         allEntries = sp.getAll();

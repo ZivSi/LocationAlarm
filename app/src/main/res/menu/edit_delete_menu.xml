@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- edit and delete items -->
+    <item
+        android:id="@+id/edit_button_menu"
+        android:icon="@drawable/ic_baseline_edit_24"
+        android:iconTint="@color/white"
+        android:orderInCategory="0"
+        android:title="Edit" />
+    <item
+        android:id="@+id/delete_button_menu"
+        android:icon="@drawable/ic_baseline_delete_24"
+        android:iconTint="@color/white"
+        android:orderInCategory="1"
+        android:title="Delete" />
+
+
+</menu>

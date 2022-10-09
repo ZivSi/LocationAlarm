@@ -1,9 +1,16 @@
 package com.example.locationalarm;
 
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.animation.LayoutTransition;
+import android.annotation.SuppressLint;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
@@ -15,7 +22,9 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
+import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
@@ -28,11 +37,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     Context context;
     Animation flip, flip_back;
 
+    // popup menu variables
+    private AlertDialog.Builder builder;
+    private AlertDialog dialog;
+    private ImageButton dismissButton;
+    private MaterialButton activateButton;
+    private TextView popupTitle;
+    private Chip popupAddress, popupX, popupY;
+
+
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView titleLocation;
         private Chip distanceAlert, address;
-        private ImageButton arrowButton;
-        private MaterialButton activateButton, deleteButton;
+        private ImageButton moreButton, openActivatePopupBtn;
         private ConstraintLayout cardLayout;
 
         public ViewHolder(View view) {
@@ -41,9 +58,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             // Define click listeners for all the ViewHolder's View
             titleLocation = view.findViewById(R.id.nameTextView);
             distanceAlert = view.findViewById(R.id.distanceAlertFromLocation);
-            arrowButton = view.findViewById(R.id.arrow_button);
             address = view.findViewById(R.id.addressChip);
             cardLayout = view.findViewById(R.id.cardLayout);
+            moreButton = view.findViewById(R.id.moreBtn);
+            openActivatePopupBtn = view.findViewById(R.id.openActivatePopup);
         }
 
         public TextView getTitleLocation() {
@@ -54,8 +72,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             return distanceAlert;
         }
 
-        public ImageButton getArrowButton() {
-            return arrowButton;
+        public ImageButton getMoreButton() {
+            return moreButton;
         }
 
         public Chip getAddress() {
@@ -66,13 +84,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             return cardLayout;
         }
 
-        public MaterialButton getActivateButton() {
-            return activateButton;
+        public ImageButton getOpenActivatePopupBtn() {
+            return openActivatePopupBtn;
         }
 
-        public MaterialButton getDeleteButton() {
-            return deleteButton;
-        }
     }
 
     // Constructor to initialize data
@@ -94,6 +109,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         return new ViewHolder(view);
     }
 
+    @SuppressLint("MissingInflatedId")
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ItemData currentItem = dataArray.get(position);
@@ -118,8 +134,78 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             holder.getDistanceAlert().setChipBackgroundColor(ColorStateList.valueOf(context.getResources().getColor(R.color.PaleVioletRed)));
         }
 
-        holder.arrowButton.setOnClickListener((v) -> {
-            // TODO: Open popup window
+        holder.moreButton.setOnClickListener((v) -> {
+            // Initializing the popup menu and giving the reference as current context
+            PopupMenu popupMenu = new PopupMenu(context, holder.moreButton);
+
+            // Inflating popup menu from popup_menu.xml file
+            popupMenu.getMenuInflater().inflate(R.menu.edit_delete_menu, popupMenu.getMenu());
+            popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(MenuItem menuItem) {
+                    String name = holder.getTitleLocation().getText().toString();
+                    ItemData item = MainActivity.data.get(name);
+                    // Toast message on menu item clicked
+                    if (menuItem.getItemId() == R.id.edit_button_menu) {
+                        // create intent of the edit activity
+                        Intent intent = new Intent(context, EditLayout.class);
+                        intent.putExtra("name", name);
+                        startActivity(context, intent, null);
+
+                    } else if (menuItem.getItemId() == R.id.delete_button_menu) {
+                        // delete item from the database
+                        assert item != null;
+                        MainActivity.data.remove(item.getName());
+                        // todo: update recycler view
+                    }
+                    return true;
+                }
+            });
+            // Showing the popup menu
+            popupMenu.show();
+        });
+
+        holder.openActivatePopupBtn.setOnClickListener((v) -> {
+            // create builder and inflate view
+            builder = new AlertDialog.Builder(context);
+            final View popupView = LayoutInflater.from(context).inflate(R.layout.item_pop_up_window, null);
+
+            // set variables in the popup window
+            dismissButton = popupView.findViewById(R.id.dismissButton);
+            activateButton = popupView.findViewById(R.id.activateButton);
+            popupTitle = popupView.findViewById(R.id.popupTitle);
+            popupAddress = popupView.findViewById(R.id.popupAddressChip);
+            popupX = popupView.findViewById(R.id.xCoordinatesChip);
+            popupY = popupView.findViewById(R.id.yCoordinatesChip);
+
+            // get the data of the current item clicked and set the variables to the data
+            String name = holder.getTitleLocation().getText().toString();
+            ItemData item = MainActivity.data.get(name);
+            assert item != null;
+            popupTitle.setText(item.getName());
+            popupAddress.setText(item.getAddress());
+            popupX.setText("X: " + item.getLongitude());
+            popupY.setText("Y: " + item.getLatitude());
+
+
+            // create and show dialog
+            builder.setView(popupView);
+            dialog = builder.create();
+            dialog.show();
+
+            dismissButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    dialog.dismiss();
+                }
+            });
+
+            activateButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    // todo: activate alarm
+                }
+            });
         });
     }
 
@@ -132,5 +218,4 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         dataArray = newData;
         this.notifyDataSetChanged();
     }
-
 }

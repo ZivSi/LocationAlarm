@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="20dp">
 
-    <ImageView
+    <ImageButton
         android:id="@+id/dismissButton"
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/itemNameTextView"
+        android:id="@+id/popupTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Item Name"
@@ -30,14 +30,14 @@
         android:id="@+id/addressTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="80dp"
+        android:layout_marginTop="30dp"
         android:text="Address"
         android:textSize="22sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemNameTextView" />
+        app:layout_constraintTop_toBottomOf="@+id/popupTitle" />
 
     <ImageView
         android:id="@+id/addressImageView"
@@ -50,7 +50,7 @@
         app:layout_constraintTop_toTopOf="@+id/addressTitleTextView" />
 
     <com.google.android.material.chip.Chip
-        android:id="@+id/addressChip"
+        android:id="@+id/popupAddressChip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -68,7 +68,7 @@
         android:id="@+id/coordinatesTitleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="80dp"
         android:text="Coordinates"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -122,7 +122,7 @@
         android:id="@+id/activateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="68dp"
+        android:layout_marginTop="50dp"
         android:text="Activate"
         app:backgroundTint="@color/Green"
         app:layout_constraintEnd_toEndOf="parent"

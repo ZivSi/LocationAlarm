@@ -4,8 +4,8 @@
 
 
         <ListPreference
-            app:entries="@array/ringtones"
-            app:entryValues="@array/ringtone_files"
+            app:entries="@array/ringtone_names"
+            app:entryValues="@array/ringtone_names"
             app:key="ringtone"
             app:icon="@drawable/ic_baseline_volume_up_24"
             app:title="Ringtone"

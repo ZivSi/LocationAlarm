@@ -1,13 +1,8 @@
 <resources>
     <!-- Reply Preference -->
-    <string-array name="ringtones">
-        <item>change this to real ring</item>
-        <item>r2</item>
-    </string-array>
-
-    <string-array name="ringtone_files">
-        <item>123.mpg</item>
-        <item>change this to real ring</item>
+    <string-array name="ringtone_names">
+        <item>default</item>
+        <item>add more</item>
     </string-array>
 
     <!-- Distance Preference -->
@@ -25,15 +20,15 @@
     </string-array>
 
     <string-array name="distances_names">
-        <item>10 Meters</item>
-        <item>50 Meters</item>
         <item>100 Meters</item>
         <item>250 Meters</item>
         <item>500 Meters</item>
         <item>750 Meters</item>
         <item>1 Kilometers</item>
         <item>2 Kilometers</item>
+        <item>3 Kilometers</item>
         <item>5 Kilometers</item>
+        <item>7 Kilometers</item>
         <item>10 Kilometers</item>
     </string-array>
 </resources>
