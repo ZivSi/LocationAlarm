@@ -13,7 +13,7 @@ public class SoundPlayer {
                 .setMaxStreams(2)
                 .build();
 
-        defaultSound = soundPool.load(context, R.raw.alarmSound, 1);
+        defaultSound = soundPool.load(context, R.raw.alarmsound, 1);
         // todo: when adding more sounds, add them here and add function for them
     }
 

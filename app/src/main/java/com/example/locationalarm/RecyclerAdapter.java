@@ -49,7 +49,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView titleLocation;
         private Chip distanceAlert, address;
-        private ImageButton moreButton, openActivatePopupBtn;
+        private ImageButton moreButton;
+        private MaterialButton activateButton;
         private ConstraintLayout cardLayout;
 
         public ViewHolder(View view) {
@@ -61,7 +62,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             address = view.findViewById(R.id.addressChip);
             cardLayout = view.findViewById(R.id.cardLayout);
             moreButton = view.findViewById(R.id.moreBtn);
-            openActivatePopupBtn = view.findViewById(R.id.openActivatePopup);
+            activateButton = view.findViewById(R.id.activateButton);
         }
 
         public TextView getTitleLocation() {
@@ -84,10 +85,9 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             return cardLayout;
         }
 
-        public ImageButton getOpenActivatePopupBtn() {
-            return openActivatePopupBtn;
+        public MaterialButton getActivateButton() {
+            return activateButton;
         }
-
     }
 
     // Constructor to initialize data
@@ -165,7 +165,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             popupMenu.show();
         });
 
-        holder.openActivatePopupBtn.setOnClickListener((v) -> {
+        holder.getActivateButton().setOnClickListener((v) -> {
             // create builder and inflate view
             builder = new AlertDialog.Builder(context);
             final View popupView = LayoutInflater.from(context).inflate(R.layout.item_pop_up_window, null);

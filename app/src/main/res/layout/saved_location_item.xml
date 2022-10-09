@@ -44,32 +44,15 @@
 
         <ImageButton
             android:id="@+id/moreBtn"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:background="@drawable/circle"
             android:layout_marginTop="10dp"
             android:backgroundTint="@color/white"
-            android:rotationX="180"
-            android:scaleX="0.7"
-            android:scaleY="0.6"
-            android:src="@drawable/more_icon"
+            android:scaleX="1.1"
+            android:scaleY="1.1"
+            android:src="@drawable/ic_baseline_more_vert_24"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:tint="@color/gray" />
-
-        <ImageButton
-            android:id="@+id/openActivatePopup"
-            android:layout_width="35dp"
-            android:layout_height="35dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="5dp"
-            android:background="@drawable/circle"
-            android:backgroundTint="@color/white"
-            android:rotationX="180"
-            android:scaleX="0.7"
-            android:scaleY="0.6"
-            android:src="@drawable/play_arrow"
-            app:layout_constraintEnd_toStartOf="@+id/moreBtn"
             app:layout_constraintTop_toTopOf="parent"
             app:tint="@color/gray" />
 
@@ -100,6 +83,16 @@
             app:chipIconTint="@color/white"
             app:layout_constraintStart_toStartOf="@+id/distanceAlertFromLocation"
             app:layout_constraintTop_toBottomOf="@+id/distanceAlertFromLocation" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/activateButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Activate"
+            app:backgroundTint="@color/Green"
+            android:layout_marginTop="15dp"
+            app:layout_constraintStart_toStartOf="@+id/addressChip"
+            app:layout_constraintTop_toBottomOf="@+id/addressChip" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
