@@ -43,15 +43,49 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+
+    <com.google.android.material.button.MaterialButtonToggleGroup
+        android:id="@+id/toggleGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        app:checkedButton="@id/addressToggle"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameBoxLayout"
+        app:selectionRequired="true"
+        app:singleSelection="true">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/addressToggle"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Address"
+            app:icon="@drawable/ic_baseline_home_24"
+            app:strokeColor="@color/purple_900" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/coordinatesToggle"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Coordinates"
+            app:icon="@drawable/ic_baseline_my_location_24"
+            app:strokeColor="@color/purple_900" />
+    </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
     <!-- X of location -->
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/xCoordinatesLayout"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="130dp"
         app:boxStrokeColor="@color/purple_500"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/nameBoxLayout">
 
