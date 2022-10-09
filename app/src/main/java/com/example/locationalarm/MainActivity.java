@@ -5,6 +5,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -13,16 +14,14 @@ import android.widget.TextView;
 
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
-    static File file = new File("res/raw/data.properties");
-    static final String FILE_PATH = file.getAbsolutePath();
-
+    final static String FILE_NAME = "data.txt";
+    final static String SPLITTER = "ZM֎";
     RecyclerView recyclerView;
     RecyclerAdapter adapter;
 
@@ -45,27 +44,27 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Objects.requireNonNull(getSupportActionBar()).hide(); // Prevent null pointer exception
 
-        openSettingsThread = new Thread(() -> {
-            startActivity(new Intent(MainActivity.this, Settings.class));
-        });
+        openSettingsThread = new Thread(() -> startActivity(new Intent(MainActivity.this, Settings.class)));
 
         initViews();
 
-        data = Functions.LoadData(FILE_PATH);
+        // File exists?
+        Functions.createFileIfNotExists(this);
 
-        data = new HashMap<>();
-
-        Functions.putTestingData();
+        // Load data
+        data = Functions.LoadData(this);
 
         // Create an array from the data in the map
         dataArrayList = Functions.dataAsArray(data);
         fixedData = new ArrayList<>(dataArrayList); // Array that will never change, only when removing/adding item to map
 
-        Functions.showTextIfEmpty(fixedData, noLocationsTextView); // Show textview if there are no items in recyclerview
+        // Show textview if there are no items in recyclerview
+        Functions.showTextIfEmpty(fixedData, noLocationsTextView);
+
 
         // Set adapter and create recyclerview object
         // Get ass array because java cannot pass by reference
-        ArrayList<Object> items = Functions.initRecyclerView(this, adapter, dataArrayList, recyclerView);
+        ArrayList<Object> items = Functions.initRecyclerView(this, dataArrayList, recyclerView);
 
         recyclerView = (RecyclerView) items.get(0);
         adapter = (RecyclerAdapter) items.get(1);
@@ -76,14 +75,10 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        // Save data to file
-        if (data.size() > 0) {
-            Functions.SaveData(data, FILE_PATH);
-
-            dataArrayList = Functions.dataAsArray(data);
-            fixedData = new ArrayList<>(dataArrayList);
-            adapter.updateData(dataArrayList);
-        }
+        // After saving or deleting, update data from the map
+        dataArrayList = Functions.dataAsArray(data);
+        fixedData = new ArrayList<>(dataArrayList);
+        adapter.updateData(dataArrayList);
     }
 
     /**

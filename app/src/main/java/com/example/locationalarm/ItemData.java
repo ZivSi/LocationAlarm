@@ -57,4 +57,12 @@ public class ItemData {
         this.name = name;
     }
 
+    @Override
+    public String toString() {
+        return name + MainActivity.SPLITTER +
+                address + MainActivity.SPLITTER +
+                latitude + MainActivity.SPLITTER +
+                longitude + MainActivity.SPLITTER +
+                alarmDistance;
+    }
 }

@@ -139,7 +139,7 @@ public class EditLayout extends AppCompatActivity {
         // address is curently empty untill we add the google maps api
         MainActivity.data.put(name, new ItemData(name, country + address, x, y, String.valueOf(distance)));
 
-        Functions.SaveData(MainActivity.data, MainActivity.FILE_PATH);
+        Functions.SaveData(this, MainActivity.data);
         finish();
     }
 
