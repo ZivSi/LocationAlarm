@@ -1,15 +1,19 @@
-<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory app:title="General">
 
 
-        <ListPreference
-            app:entries="@array/ringtones"
-            app:entryValues="@array/ringtone_files"
+        <Preference
             app:key="ringtone"
             app:icon="@drawable/ic_baseline_volume_up_24"
             app:title="Ringtone"
-            app:useSimpleSummaryProvider="true" />
+            android:summary="">
+            <intent
+                android:action="android.media.RingtoneManager"
+                android:data="content://settings/system/ringtone" />
+
+        </Preference>
 
         <SwitchPreferenceCompat
             app:key="vibrate"
