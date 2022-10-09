@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
         // File exists?
         Functions.createFileIfNotExists(this);
+        // Stupied comment
 
         // Load data
         data = Functions.LoadData(this);
