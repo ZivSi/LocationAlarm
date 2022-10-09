@@ -22,8 +22,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
-            android:scaleX="1.6"
-            android:scaleY="1.6"
+            android:scaleX="1.4"
+            android:scaleY="1.4"
             android:src="@drawable/ic_baseline_location_on_24"
             app:layout_constraintBottom_toBottomOf="@+id/nameTextView"
             app:layout_constraintStart_toStartOf="parent"
@@ -38,7 +38,7 @@
             android:layout_marginTop="10dp"
             android:text="School - Some Text :)"
             android:textColor="@color/black"
-            android:textSize="26sp"
+            android:textSize="24sp"
             app:layout_constraintStart_toEndOf="@+id/locationImageView"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -84,15 +84,21 @@
             app:layout_constraintStart_toStartOf="@+id/distanceAlertFromLocation"
             app:layout_constraintTop_toBottomOf="@+id/distanceAlertFromLocation" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/activateButton"
+        <ImageButton
+            android:id="@+id/playButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Activate"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
+            android:scaleX="1.4"
+            android:scaleY="1.4"
+            android:background="@drawable/circle"
+            android:backgroundTint="@color/white"
+            android:src="@drawable/play_arrow"
+            app:tint="@color/white"
             app:backgroundTint="@color/Green"
-            android:layout_marginTop="15dp"
-            app:layout_constraintStart_toStartOf="@+id/addressChip"
-            app:layout_constraintTop_toBottomOf="@+id/addressChip" />
+            app:layout_constraintEnd_toStartOf="@+id/moreBtn"
+            app:layout_constraintTop_toTopOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

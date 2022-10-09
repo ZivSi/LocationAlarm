@@ -41,16 +41,15 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     private AlertDialog.Builder builder;
     private AlertDialog dialog;
     private ImageButton dismissButton;
-    private MaterialButton activateButton;
     private TextView popupTitle;
+    private MaterialButton activateButton;
     private Chip popupAddress, popupX, popupY;
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private TextView titleLocation;
         private Chip distanceAlert, address;
-        private ImageButton moreButton;
-        private MaterialButton activateButton;
+        private ImageButton moreButton, playButton;
         private ConstraintLayout cardLayout;
 
         public ViewHolder(View view) {
@@ -62,7 +61,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             address = view.findViewById(R.id.addressChip);
             cardLayout = view.findViewById(R.id.cardLayout);
             moreButton = view.findViewById(R.id.moreBtn);
-            activateButton = view.findViewById(R.id.activateButton);
+            playButton = view.findViewById(R.id.playButton);
         }
 
         public TextView getTitleLocation() {
@@ -85,8 +84,8 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             return cardLayout;
         }
 
-        public MaterialButton getActivateButton() {
-            return activateButton;
+        public ImageButton getPlayButton() {
+            return playButton;
         }
     }
 
@@ -166,7 +165,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             popupMenu.show();
         });
 
-        holder.getActivateButton().setOnClickListener((v) -> {
+        holder.getPlayButton().setOnClickListener((v) -> {
             // create builder and inflate view
             builder = new AlertDialog.Builder(context);
             final View popupView = LayoutInflater.from(context).inflate(R.layout.item_pop_up_window, null);
