@@ -15,10 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -39,7 +39,7 @@ turn a hashmap of string and itemdata into an arraylist of itemdata
     }
 
     /**
-     * When searching in the search bar, update the recylcerview
+     * When searching in the search bar, update the recylcer view
      */
     static void initSearchRecycler(TextInputEditText searchBox, ArrayList<ItemData> dataArrayList, ArrayList<ItemData> fixedData, RecyclerAdapter adapter) {
         // set onclick listener
@@ -100,8 +100,8 @@ turn a hashmap of string and itemdata into an arraylist of itemdata
     /**
      * Show textView that tells there are no locations saved yet
      */
-    static void showTextIfEmpty(ArrayList<ItemData> fixedData, TextView noLocationsTextView) {
-        if (fixedData.size() == 0) {
+    static void showTextIfEmpty(TextView noLocationsTextView) {
+        if (MainActivity.data.size() == 0) {
             noLocationsTextView.setVisibility(View.VISIBLE);
         }
     }
@@ -118,58 +118,50 @@ turn a hashmap of string and itemdata into an arraylist of itemdata
     }
 
     /**
-     *
      * @param data Map of data to save to file
-     * @return data as orgenized string
+     * @return data as organized string
      */
     static String dataAsString(HashMap<String, ItemData> data) {
-        String temp = "";
+        StringBuilder temp = new StringBuilder();
 
         /*
         temp =
-        Location|LocationZM֎Nofey PratZM֎34.325ZM֎35.324ZM֎500
-        Location2|Location2ZM֎Nofey PratZM֎34.325ZM֎35.324ZM֎500
-        Location3|Location3ZM֎Nofey PratZM֎34.325ZM֎35.324ZM֎500
+        Location:LocationZM֎Nofey PratZM֎34.325ZM֎35.324ZM֎500
+        Location2:Location2ZM֎Nofey PratZM֎34.325ZM֎35.324ZM֎500
+        Location3:Location3ZM֎Nofey PratZM֎34.325ZM֎35.324ZM֎500
          */
         for (String key : data.keySet()) {
             ItemData properties = data.get(key);
-            temp += key + ":" + properties.toString();
-            temp += "\n";
+            temp.append(key).append(":").append(properties.toString());
+            temp.append("\n");
         }
 
         // Remove last \n
-        temp = temp.substring(0, temp.length() - 1);
+        temp = new StringBuilder(temp.substring(0, temp.length() - 1));
 
-        return temp;
+        return temp.toString();
     }
 
-    /*
-save a hashmap of string and itemdata to a file
- */
+    /**
+     * Save the map to the file
+     */
     static void SaveData(Context context, HashMap<String, ItemData> data) {
-        try {
-            OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(MainActivity.FILE_NAME, Context.MODE_PRIVATE));
-            outputStreamWriter.write(dataAsString(data));
-            outputStreamWriter.close();
+        File externalFile = new File(context.getExternalFilesDir(MainActivity.DIR_PATH), MainActivity.FILE_NAME);
+        FileOutputStream fos;
 
-            print("Saved data as string: " + dataAsString(data));
+        try {
+            fos = new FileOutputStream(externalFile);
+            fos.write(dataAsString(data).getBytes());
         } catch (IOException e) {
-            Log.e("Exception", "File write failed: " + e);
+            e.printStackTrace();
         }
     }
 
     static HashMap<String, ItemData> stringToMap(String dataAsString) {
         HashMap<String, ItemData> temp = new HashMap<>();
 
-        /*
-        dataAsString =
-        Location|LocationZM֎Nofey PratZM֎34.325ZM֎35.324ZM֎500
-        Location2|Location2ZM֎Nofey PratZM֎34.325ZM֎35.324ZM֎500
-        Location3|Location3ZM֎Nofey PratZM֎34.325ZM֎35.324ZM֎500
-         */
-
-        for (String line : dataAsString.split("\n")) { // Location|LocationZM֎Nofey PratZM֎34.325ZM֎35.324ZM֎500
-            if(line.equals("") || line.equals("\n")) {
+        for (String line : dataAsString.split("\n")) { // Location:LocationZM֎Nofey PratZM֎34.325ZM֎35.324ZM֎500
+            if (line.equals("") || line.equals("\n")) {
                 continue;
             }
             String key = line.split(":")[0]; // Location
@@ -183,35 +175,32 @@ save a hashmap of string and itemdata to a file
         return temp;
     }
 
-    /*
-    load a hashmap of string and itemdata from a file
-    */
+    /**
+     * Load the data from the file
+     */
     static HashMap<String, ItemData> LoadData(Context context) {
+        HashMap<String, ItemData> temp;
 
-        HashMap<String, ItemData> temp = new HashMap<>();
+        FileReader fr;
+        File externalFile = new File(context.getExternalFilesDir(MainActivity.DIR_PATH), MainActivity.FILE_NAME);
+        StringBuilder content = new StringBuilder();
 
         try {
-            InputStream inputStream = context.openFileInput(MainActivity.FILE_NAME);
+            fr = new FileReader(externalFile);
+            BufferedReader br = new BufferedReader(fr);
 
-            if (inputStream != null) {
-                InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-                BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
-                String receiveString = "";
-                String stringBuilder = "";
+            String line = br.readLine();
 
-                while ((receiveString = bufferedReader.readLine()) != null) {
-                    stringBuilder += receiveString;
-                }
-
-                inputStream.close();
-
-                temp = stringToMap(stringBuilder);
+            while (line != null) {
+                content.append(line);
+                line = br.readLine();
             }
-        } catch (FileNotFoundException e) {
-            print("File not found: " + e.toString());
+
         } catch (IOException e) {
-            print("Can not read file: " + e.toString());
+            e.printStackTrace();
         }
+
+        temp = stringToMap(content.toString());
 
         return temp;
     }
@@ -222,13 +211,10 @@ save a hashmap of string and itemdata to a file
     static void createFileIfNotExists(Context context) {
         try {
             OutputStreamWriter outputStreamWriter = new OutputStreamWriter(context.openFileOutput(MainActivity.FILE_NAME, Context.MODE_PRIVATE));
+            outputStreamWriter.append("");
             outputStreamWriter.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    static void print(String s) {
-        Log.d("Tag", "Debug: " + s);
     }
 }

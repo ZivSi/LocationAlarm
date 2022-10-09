@@ -20,6 +20,7 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -38,7 +39,7 @@ public class EditLayout extends AppCompatActivity {
 
     // Get address from coordinates
     Geocoder geocoder;
-    List<Address> addresses;
+    List<Address> addresses = new ArrayList<>();
     String country = "";
     String address = "";
 
@@ -104,7 +105,7 @@ public class EditLayout extends AppCompatActivity {
         geocoder = new Geocoder(this, Locale.getDefault());
 
         // get fields
-        String name = nameBox.getText().toString();
+        String name = nameBox.getText().toString().replaceAll(":", "");
         String x = xCoordiantesBox.getText().toString();
         String y = yCoordinatesBox.getText().toString();
         int distance = getDistance();

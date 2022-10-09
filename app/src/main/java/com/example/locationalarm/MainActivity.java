@@ -11,6 +11,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.textfield.TextInputEditText;
 
@@ -21,6 +22,7 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     final static String FILE_NAME = "data.txt";
+    final static String DIR_PATH = "FilesDir";
     final static String SPLITTER = "ZM֎";
     RecyclerView recyclerView;
     RecyclerAdapter adapter;
@@ -50,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
 
         // File exists?
         Functions.createFileIfNotExists(this);
-        // Stupied comment
 
         // Load data
         data = Functions.LoadData(this);
@@ -60,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         fixedData = new ArrayList<>(dataArrayList); // Array that will never change, only when removing/adding item to map
 
         // Show textview if there are no items in recyclerview
-        Functions.showTextIfEmpty(fixedData, noLocationsTextView);
+        Functions.showTextIfEmpty(noLocationsTextView);
 
 
         // Set adapter and create recyclerview object
@@ -75,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-
         // After saving or deleting, update data from the map
         dataArrayList = Functions.dataAsArray(data);
         fixedData = new ArrayList<>(dataArrayList);
