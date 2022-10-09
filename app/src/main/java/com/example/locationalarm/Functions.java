@@ -137,7 +137,9 @@ turn a hashmap of string and itemdata into an arraylist of itemdata
         }
 
         // Remove last \n
-        temp = new StringBuilder(temp.substring(0, temp.length() - 1));
+        try {
+            temp = new StringBuilder(temp.substring(0, temp.length() - 1));
+        } catch (StringIndexOutOfBoundsException ignored) {}
 
         return temp.toString();
     }

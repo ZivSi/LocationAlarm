@@ -154,9 +154,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
                     } else if (menuItem.getItemId() == R.id.delete_button_menu) {
                         // delete item from the database
-                        assert item != null;
                         MainActivity.data.remove(item.getName());
-                        // todo: update recycler view
+                        Functions.SaveData(context, MainActivity.data);
+
+                        context.startActivity(new Intent(context, MainActivity.class));
                     }
                     return true;
                 }

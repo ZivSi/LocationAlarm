@@ -55,7 +55,7 @@ public class EditLayout extends AppCompatActivity {
         // get extras
         String name;
         Bundle extras = getIntent().getExtras();
-        if (extras != null){
+        if (extras != null) {
             isEdit = true;
             name = extras.getString("name");
             editItem = MainActivity.data.get(name);
@@ -76,7 +76,7 @@ public class EditLayout extends AppCompatActivity {
         snackbar = Snackbar.make(layout, "", Snackbar.LENGTH_SHORT);
         View custom_view = getLayoutInflater().inflate(R.layout.snackbar_error, null);
 
-        if (isEdit){ // if the user is editing an item set the values of the boxes to the current item
+        if (isEdit) { // if the user is editing an item set the values of the boxes to the current item
             nameBox.setText(editItem.getName());
             xCoordiantesBox.setText(editItem.getLongitude());
             yCoordinatesBox.setText(editItem.getLatitude());
@@ -123,7 +123,9 @@ public class EditLayout extends AppCompatActivity {
      */
     public void saveData() {
 
-        if (isEdit)MainActivity.data.remove(editItem.getName()); // remove the original and save the new one
+        if (isEdit) { // remove the original and save the new one
+            MainActivity.data.remove(editItem.getName());
+        } ;
         geocoder = new Geocoder(this, Locale.getDefault());
 
         // get fields
