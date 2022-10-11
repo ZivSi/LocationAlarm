@@ -107,6 +107,7 @@ public class LocationFinder {
         if (getLocationPermission((context))){
             // get the current location of the user
             String[] userLocation = getUserLocation();
+            // fixme: the user location is not working and is always null
             double long1 = Double.parseDouble(userLocation[0]);
             double lat1 = Double.parseDouble(userLocation[1]);
             // calculate the distance between the user and the destination

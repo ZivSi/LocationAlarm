@@ -201,6 +201,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 @Override
                 public void onClick(View v) {
                     // todo: activate alarm every second and check if user is at destination
+                    Functions.startLocationAlarm(item.getLatitude(), item.getLongitude(), Integer.parseInt(item.getAlarmDistance()), context);
                 }
             });
         });

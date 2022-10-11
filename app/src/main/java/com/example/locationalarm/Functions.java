@@ -226,6 +226,7 @@ turn a hashmap of string and itemdata into an arraylist of itemdata
             Toast.makeText(context, "You are in the radius", Toast.LENGTH_SHORT).show();
             return true;
         }
+        Toast.makeText(context, "out of radius", Toast.LENGTH_SHORT).show();
         return false;
     }
 }
