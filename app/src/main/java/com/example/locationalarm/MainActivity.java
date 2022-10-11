@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     final static String FILE_NAME = "data.txt";
     final static String DIR_PATH = "FilesDir";
     final static String SPLITTER = "ZM֎";
+    final static int MAX_NAME_LENGTH = 30;
     RecyclerView recyclerView;
     RecyclerAdapter adapter;
 

@@ -23,6 +23,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
@@ -133,7 +134,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         holder.moreButton.setOnClickListener((v) -> {
             // Initializing the popup menu and giving the reference as current context
             PopupMenu popupMenu = new PopupMenu(context, holder.moreButton);
-
+            Functions.showIconsForPopupMenu(popupMenu, context);
             // Inflating popup menu from popup_menu.xml file
             popupMenu.getMenuInflater().inflate(R.menu.edit_delete_menu, popupMenu.getMenu());
             popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
@@ -141,6 +142,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                 public boolean onMenuItemClick(MenuItem menuItem) {
                     String name = holder.getTitleLocation().getText().toString();
                     ItemData item = MainActivity.data.get(name);
+
                     // Toast message on menu item clicked
                     if (menuItem.getItemId() == R.id.edit_button_menu) {
                         // create intent of the edit activity
@@ -154,6 +156,26 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                         Functions.SaveData(context, MainActivity.data);
 
                         context.startActivity(new Intent(context, MainActivity.class));
+                    }
+                    else if (menuItem.getItemId() == R.id.duplicate_button_menu) {
+                        // duplicate item
+                        String newName = item.getName() + "(copy)";
+                        if (newName.length() < MainActivity.MAX_NAME_LENGTH) {
+                            ItemData dupe = new ItemData(
+                                    newName,
+                                    item.getAddress(),
+                                    item.getLatitude(),
+                                    item.getLongitude(),
+                                    item.getAlarmDistance());
+
+                            MainActivity.data.put(newName, dupe);
+                            Functions.SaveData(context, MainActivity.data);
+
+                            context.startActivity(new Intent(context, MainActivity.class));
+                        }
+                        else { // in case of name too long
+                            Toast.makeText(context, "Cannot duplicate: Name is too long", Toast.LENGTH_LONG).show();
+                        }
                     }
                     return true;
                 }

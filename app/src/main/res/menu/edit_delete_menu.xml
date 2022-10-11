@@ -6,15 +6,21 @@
     <item
         android:id="@+id/edit_button_menu"
         android:icon="@drawable/ic_baseline_edit_24"
-        android:iconTint="@color/white"
         android:orderInCategory="0"
         android:title="Edit" />
+
+    <item
+        android:id="@+id/duplicate_button_menu"
+        android:icon="@drawable/ic_baseline_content_copy_24"
+        android:orderInCategory="1"
+        android:title="Duplicate" />
+
     <item
         android:id="@+id/delete_button_menu"
         android:icon="@drawable/ic_baseline_delete_24"
-        android:iconTint="@color/white"
-        android:orderInCategory="1"
+        android:orderInCategory="2"
         android:title="Delete" />
+
 
 
 </menu>
