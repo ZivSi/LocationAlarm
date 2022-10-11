@@ -7,6 +7,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -23,6 +24,8 @@ import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class Functions {
     /*
@@ -213,5 +216,16 @@ turn a hashmap of string and itemdata into an arraylist of itemdata
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+
+    static boolean startLocationAlarm(String longitude, String latitude, int radius, Context context) {
+        LocationFinder locationFinder = new LocationFinder(longitude, latitude, context);
+        int dist = locationFinder.getDistanceFromUserToDestination();
+        if (dist <= radius)  {
+            Toast.makeText(context, "You are in the radius", Toast.LENGTH_SHORT).show();
+            return true;
+        }
+        return false;
     }
 }

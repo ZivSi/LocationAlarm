@@ -74,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
         recyclerView = (RecyclerView) items.get(0);
         adapter = (RecyclerAdapter) items.get(1);
         Functions.initSearchRecycler(searchBox, dataArrayList, fixedData, adapter);
+        LocationFinder.getLocationPermission(this);
     }
 
     @Override

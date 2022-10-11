@@ -3,13 +3,12 @@ package com.example.locationalarm;
 
 import static androidx.core.content.ContextCompat.startActivity;
 
-import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.util.Log;
+import android.os.Handler;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 
@@ -24,12 +23,12 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
     // All data that will be in the recycler view will be here
@@ -201,7 +200,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             activateButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // todo: activate alarm
+                    // todo: activate alarm every second and check if user is at destination
                 }
             });
         });
