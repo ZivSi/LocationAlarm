@@ -5,7 +5,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -21,6 +20,8 @@ import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
+    static String COORDINATED_TAG = "COORDINATED_TAG";
+    static String DISTANCE_TAG = "DISTANCE_TAG";
     final static String FILE_NAME = "data.txt";
     final static String DIR_PATH = "FilesDir";
     final static String SPLITTER = "ZM֎";
@@ -41,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
     Thread openSettingsThread;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,6 +50,8 @@ public class MainActivity extends AppCompatActivity {
         Objects.requireNonNull(getSupportActionBar()).hide(); // Prevent null pointer exception
 
         openSettingsThread = new Thread(() -> startActivity(new Intent(MainActivity.this, Settings.class)));
+
+        // serviceIntent = new Intent(this, AppService.class);
 
         initViews();
 
@@ -125,5 +129,19 @@ public class MainActivity extends AppCompatActivity {
     public void OpenSettings(View view) {
         // Animate
         settingsButton.startAnimation(settings_animation);
+    }
+
+    public void startLocationActiveMode(View view) {
+
+        new Thread(() -> {
+            while (Functions.isServiceRunning(this, new AppService())) {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                Toast.makeText(this, "Location active", Toast.LENGTH_SHORT).show();
+            }
+        }).start();
     }
 }

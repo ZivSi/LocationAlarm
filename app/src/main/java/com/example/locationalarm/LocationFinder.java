@@ -2,118 +2,199 @@ package com.example.locationalarm;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
+import android.os.Looper;
+import android.util.Log;
 
-import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
 import com.google.android.gms.location.LocationServices;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 
-public class LocationFinder {
-    // init variables
-    public String latitude;
-    public String longitude;
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
-    private String destlatitude;
-    private String destlongitude;
+public class LocationFinder extends ActivityCompat {
+    private int UPDATE_INTERVAL = 1000 * 2; // 2 seconds
+
+    // Of user
+    private String latitude = "0";
+    private String longitude = "0";
+
+    // Destination location
+    private String destLatitude;
+    private String destLongitude;
 
     private FusedLocationProviderClient fusedLocationClient;
+    private LocationRequest locationRequest;
+    private LocationCallback locationCallback;
+    private Geocoder geocoder;
+
     Context context;
 
-    public LocationFinder(String destLongitude, String destLatitude, Context context) {
-        this.destlatitude = destLatitude;
-        this.destlongitude = destLongitude;
-        this.context = context;
-        this.fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
-    }
-
-    // get the permission to access the location of the user
-    public static boolean getLocationPermission(Context context) {
-        if(ActivityCompat.checkSelfPermission(context,
-                Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-            // if permission is granted
-            return true;
-        }
-        else{
-            // if permission is denied
-            ActivityCompat.requestPermissions((MainActivity) context,
-                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
-            return false;
-        }
-    }
-
-    // get the current location of the user
     @SuppressLint("MissingPermission")
-    private String[] getUserLocation(){
-        if(getLocationPermission(context)) {
-            // check if permission is granted
-            fusedLocationClient.getLastLocation().addOnCompleteListener(new OnCompleteListener<Location>() {
-                @Override
-                public void onComplete(@NonNull Task<Location> task) {
-                    // extract location and convert it to longitude and latitude
-                    Location location = task.getResult();
-                    if(location != null){
-                        // get locations
-                        latitude = String.valueOf(location.getLatitude());
-                        longitude = String.valueOf(location.getLongitude());
-                    }
-                }
-            });
-            return new String[]{latitude, longitude};
+    public LocationFinder(String destLongitude, String destLatitude, Context context) {
+        this.destLatitude = destLatitude;
+        this.destLongitude = destLongitude;
+        this.context = context;
+
+        setLocationRequest();
+
+        setLocationCallback();
+
+        this.fusedLocationClient = LocationServices.getFusedLocationProviderClient(context);
+        this.fusedLocationClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
+    }
+
+    /**
+     * Ask for location permission
+     */
+    public static void getLocationPermission(Context context) {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) context, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
-        // if permission is not granted
-        return new String[]{"", ""};
     }
 
+    /**
+     * Calculate distance between two points
+     *
+     * @return Distance in Meters
+     */
+    public double calcDistance(double user_lat, double dest_lat, double user_long, double dest_long) {
 
-    public String getLatitude() {
-        return latitude;
-    }
+        final int R = 6371; // Radius of the earth
 
-    public String getLongitude() {
-        return longitude;
+        double latDistance = Math.toRadians(dest_lat - user_lat); // turn degrees to radians
+        double lonDistance = Math.toRadians(dest_long - user_long);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) // take in the earth curvature to the equation
+                + Math.cos(Math.toRadians(user_lat)) * Math.cos(Math.toRadians(dest_lat)) * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+
+        return (R * c * 1000); // Convert to meters
     }
 
 
     /**
-     * Calculate distance between two points in latitude and longitude . If you are not interested in height
-     * difference pass 0.0. Uses Haversine method as its base.
+     * Get the absolute distance between the user and the destination using `calcDistance`
      *
-     * lat1, lon1 Start point lat2, lon2 End point
      * @return Distance in Meters
      */
-    private double calcDistance(double lat1, double lat2, double lon1, double lon2) {
+    public int getDistanceFromUserToDestination() {
 
-        final int R = 6371; // Radius of the earth
+        double lat1 = Double.parseDouble(latitude);
+        double long1 = Double.parseDouble(longitude);
 
-        double latDistance = Math.toRadians(lat2 - lat1); // turn degrees into radians
-        double lonDistance = Math.toRadians(lon2 - lon1);
-        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) // take in the earth curvature to the equation
-                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
-                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
-        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        // calculate the distance between the user and the destination
+        double distance = calcDistance(lat1, Double.parseDouble(destLatitude), long1, Double.parseDouble(destLongitude));
+        return Math.abs((int) distance); // absolute value of the distance
+    }
 
-        return (R * c * 1000); // convert to meters
+    /**
+     * Function that gets the user's location
+     */
+    public void getLocation() {
+        if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+
+        this.fusedLocationClient.getLastLocation().addOnCompleteListener(task -> {
+            // Initialize location
+            Location location = task.getResult();
+
+            if (location != null) {
+                // Success
+                try {
+                    geocoder = new Geocoder(context, Locale.getDefault());
+
+                    List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+
+                    latitude = String.valueOf(addresses.get(0).getLatitude());
+                    longitude = String.valueOf(addresses.get(0).getLongitude());
+
+                    printCurrentAccuracy(location.getAccuracy());
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+    }
+
+    /**
+     * Print the current accuracy of the location
+     */
+    private void printCurrentAccuracy(float accuracy) {
+        if (accuracy <= 2) {
+            Log.d("Location Update", "Accuracy: Very High");
+        } else if (accuracy <= 8) {
+            Log.d("Location Update", "Accuracy: High");
+
+        } else if (accuracy <= 20) {
+            Log.d("Location Update", "Accuracy: Medium");
+
+        } else if (accuracy <= 30) {
+            Log.d("Location Update", "Accuracy: Low");
+
+        } else if (accuracy <= 60) {
+            Log.d("Location Update", "Accuracy: Very Low");
+        }
     }
 
 
-    // get the absolute distance between the user and the destination
-    public int getDistanceFromUserToDestination(){
-        if (getLocationPermission((context))){
-            // get the current location of the user
-            String[] userLocation = getUserLocation();
-            // fixme: the user location is not working and is always null
-            double long1 = Double.parseDouble(userLocation[0]);
-            double lat1 = Double.parseDouble(userLocation[1]);
-            // calculate the distance between the user and the destination
-            double distance = calcDistance(lat1, Double.parseDouble(destlatitude), long1, Double.parseDouble(destlongitude));
-            return Math.abs((int) distance); // absolute value of the distance
-        }
-        return 0;
+    /**
+     * Function that sets the location request. The priority is set to high accuracy.
+     */
+    private void setLocationRequest() {
+        this.locationRequest = LocationRequest.create();
+        this.locationRequest.setInterval(UPDATE_INTERVAL); // Update every 2 seconds
+        this.locationRequest.setFastestInterval(0); // The fastest update
+        this.locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); // Set as high priority
+    }
+
+    /*
+     * Init to the location callback object
+     */
+    public void setLocationCallback() {
+        // With every update of the location, the callback will be called
+        this.locationCallback = new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                if (locationResult == null) {
+                    return;
+                }
+                for (Location location : locationResult.getLocations()) {
+                    latitude = String.valueOf(location.getLatitude());
+                    longitude = String.valueOf(location.getLongitude());
+
+
+                    Log.i("Location Update", "Location: " + location.getLatitude() + " | " + location.getLongitude() + "\n");
+                }
+            }
+        };
+    }
+
+    /**
+     * Set time to update location
+     */
+    public void setUPDATE_INTERVAL(int UPDATE_INTERVAL) {
+        this.UPDATE_INTERVAL = UPDATE_INTERVAL;
+
+        // Update the location request
+        setLocationRequest();
+    }
+
+    public void stopLocationUpdates() {
+        this.fusedLocationClient.removeLocationUpdates(locationCallback);
+
+        Log.i("Location Update", "Location updates stopped");
     }
 }

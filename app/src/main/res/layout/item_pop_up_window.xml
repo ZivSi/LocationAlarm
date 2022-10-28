@@ -123,6 +123,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
+        android:onClick="startLocationActiveMode"
         android:text="Activate"
         app:backgroundTint="@color/Green"
         app:layout_constraintEnd_toEndOf="parent"

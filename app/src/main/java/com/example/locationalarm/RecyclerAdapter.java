@@ -8,7 +8,6 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.os.Handler;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 
@@ -29,7 +28,6 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
 
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicBoolean;
 
 public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHolder> {
     // All data that will be in the recycler view will be here
@@ -156,24 +154,17 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
                         Functions.SaveData(context, MainActivity.data);
 
                         context.startActivity(new Intent(context, MainActivity.class));
-                    }
-                    else if (menuItem.getItemId() == R.id.duplicate_button_menu) {
+                    } else if (menuItem.getItemId() == R.id.duplicate_button_menu) {
                         // duplicate item
                         String newName = item.getName() + "(copy)";
                         if (newName.length() < MainActivity.MAX_NAME_LENGTH) {
-                            ItemData dupe = new ItemData(
-                                    newName,
-                                    item.getAddress(),
-                                    item.getLatitude(),
-                                    item.getLongitude(),
-                                    item.getAlarmDistance());
+                            ItemData dupe = new ItemData(newName, item.getAddress(), item.getLatitude(), item.getLongitude(), item.getAlarmDistance());
 
                             MainActivity.data.put(newName, dupe);
                             Functions.SaveData(context, MainActivity.data);
 
                             context.startActivity(new Intent(context, MainActivity.class));
-                        }
-                        else { // in case of name too long
+                        } else { // in case of name too long
                             Toast.makeText(context, "Cannot duplicate: Name is too long", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -197,7 +188,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             popupX = popupView.findViewById(R.id.xCoordinatesChip);
             popupY = popupView.findViewById(R.id.yCoordinatesChip);
 
-            // get the data of the current item clicked and set the variables to the data
+            // Get the data of the current item clicked and set the variables to the data
             String name = holder.getTitleLocation().getText().toString();
             ItemData item = MainActivity.data.get(name);
             assert item != null;
@@ -207,26 +198,42 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
             popupY.setText("Y: " + item.getLatitude());
 
 
-            // create and show dialog
+            // Create and show dialog
             builder.setView(popupView);
             dialog = builder.create();
             dialog.show();
 
-            dismissButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    dialog.dismiss();
-                }
+            dismissButton.setOnClickListener(v12 -> {
+                dialog.dismiss();
+
+                context.stopService(new Intent(context, AppService.class));
             });
 
-            activateButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    // todo: activate alarm every second and check if user is at destination
-                    Functions.startLocationAlarm(item.getLatitude(), item.getLongitude(), Integer.parseInt(item.getAlarmDistance()), context);
-                }
+            activateButton.setOnClickListener(v1 -> {
+                startService(context, item);
             });
         });
+    }
+
+    public void startService(Context context, ItemData item) {
+        // Set the dest variables in the service, and start the service
+        Intent intent = new Intent(context, AppService.class);
+
+        // Put data which coordinates to go to and the distance to alert
+        intent.putExtra(MainActivity.COORDINATED_TAG, item.getLatitude() + "," + item.getLongitude());
+        intent.putExtra(MainActivity.DISTANCE_TAG, item.getAlarmDistance());
+
+        context.startService(intent);
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     @Override

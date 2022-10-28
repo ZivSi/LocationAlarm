@@ -1,5 +1,6 @@
 package com.example.locationalarm;
 
+import android.app.ActivityManager;
 import android.content.Context;
 import android.os.Build;
 import android.text.Editable;
@@ -27,8 +28,6 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class Functions {
     /*
@@ -224,7 +223,7 @@ turn a hashmap of string and itemdata into an arraylist of itemdata
 
     // before opening a popup menu use this function to make
     // the icons on the popup menu appear
-    static void showIconsForPopupMenu(PopupMenu popup, Context context){
+    static void showIconsForPopupMenu(PopupMenu popup, Context context) {
         try {
             Field[] fields = popup.getClass().getDeclaredFields();
             for (Field field : fields) {
@@ -232,24 +231,40 @@ turn a hashmap of string and itemdata into an arraylist of itemdata
                     field.setAccessible(true);
                     Object menuPopupHelper = field.get(popup);
                     Class<?> classPopupHelper = Class.forName(menuPopupHelper.getClass().getName());
-                    Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon",boolean.class);
+                    Method setForceIcons = classPopupHelper.getMethod("setForceShowIcon", boolean.class);
                     setForceIcons.invoke(menuPopupHelper, true);
                     break;
                 }
             }
         } catch (Exception e) {
-            e.printStackTrace();}
+            e.printStackTrace();
+        }
     }
 
 
     static boolean startLocationAlarm(String longitude, String latitude, int radius, Context context) {
         LocationFinder locationFinder = new LocationFinder(longitude, latitude, context);
         int dist = locationFinder.getDistanceFromUserToDestination();
-        if (dist <= radius)  {
+        if (dist <= radius) {
             Toast.makeText(context, "You are in the radius", Toast.LENGTH_SHORT).show();
             return true;
         }
         Toast.makeText(context, "out of radius", Toast.LENGTH_SHORT).show();
+        return false;
+    }
+
+    /**
+     * @param service specific service to check
+     * @return if service is running or not
+     */
+    static boolean isServiceRunning(Context context, AppService service) {
+        ActivityManager manager = (ActivityManager) context.getSystemService(Context.ACTIVITY_SERVICE);
+
+        for (ActivityManager.RunningServiceInfo runnnigService : manager.getRunningServices(Integer.MAX_VALUE)) {
+            if (service.getClass().getName().equals(runnnigService.service.getClassName())) {
+                return true;
+            }
+        }
         return false;
     }
 }
