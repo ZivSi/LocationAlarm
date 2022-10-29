@@ -53,7 +53,6 @@ public class AppService extends Service {
             return;
         }
 
-
         // Get destination location and initialize locationFinder
         init();
 

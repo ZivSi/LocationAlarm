@@ -2,7 +2,6 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -36,9 +35,11 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="10dp"
-            android:text="School - Some Text :)"
+            android:maxWidth="260dp"
+            android:maxLines="1"
+            android:text="School - Some Text"
             android:textColor="@color/black"
-            android:textSize="24sp"
+            android:textSize="22sp"
             app:layout_constraintStart_toEndOf="@+id/locationImageView"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,8 +47,8 @@
             android:id="@+id/moreBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/circle"
             android:layout_marginTop="10dp"
+            android:background="@drawable/circle"
             android:backgroundTint="@color/white"
             android:scaleX="1.1"
             android:scaleY="1.1"
@@ -90,15 +91,15 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="20dp"
-            android:scaleX="1.6"
-            android:scaleY="1.6"
             android:background="@drawable/circle"
             android:backgroundTint="@color/white"
+            android:scaleX="1.6"
+            android:scaleY="1.6"
             android:src="@drawable/play_arrow"
-            app:tint="@color/white"
             app:backgroundTint="@color/Green"
             app:layout_constraintEnd_toStartOf="@+id/moreBtn"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:tint="@color/white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
