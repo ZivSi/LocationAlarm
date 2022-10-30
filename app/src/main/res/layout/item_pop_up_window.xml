@@ -91,24 +91,25 @@
         android:id="@+id/xCoordinatesChip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="5dp"
+        android:layout_marginTop="16dp"
         android:text="X: 33.343424"
         android:textColor="@color/white"
         app:chipBackgroundColor="@color/purple_500"
-        app:layout_constraintEnd_toStartOf="@+id/guideLine"
+        app:layout_constraintEnd_toEndOf="@+id/coordinatesTitleTextView"
+        app:layout_constraintStart_toStartOf="@+id/coordinatesTitleTextView"
         app:layout_constraintTop_toBottomOf="@+id/coordinatesTitleTextView" />
 
     <com.google.android.material.chip.Chip
         android:id="@+id/yCoordinatesChip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
+        android:layout_marginTop="4dp"
         android:text="Y: 38.343424"
         android:textColor="@color/white"
         app:chipBackgroundColor="@color/purple_500"
-        app:layout_constraintStart_toEndOf="@+id/xCoordinatesChip"
-        app:layout_constraintTop_toTopOf="@+id/xCoordinatesChip" />
+        app:layout_constraintEnd_toEndOf="@+id/xCoordinatesChip"
+        app:layout_constraintStart_toStartOf="@+id/xCoordinatesChip"
+        app:layout_constraintTop_toBottomOf="@+id/xCoordinatesChip" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideLine"
@@ -122,7 +123,7 @@
         android:id="@+id/activateButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="64dp"
         android:onClick="startLocationActiveMode"
         android:text="Activate"
         app:backgroundTint="@color/Green"

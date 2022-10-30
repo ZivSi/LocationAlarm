@@ -281,6 +281,4 @@ public class EditLayout extends AppCompatActivity {
         findViewById(R.id.addressLayout).setVisibility(View.VISIBLE);
         isAddress = true;
     }
-    // TODO: make address text input auto complete
-
 }

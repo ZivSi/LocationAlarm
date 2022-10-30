@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.ViewGroup;
 
@@ -117,16 +118,20 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         // Address too long
         if (currentItem.getAddress().length() > 30) {
-            holder.getAddress().setText("Address: " + currentItem.getAddress().substring(0, 30) + "...");
+            holder.getAddress().setText("Address: " + currentItem.getAddress().substring(0, 28) + "...");
         } else {
             holder.getAddress().setText("Address: " + currentItem.getAddress());
         }
 
         // Set color to chip distance by far or close
-        if (Integer.parseInt(currentItem.getAlarmDistance()) > 2000) {
+        int dist = Integer.parseInt(currentItem.getAlarmDistance());
+        holder.getDistanceAlert().setText(dist + " m");
+        if (dist >= 1000) { // set violet
+            holder.getDistanceAlert().setChipBackgroundColor(ColorStateList.valueOf(context.getResources().getColor(R.color.Orange)));
+            holder.getDistanceAlert().setText((dist / 1000) + " km"); // Convert to km if bigger than 1000
+        }
+        if (dist >= 5000) { // set red
             holder.getDistanceAlert().setChipBackgroundColor(ColorStateList.valueOf(context.getResources().getColor(R.color.OrangeRed)));
-        } else if (Integer.parseInt(currentItem.getAlarmDistance()) > 1000) {
-            holder.getDistanceAlert().setChipBackgroundColor(ColorStateList.valueOf(context.getResources().getColor(R.color.PaleVioletRed)));
         }
 
         holder.moreButton.setOnClickListener((v) -> {

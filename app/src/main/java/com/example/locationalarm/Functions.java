@@ -65,21 +65,17 @@ turn a hashmap of string and itemdata into an arraylist of itemdata
 
                 dataArrayList.clear();
 
-                for (ItemData item : fixedData) {
-                    Log.d("Tag", "afterTextChanged: Checking item: " + item.getName());
-                    if (item.getName().toLowerCase().contains(String.valueOf(s).toLowerCase()) || item.getAddress().toLowerCase().contains(String.valueOf(s).toLowerCase()) || item.getLatitude().toLowerCase().contains(String.valueOf(s).toLowerCase()) || item.getLongitude().toLowerCase().contains(String.valueOf(s).toLowerCase())) {
-
-                        Log.d("Tag", "afterTextChanged: " + item.getName() + " Should be");
+                for (ItemData item : fixedData) { // check all fields in the item
+                    if (item.getName().toLowerCase().contains(String.valueOf(s).toLowerCase()) ||
+                            item.getAddress().toLowerCase().contains(String.valueOf(s).toLowerCase()) ||
+                            item.getLatitude().toLowerCase().contains(String.valueOf(s).toLowerCase()) ||
+                            item.getLongitude().toLowerCase().contains(String.valueOf(s).toLowerCase())) {
                         if (!dataArrayList.contains(item)) {
-                            Log.d("Tag", "afterTextChanged: " + item.getName() + " Added");
                             dataArrayList.add(item);
                         }
-
-                    } else {
-                        Log.d("Tag", "afterTextChanged: " + item.getName() + " Should not be");
-
+                    }
+                    else {
                         if (dataArrayList.contains(item)) {
-                            Log.d("Tag", "afterTextChanged: " + item.getName() + " Removed");
                             dataArrayList.remove(item);
                         }
                     }
@@ -123,6 +119,7 @@ turn a hashmap of string and itemdata into an arraylist of itemdata
     }
 
     /**
+     * set data ready for saving to file
      * @param data Map of data to save to file
      * @return data as organized string
      */

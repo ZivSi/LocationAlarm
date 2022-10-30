@@ -2,6 +2,7 @@
 
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/cardLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -62,15 +63,16 @@
             style="@style/Widget.MaterialComponents.Chip.Choice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:text="50M"
             android:textColor="@color/white"
             android:textSize="12sp"
-            app:chipBackgroundColor="@color/purple_700"
+            app:chipBackgroundColor="@color/purple_500"
             app:chipIcon="@drawable/ic_baseline_straighten_24"
             app:chipIconTint="@color/white"
             app:chipIconVisible="true"
-            app:layout_constraintStart_toStartOf="@+id/nameTextView"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/nameTextView" />
 
         <com.google.android.material.chip.Chip
