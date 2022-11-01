@@ -136,12 +136,11 @@ public class EditLayout extends AppCompatActivity {
         // get fields
         String name = nameBox.getText().toString().replaceAll(":", "");
         // check for empty fields
-        if (name.isEmpty()) {
+        if (name.isEmpty() || x.isEmpty() || y.isEmpty()) {
             ((TextView) snackbarView.findViewById(R.id.error_message)).setText("Please fill all the fields");
             snackbar.show();
             return;
         }
-        if (x.isEmpty() || y.isEmpty())return;
         // check if the name is already taken
         if (MainActivity.data.containsKey(name)) {
             ((TextView) snackbarView.findViewById(R.id.error_message)).setText("Name already exists");

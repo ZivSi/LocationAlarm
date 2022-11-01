@@ -2,15 +2,6 @@
 
     <PreferenceCategory app:title="General">
 
-
-        <ListPreference
-            app:entries="@array/ringtone_names"
-            app:entryValues="@array/ringtone_names"
-            app:key="ringtone"
-            app:icon="@drawable/ic_baseline_volume_up_24"
-            app:title="Ringtone"
-            app:useSimpleSummaryProvider="true" />
-
         <SwitchPreferenceCompat
             app:key="vibrate"
             app:title="Vibrate"
@@ -23,6 +14,16 @@
             app:icon="@drawable/ic_baseline_straighten_24"
             app:title="Default Distance"
             app:defaultValue="100"
+            app:useSimpleSummaryProvider="true" />
+<!--        switch to dark mode-->
+        <ListPreference
+            app:entries="@array/theme_names"
+            app:entryValues="@array/theme_values"
+            app:key="theme"
+            app:summary="Select a theme, after select exit settings and theme will apply"
+            app:icon="@drawable/ic_outline_brightness_6_24"
+            app:title="Theme"
+            app:defaultValue="System default"
             app:useSimpleSummaryProvider="true" />
 
     </PreferenceCategory>
