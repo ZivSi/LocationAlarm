@@ -18,6 +18,8 @@ import java.util.Objects;
 
 public class Settings extends AppCompatActivity {
     static Map<String, ?> allEntries;
+    private SharedPreferences.OnSharedPreferenceChangeListener listener;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,37 +40,37 @@ public class Settings extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
         }
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.registerOnSharedPreferenceChangeListener(sharedPreferenceChangeListener);
     }
 
 
     public static class SettingsFragment extends PreferenceFragmentCompat {
-        @Override
+
         public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
             setPreferencesFromResource(R.xml.root_preferences, rootKey);
         }
     }
 
-    // put the settings in variable
-    public static void getInfo(Context ct){
-        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(ct);
-        allEntries = sp.getAll();
-    }
 
-    public static void updateTheme(Context ct) {
-        try { // update the theme of the app //TODO:  use onpreferencechanged listener instead
-            Settings.getInfo(ct);
-            Log.d("Settings", " resume " + Settings.allEntries.get("theme") + AppCompatDelegate.getDefaultNightMode());
-            if (Objects.equals(Settings.allEntries.get("theme"), "0")) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-            } else if (Objects.equals(Settings.allEntries.get("theme"), "1")) {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-            } else {
-                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+
+
+    SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            allEntries = sharedPreferences.getAll();
+            if (key.equals("theme")) {
+                if (Objects.equals(allEntries.get("theme"), "0")) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                } else if (Objects.equals(allEntries.get("theme"), "1")) {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                } else {
+                    AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+                }
             }
-        } catch (Exception e) {
-            Log.d("Settings", " resume " + e);
+
         }
-    }
+    };
 }
 
 

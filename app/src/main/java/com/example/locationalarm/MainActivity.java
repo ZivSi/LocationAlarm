@@ -92,7 +92,6 @@ public class MainActivity extends AppCompatActivity {
         dataArrayList = Functions.dataAsArray(data);
         fixedData = new ArrayList<>(dataArrayList);
         adapter.updateData(dataArrayList);
-        Settings.updateTheme(this);
     }
 
     /**

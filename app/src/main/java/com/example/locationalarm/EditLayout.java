@@ -90,9 +90,6 @@ public class EditLayout extends AppCompatActivity {
         snackbarView.setPadding(-10, 0, -10, 0);
         snackbarView.addView(custom_view, 0);
 
-
-        Settings.getInfo(this);
-
         // onchange listener for seekbar
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -112,7 +109,6 @@ public class EditLayout extends AppCompatActivity {
 
 
     private void setDefaultDist() {
-        Settings.getInfo(this);
         // get the value from the settings
         seekBar.setProgress(Integer.parseInt(String.valueOf(Settings.allEntries.get("default_distance"))));
         getDistance();
