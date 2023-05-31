@@ -24,7 +24,7 @@ import java.util.List;
 import java.util.Locale;
 
 public class LocationFinder extends ActivityCompat {
-    private int UPDATE_INTERVAL = 1000 * 2; // 2 seconds
+    private int UPDATE_INTERVAL = 1000 * 5; // 2 seconds
 
     // Of user
     private String latitude = "0";
@@ -156,7 +156,7 @@ public class LocationFinder extends ActivityCompat {
     private void setLocationRequest() {
         this.locationRequest = LocationRequest.create();
         this.locationRequest.setInterval(UPDATE_INTERVAL); // Update every 2 seconds
-        this.locationRequest.setFastestInterval(0); // The fastest update
+        this.locationRequest.setFastestInterval(2000); // The fastest update
         this.locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); // Set as high priority
     }
 

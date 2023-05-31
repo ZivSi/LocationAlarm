@@ -59,6 +59,7 @@ public class AppService extends Service {
 
         // Start loop
         startLocationLoop(this, locationFinder, distanceAlert);
+        Toast.makeText(this, "Location active", Toast.LENGTH_SHORT).show();
     }
 
     private void init() {
@@ -94,7 +95,8 @@ public class AppService extends Service {
      * Start checking location on loop
      */
     private void startLocationLoop(Context context, LocationFinder locationFinder, int distanceAlert) {
-        new Thread(() -> {
+        // TODO: make this a thread that runs in the background
+        Thread tr = new Thread(() -> {
             while (!stopSelf) {
                 locationFinder.getLocation();
 
@@ -103,8 +105,8 @@ public class AppService extends Service {
                     stopSelf = true;
 
 
-                    // TODO: Show notification
-                    Toast.makeText(context, "You are near your destination", Toast.LENGTH_SHORT).show();
+                    // TODO: Show notification and start alarm
+                    Toast.makeText(context, "You are near your destination", Toast.LENGTH_LONG).show();
                 }
 
 
@@ -120,6 +122,8 @@ public class AppService extends Service {
                     e.printStackTrace();
                 }
             }
-        }).start();
+        });
+        tr.setDaemon(true);
+        tr.start();
     }
 }

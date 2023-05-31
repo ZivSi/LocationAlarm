@@ -110,7 +110,11 @@ public class EditLayout extends AppCompatActivity {
 
     private void setDefaultDist() {
         // get the value from the settings
-        seekBar.setProgress(Integer.parseInt(String.valueOf(Settings.allEntries.get("default_distance"))));
+        try{
+            seekBar.setProgress(Integer.parseInt(String.valueOf(Settings.allEntries.get("default_distance"))));
+        } catch (Exception e) {
+            seekBar.setProgress(0);
+        }
         getDistance();
     }
 

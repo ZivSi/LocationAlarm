@@ -226,7 +226,7 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
         // Put data which coordinates to go to and the distance to alert
         intent.putExtra(MainActivity.COORDINATED_TAG, item.getLatitude() + "," + item.getLongitude());
-        intent.putExtra(MainActivity.DISTANCE_TAG, item.getAlarmDistance());
+        intent.putExtra(MainActivity.DISTANCE_TAG, Integer.parseInt(item.getAlarmDistance()));
 
         context.startService(intent);
     }

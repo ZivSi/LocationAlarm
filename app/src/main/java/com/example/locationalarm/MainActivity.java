@@ -26,7 +26,7 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
     static String COORDINATED_TAG = "COORDINATED_TAG";
-    static String DISTANCE_TAG = "DISTANCE_TAG";
+    final static String DISTANCE_TAG = "DISTANCE_TAG";
     final static String FILE_NAME = "data.txt";
     final static String DIR_PATH = "FilesDir";
     final static String SPLITTER = "ZM֎";
@@ -134,17 +134,22 @@ public class MainActivity extends AppCompatActivity {
         settingsButton.startAnimation(settings_animation);
     }
 
-    public void startLocationActiveMode(View view) {
+    // ! DEPRICATED function. use the one in app service.java
+    public static void startLocationActiveMode(View view) {
+        // TODO: check if service is already running and if so, don't start it again
+        Log.i("uuuuuuuuuuppppppppppppppddddddddate", "this is test:" + "\n");
 
-        new Thread(() -> {
-            while (Functions.isServiceRunning(this, new AppService())) {
+        Thread tr = new Thread(() -> {
+            while (Functions.isServiceRunning(view.getContext(), new AppService())) {
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(10000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                Toast.makeText(this, "Location active", Toast.LENGTH_SHORT).show();
             }
-        }).start();
+        });
+
+        tr.setDaemon(true);
+        tr.start();
     }
 }
