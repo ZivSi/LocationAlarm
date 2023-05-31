@@ -156,7 +156,7 @@ public class LocationFinder extends ActivityCompat {
     private void setLocationRequest() {
         this.locationRequest = LocationRequest.create();
         this.locationRequest.setInterval(UPDATE_INTERVAL); // Update every 2 seconds
-        this.locationRequest.setFastestInterval(2000); // The fastest update
+        this.locationRequest.setFastestInterval(UPDATE_INTERVAL); // The fastest update
         this.locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); // Set as high priority
     }
 

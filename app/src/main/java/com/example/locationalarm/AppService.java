@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.IBinder;
+import android.os.Looper;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -19,6 +20,7 @@ Then it will use the LocationFinder object to set the current location and calcu
  */
 
 public class AppService extends Service {
+
     boolean stopSelf = false;
 
     String destLatitude;
@@ -50,6 +52,7 @@ public class AppService extends Service {
         boolean permissionGranted = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
 
         if (!permissionGranted) {
+            Toast.makeText(this, "Permission not granted\nchange permissions in settings", Toast.LENGTH_LONG).show();
             return;
         }
 
@@ -97,8 +100,12 @@ public class AppService extends Service {
     private void startLocationLoop(Context context, LocationFinder locationFinder, int distanceAlert) {
         // TODO: make this a thread that runs in the background
         Thread tr = new Thread(() -> {
+            Looper.prepare();
+            Intent broadcastIntent = new Intent("com.example.locationalarm.distance");
             while (!stopSelf) {
                 locationFinder.getLocation();
+                broadcastIntent.putExtra("distance", locationFinder.getDistanceFromUserToDestination());
+                sendBroadcast(broadcastIntent);
 
                 if (distanceAlert >= locationFinder.getDistanceFromUserToDestination()) {
                     // Stop service
@@ -107,6 +114,8 @@ public class AppService extends Service {
 
                     // TODO: Show notification and start alarm
                     Toast.makeText(context, "You are near your destination", Toast.LENGTH_LONG).show();
+                    locationFinder.stopLocationUpdates();
+                    // TODO: create an alarm activity and Start alarm
                 }
 
 

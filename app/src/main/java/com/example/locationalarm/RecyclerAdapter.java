@@ -221,14 +221,19 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
     }
 
     public void startService(Context context, ItemData item) {
-        // Set the dest variables in the service, and start the service
-        Intent intent = new Intent(context, AppService.class);
-
-        // Put data which coordinates to go to and the distance to alert
+        Intent intent = new Intent(context, ActiveTracking.class);
+        intent.putExtra("name", item.getName());
         intent.putExtra(MainActivity.COORDINATED_TAG, item.getLatitude() + "," + item.getLongitude());
         intent.putExtra(MainActivity.DISTANCE_TAG, Integer.parseInt(item.getAlarmDistance()));
-
-        context.startService(intent);
+        context.startActivity(intent);
+        // Set the dest variables in the service, and start the service
+//        Intent intent = new Intent(context, AppService.class);
+//
+//        // Put data which coordinates to go to and the distance to alert
+//        intent.putExtra(MainActivity.COORDINATED_TAG, item.getLatitude() + "," + item.getLongitude());
+//        intent.putExtra(MainActivity.DISTANCE_TAG, Integer.parseInt(item.getAlarmDistance()));
+//
+//        context.startService(intent);
     }
 
     @Override
