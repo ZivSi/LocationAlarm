@@ -12,16 +12,22 @@ import android.widget.TextView;
 
 import com.google.android.material.button.MaterialButton;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class ActiveTracking extends AppCompatActivity {
 
     String coordinates;
     int distanceAlert;
 
+    Timer timer = new Timer();
+
     private int distance;
-    private int time; // TODO: chage to time object for good fromat
+    private long time = 0; // TODO: chage to time object for good fromat
     private String destination;
 
     private BroadcastReceiver timeBroadcastReceiver;
+    private BroadcastReceiver distanceBroadcastReceiver;
 
     MaterialButton stopTracking;
 
@@ -29,6 +35,7 @@ public class ActiveTracking extends AppCompatActivity {
     TextView distanceTextView;
     TextView timeTextView;
 
+    private Intent broadcastIntent = new Intent("com.example.locationalarm.time");
 
 
     @Override
@@ -62,7 +69,7 @@ public class ActiveTracking extends AppCompatActivity {
 
         destinationTextView.setText(destination);
         updateDistance(0);
-        updateTime(0);
+        updateTime();
 
         stopTracking = findViewById(R.id.stopTracker);
         stopTracking.setOnClickListener(v -> {
@@ -72,17 +79,23 @@ public class ActiveTracking extends AppCompatActivity {
             // stop the activity
             finish();
         });
+
+        timer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                sendBroadcast(broadcastIntent);
+            }
+        }, 1000, 1000 );
+
     }
 
     public void startTimeUpdater() {
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Intent.ACTION_TIME_TICK);
+        IntentFilter intentFilter = new IntentFilter("com.example.locationalarm.time");
         timeBroadcastReceiver = new BroadcastReceiver() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onReceive(android.content.Context context, Intent intent) {
-                time++;
-                updateTime(time);
+                updateTime();
             }
         };
         registerReceiver(timeBroadcastReceiver, intentFilter);
@@ -90,7 +103,7 @@ public class ActiveTracking extends AppCompatActivity {
 
     public void startDistanceUpdater() {
         IntentFilter intentFilter = new IntentFilter("com.example.locationalarm.distance");
-        timeBroadcastReceiver = new BroadcastReceiver() {
+        distanceBroadcastReceiver = new BroadcastReceiver() {
             @SuppressLint("SetTextI18n")
             @Override
             public void onReceive(android.content.Context context, Intent intent) {
@@ -98,7 +111,7 @@ public class ActiveTracking extends AppCompatActivity {
                 updateDistance(distance);
             }
         };
-        registerReceiver(timeBroadcastReceiver, intentFilter);
+        registerReceiver(distanceBroadcastReceiver, intentFilter);
     }
 
     public void updateDistance(int distance) {
@@ -106,8 +119,25 @@ public class ActiveTracking extends AppCompatActivity {
         distanceTextView.setText("Distance: " +  distance + " meters");
     }
 
-    public void updateTime(int time){
-        this.time = time;
-        timeTextView.setText("Active time: " + String.valueOf(time) + " minutes");
+    public void updateTime(){
+        time++;
+        String time_formated;
+
+        int hours = (int) time / 3600;
+        int minutes = (int) (time - (hours * 3600)) / 60;
+        int seconds = (int) time - (hours * 3600) - (minutes * 60);
+
+        String str_minutes = String.valueOf(minutes);
+        String str_seconds = String.valueOf(seconds);
+        String str_hours = String.valueOf(hours);
+
+        if (hours   < 10) {str_hours  = "0"+hours;}
+        if (minutes < 10) {str_minutes = "0"+minutes;}
+        if (seconds < 10) {str_seconds = "0"+seconds;}
+
+        time_formated = str_hours+":"+str_minutes+":"+str_seconds;
+
+
+        timeTextView.setText("Active time: " + time_formated);
     }
 }

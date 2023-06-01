@@ -226,14 +226,6 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         intent.putExtra(MainActivity.COORDINATED_TAG, item.getLatitude() + "," + item.getLongitude());
         intent.putExtra(MainActivity.DISTANCE_TAG, Integer.parseInt(item.getAlarmDistance()));
         context.startActivity(intent);
-        // Set the dest variables in the service, and start the service
-//        Intent intent = new Intent(context, AppService.class);
-//
-//        // Put data which coordinates to go to and the distance to alert
-//        intent.putExtra(MainActivity.COORDINATED_TAG, item.getLatitude() + "," + item.getLongitude());
-//        intent.putExtra(MainActivity.DISTANCE_TAG, Integer.parseInt(item.getAlarmDistance()));
-//
-//        context.startService(intent);
     }
 
     @Override
