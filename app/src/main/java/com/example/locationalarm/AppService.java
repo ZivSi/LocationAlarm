@@ -101,21 +101,20 @@ public class AppService extends Service {
         // TODO: make this a thread that runs in the background
         Thread tr = new Thread(() -> {
             Looper.prepare();
-            Intent broadcastIntent = new Intent("com.example.locationalarm.distance");
+            Intent distanceBroadcastIntent = new Intent("com.example.locationalarm.distance");
+            Intent arrivalBroadcastIntent = new Intent("com.example.locationalarm.hasArrived");
             while (!stopSelf) {
                 locationFinder.getLocation();
-                broadcastIntent.putExtra("distance", locationFinder.getDistanceFromUserToDestination());
-                sendBroadcast(broadcastIntent);
+                distanceBroadcastIntent.putExtra("distance", locationFinder.getDistanceFromUserToDestination());
+                sendBroadcast(distanceBroadcastIntent);
 
                 if (distanceAlert >= locationFinder.getDistanceFromUserToDestination()) {
                     // Stop service
                     stopSelf = true;
-
-
-                    // TODO: Show notification and start alarm
-                    Toast.makeText(context, "You are near your destination", Toast.LENGTH_LONG).show();
                     locationFinder.stopLocationUpdates();
-                    // TODO: create an alarm activity and Start alarm
+
+                    arrivalBroadcastIntent.putExtra("hasArrived", true);
+                    sendBroadcast(arrivalBroadcastIntent);
                 }
 
 

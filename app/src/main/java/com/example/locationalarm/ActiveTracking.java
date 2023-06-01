@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -36,7 +37,7 @@ public class ActiveTracking extends AppCompatActivity {
     TextView timeTextView;
 
     private Intent broadcastIntent = new Intent("com.example.locationalarm.time");
-
+    private Intent locationIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,15 +52,16 @@ public class ActiveTracking extends AppCompatActivity {
         initViews();
         startTimeUpdater();
         startDistanceUpdater();
+        stopServicesListener();
 
         // start location tracking
         // Set the dest variables in the service, and start the service
-        Intent it = new Intent(getApplicationContext(), AppService.class);
+        locationIntent = new Intent(getApplicationContext(), AppService.class);
 
         // Put data which coordinates to go to and the distance to alert
-        it.putExtra(MainActivity.COORDINATED_TAG, coordinates);
-        it.putExtra(MainActivity.DISTANCE_TAG, distanceAlert);
-        ComponentName locationService = getApplicationContext().startService(it);
+        locationIntent.putExtra(MainActivity.COORDINATED_TAG, coordinates);
+        locationIntent.putExtra(MainActivity.DISTANCE_TAG, distanceAlert);
+        ComponentName locationService = getApplicationContext().startService(locationIntent);
     }
 
     private void initViews() {
@@ -74,8 +76,8 @@ public class ActiveTracking extends AppCompatActivity {
         stopTracking = findViewById(R.id.stopTracker);
         stopTracking.setOnClickListener(v -> {
             // stop the service
-            Intent it = new Intent(getApplicationContext(), AppService.class);
-            getApplicationContext().stopService(it);
+            timer.cancel();
+            stopService(locationIntent);
             // stop the activity
             finish();
         });
@@ -87,6 +89,20 @@ public class ActiveTracking extends AppCompatActivity {
             }
         }, 1000, 1000 );
 
+    }
+
+    public void stopServicesListener() {
+        IntentFilter intentFilter = new IntentFilter("com.example.locationalarm.hasArrived");
+        timeBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(android.content.Context context, Intent intent) {
+                timer.cancel();
+                stopService(locationIntent);
+                Toast.makeText(getApplicationContext(), "You have arrived", Toast.LENGTH_LONG).show();
+                // TODO: create an alarm activity and Start alarm
+            }
+        };
+        registerReceiver(timeBroadcastReceiver, intentFilter);
     }
 
     public void startTimeUpdater() {
