@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
@@ -24,7 +25,7 @@ public class ActiveTracking extends AppCompatActivity {
     Timer timer = new Timer();
 
     private int distance;
-    private long time = 0; // TODO: chage to time object for good fromat
+    private long time = 0;
     private String destination;
 
     private BroadcastReceiver timeBroadcastReceiver;
@@ -99,7 +100,8 @@ public class ActiveTracking extends AppCompatActivity {
                 timer.cancel();
                 stopService(locationIntent);
                 Toast.makeText(getApplicationContext(), "You have arrived", Toast.LENGTH_LONG).show();
-                // TODO: create an alarm activity and Start alarm
+                Functions.startAlarm(context);
+                finish();
             }
         };
         registerReceiver(timeBroadcastReceiver, intentFilter);

@@ -52,9 +52,6 @@ public class Settings extends AppCompatActivity {
         }
     }
 
-
-
-
     SharedPreferences.OnSharedPreferenceChangeListener sharedPreferenceChangeListener = new SharedPreferences.OnSharedPreferenceChangeListener() {
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
@@ -71,6 +68,11 @@ public class Settings extends AppCompatActivity {
 
         }
     };
+
+    public static boolean getVibrate(Context context) {
+        allEntries = PreferenceManager.getDefaultSharedPreferences(context).getAll();
+        return (boolean) allEntries.get("vibrate");
+    }
 }
 
 
