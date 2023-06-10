@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
         adapter = (RecyclerAdapter) items.get(1);
         Functions.initSearchRecycler(searchBox, dataArrayList, fixedData, adapter);
         LocationFinder.getLocationPermission(this);
+        Functions.checkLocationActive(this);
     }
 
     @Override

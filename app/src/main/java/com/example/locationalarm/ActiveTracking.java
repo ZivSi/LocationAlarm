@@ -55,6 +55,8 @@ public class ActiveTracking extends AppCompatActivity {
         startDistanceUpdater();
         stopServicesListener();
 
+        Functions.checkLocationActive(this);
+
         // start location tracking
         // Set the dest variables in the service, and start the service
         locationIntent = new Intent(getApplicationContext(), AppService.class);
