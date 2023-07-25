@@ -1,11 +1,7 @@
 package com.example.locationalarm;
 
-import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
-import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -14,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -127,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
     public void OpenEditLayout(View view) {
         startActivity(new Intent(this, EditLayout.class));
     }
+
 
 
     public void OpenSettings(View view) {
