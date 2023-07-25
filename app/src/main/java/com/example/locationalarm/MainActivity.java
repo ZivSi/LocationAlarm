@@ -62,16 +62,12 @@ public class MainActivity extends AppCompatActivity {
         // data.clear();
         // Functions.SaveData(this, data);
 
-        // Create an array from the data in the map
         dataArrayList = Functions.dataAsArray(data);
         fixedData = new ArrayList<>(dataArrayList); // Array that will never change, only when removing/adding item to map
 
-        // Show textview if there are no items in recyclerview
         Functions.showTextIfEmpty(noLocationsTextView);
 
 
-        // Set adapter and create recyclerview object
-        // Get ass array because java cannot pass by reference
         ArrayList<Object> items = Functions.initRecyclerView(this, dataArrayList, recyclerView);
 
         recyclerView = (RecyclerView) items.get(0);
@@ -87,6 +83,8 @@ public class MainActivity extends AppCompatActivity {
         dataArrayList = Functions.dataAsArray(data);
         fixedData = new ArrayList<>(dataArrayList);
         adapter.updateData(dataArrayList);
+
+        Functions.showTextIfEmpty(noLocationsTextView);
     }
 
     /**
@@ -122,7 +120,6 @@ public class MainActivity extends AppCompatActivity {
     public void OpenEditLayout(View view) {
         startActivity(new Intent(this, EditLayout.class));
     }
-
 
 
     public void OpenSettings(View view) {

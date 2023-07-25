@@ -1,8 +1,5 @@
 package com.example.locationalarm;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
@@ -13,6 +10,9 @@ import android.view.View;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -109,7 +109,10 @@ public class EditLayout extends AppCompatActivity {
 
 
     private void setDefaultDist() {
-        // get the value from the settings
+        if (Settings.allEntries == null) { // We have some errors here. allEntries is null
+            return;
+        }
+
         seekBar.setProgress(Integer.parseInt(String.valueOf(Settings.allEntries.get("default_distance"))));
         getDistance();
     }
@@ -122,7 +125,8 @@ public class EditLayout extends AppCompatActivity {
 
         if (isEdit) { // remove the original and save the new one
             MainActivity.data.remove(editItem.getName());
-        } ;
+        }
+        ;
         geocoder = new Geocoder(this, Locale.getDefault());
 
         String[] qord = extractAddressAndCoordinates();
@@ -160,6 +164,7 @@ public class EditLayout extends AppCompatActivity {
      * extracts the address and coordinates from the boxes of the location settings
      * that the user enterd, if the user entered an address it will get the coordinates
      * from the address and vice versa
+     *
      * @return the coordinates of the location
      */
     private String[] extractAddressAndCoordinates() {
@@ -172,14 +177,12 @@ public class EditLayout extends AppCompatActivity {
                     ((TextView) snackbarView.findViewById(R.id.error_message)).setText("Address not found");
                     snackbar.show();
                     return new String[]{x, y};
-                }
-                else if (addresses.size() > 0) { // get long and lad
+                } else if (addresses.size() > 0) { // get long and lad
                     address = addresses.get(0).getAddressLine(0);
                     x = String.valueOf(addresses.get(0).getLatitude());
                     y = String.valueOf(addresses.get(0).getLongitude());
                 }
-            }
-            catch (IOException e) {
+            } catch (IOException e) {
                 e.printStackTrace();
             }
         }
@@ -190,8 +193,7 @@ public class EditLayout extends AppCompatActivity {
             y = yCoordinatesBox.getText().toString();
             try { // get address
                 addresses = geocoder.getFromLocation(Double.parseDouble(x), Double.parseDouble(y), 1);
-            }
-            catch (IOException ioException) {
+            } catch (IOException ioException) {
                 ioException.printStackTrace();
             }
 
