@@ -20,8 +20,6 @@ import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity {
-    static String COORDINATED_TAG = "COORDINATED_TAG";
-    static String DISTANCE_TAG = "DISTANCE_TAG";
     final static String FILE_NAME = "data.txt";
     final static String DIR_PATH = "FilesDir";
     final static String SPLITTER = "ZM֎";
@@ -63,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         // Functions.SaveData(this, data);
 
         dataArrayList = Functions.dataAsArray(data);
-        fixedData = new ArrayList<>(dataArrayList); // Array that will never change, only when removing/adding item to map
+        fixedData = new ArrayList<>(dataArrayList); // ArrayList that will never change, only when removing/adding item to map
 
         Functions.showTextIfEmpty(noLocationsTextView);
 
@@ -125,19 +123,5 @@ public class MainActivity extends AppCompatActivity {
     public void OpenSettings(View view) {
         // Animate
         settingsButton.startAnimation(settings_animation);
-    }
-
-    public void startLocationActiveMode(View view) {
-
-        new Thread(() -> {
-            while (Functions.isServiceRunning(this, new AppService())) {
-                try {
-                    Thread.sleep(2000);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                Toast.makeText(this, "Location active", Toast.LENGTH_SHORT).show();
-            }
-        }).start();
     }
 }

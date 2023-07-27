@@ -8,22 +8,20 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
-import android.util.Log;
-import android.view.MenuItem;
-import android.view.ViewGroup;
-
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.chip.Chip;
@@ -225,8 +223,10 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
         Intent intent = new Intent(context, AppService.class);
 
         // Put data which coordinates to go to and the distance to alert
-        intent.putExtra(MainActivity.COORDINATED_TAG, item.getLatitude() + "," + item.getLongitude());
-        intent.putExtra(MainActivity.DISTANCE_TAG, item.getAlarmDistance());
+        intent.putExtra(AppService.COORDINATED_TAG, item.getLatitude() + "," + item.getLongitude());
+        intent.putExtra(AppService.DISTANCE_TAG, item.getAlarmDistance());
+
+        intent.setAction(AppService.START_TRACKING);
 
         context.startService(intent);
     }
