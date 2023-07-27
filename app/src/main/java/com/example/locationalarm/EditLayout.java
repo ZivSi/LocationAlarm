@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -38,7 +40,7 @@ public class EditLayout extends AppCompatActivity {
     List<Address> addresses = new ArrayList<>();
     String address = "";
 
-    ItemData editItem;
+    ItemData currentItem;
     final int[] distances = {100, 250, 500, 750, 1000, 2000, 3000, 5000, 7000, 10000};
 
     @Override
@@ -60,7 +62,7 @@ public class EditLayout extends AppCompatActivity {
         String name;
         isEdit = true;
         name = extras.getString("name");
-        editItem = MainActivity.data.get(name);
+        currentItem = MainActivity.data.get(name);
     }
 
     private boolean thereAreExtras() {
@@ -95,6 +97,7 @@ public class EditLayout extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 getDistance();
+                updateImages(progress);
             }
 
             @Override
@@ -107,13 +110,28 @@ public class EditLayout extends AppCompatActivity {
         });
     }
 
+    private void updateImages(int progress) {
+        ImageView person, location, arrow;
+        person = findViewById(R.id.personImageView);
+        location = findViewById(R.id.locationImageView);
+        arrow = findViewById(R.id.arrowImageView);
+
+        int horizontalIncreaseInPixels = 25 * progress;
+
+        ViewGroup.MarginLayoutParams arrowLayoutParams = (ViewGroup.MarginLayoutParams) arrow.getLayoutParams();
+
+        arrowLayoutParams.width = 70 + horizontalIncreaseInPixels;
+        arrow.setScaleX((float) (1.5 + progress * 0.4));
+        arrow.setLayoutParams(arrowLayoutParams);
+    }
+
     private void putSavedData() {
-        nameBox.setText(editItem.getName());
-        addressBox.setText(editItem.getAddress());
-        xCoordiantesBox.setText(String.valueOf(editItem.getLongitude()));
-        yCoordinatesBox.setText(String.valueOf(editItem.getLatitude()));
-        distanceTextView.setText(editItem.getAlarmDistance());
-        seekBar.setProgress(getDistFromFullValue(Integer.parseInt(editItem.getAlarmDistance())));
+        nameBox.setText(currentItem.getName());
+        addressBox.setText(currentItem.getAddress());
+        xCoordiantesBox.setText(String.valueOf(currentItem.getLongitude()));
+        yCoordinatesBox.setText(String.valueOf(currentItem.getLatitude()));
+        distanceTextView.setText(currentItem.getAlarmDistance());
+        seekBar.setProgress(getDistFromFullValue(Integer.parseInt(currentItem.getAlarmDistance())));
         getDistance();
     }
 
@@ -132,7 +150,7 @@ public class EditLayout extends AppCompatActivity {
      */
     public void saveData() {
         if (isEdit) {
-            MainActivity.data.remove(editItem.getName());
+            MainActivity.data.remove(currentItem.getName());
         }
 
         geocoder = new Geocoder(this, Locale.getDefault());

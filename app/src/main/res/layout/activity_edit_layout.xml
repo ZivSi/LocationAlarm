@@ -5,8 +5,8 @@
     android:id="@+id/mainEditLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="20dp"
     android:background="@color/Background"
+    android:padding="20dp"
     tools:context=".EditLayout">
 
     <TextView
@@ -62,8 +62,8 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Address"
             android:onClick="showAddressInput"
+            android:text="Address"
             app:icon="@drawable/ic_baseline_home_24"
             app:strokeColor="@color/purple_900" />
 
@@ -72,8 +72,8 @@
             style="@style/Widget.MaterialComponents.Button.OutlinedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Coordinates"
             android:onClick="showCoordinatesInput"
+            android:text="Coordinates"
             app:icon="@drawable/ic_baseline_my_location_24"
             app:strokeColor="@color/purple_900" />
     </com.google.android.material.button.MaterialButtonToggleGroup>
@@ -194,5 +194,36 @@
         app:layout_constraintBottom_toBottomOf="@+id/distanceTextView"
         app:layout_constraintEnd_toStartOf="@+id/distanceTextView"
         app:layout_constraintTop_toTopOf="@+id/distanceTextView" />
+
+    <ImageView
+        android:id="@+id/personImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:src="@drawable/person"
+        app:layout_constraintEnd_toStartOf="@+id/arrowImageView"
+        app:layout_constraintTop_toTopOf="@+id/arrowImageView" />
+
+    <ImageView
+        android:id="@+id/arrowImageView"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:scaleY="1.5"
+        android:scaleX="1.5"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/two_sides_arrow"
+        app:tint="?attr/colorControlNormal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+
+    <ImageView
+        android:id="@+id/locationImageView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:src="@drawable/ic_baseline_location_on_24"
+        app:layout_constraintStart_toEndOf="@+id/arrowImageView"
+        app:layout_constraintTop_toTopOf="@+id/arrowImageView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
