@@ -1,11 +1,7 @@
 package com.example.locationalarm;
 
-import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM;
-import static androidx.appcompat.app.AppCompatDelegate.MODE_NIGHT_YES;
-
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
@@ -14,7 +10,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.textfield.TextInputEditText;
@@ -67,16 +62,12 @@ public class MainActivity extends AppCompatActivity {
         // data.clear();
         // Functions.SaveData(this, data);
 
-        // Create an array from the data in the map
         dataArrayList = Functions.dataAsArray(data);
-        fixedData = new ArrayList<>(dataArrayList); // Array that will never change, only when removing/adding item to map
+        fixedData = new ArrayList<>(dataArrayList); // ArrayList that will never change, only when removing/adding item to map
 
-        // Show textview if there are no items in recyclerview
         Functions.showTextIfEmpty(noLocationsTextView);
 
 
-        // Set adapter and create recyclerview object
-        // Get ass array because java cannot pass by reference
         ArrayList<Object> items = Functions.initRecyclerView(this, dataArrayList, recyclerView);
 
         recyclerView = (RecyclerView) items.get(0);
@@ -93,6 +84,8 @@ public class MainActivity extends AppCompatActivity {
         dataArrayList = Functions.dataAsArray(data);
         fixedData = new ArrayList<>(dataArrayList);
         adapter.updateData(dataArrayList);
+
+        Functions.showTextIfEmpty(noLocationsTextView);
     }
 
     /**

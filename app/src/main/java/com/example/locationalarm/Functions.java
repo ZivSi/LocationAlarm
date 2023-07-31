@@ -113,6 +113,8 @@ turn a hashmap of string and itemdata into an arraylist of itemdata
     static void showTextIfEmpty(TextView noLocationsTextView) {
         if (MainActivity.data.size() == 0) {
             noLocationsTextView.setVisibility(View.VISIBLE);
+        } else {
+            noLocationsTextView.setVisibility(View.GONE);
         }
     }
 

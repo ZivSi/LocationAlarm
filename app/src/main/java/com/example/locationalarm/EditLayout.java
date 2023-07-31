@@ -1,23 +1,30 @@
 package com.example.locationalarm;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
-
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -39,26 +46,35 @@ public class EditLayout extends AppCompatActivity {
     List<Address> addresses = new ArrayList<>();
     String address = "";
 
-    ItemData editItem;
+    ItemData currentItem;
     final int[] distances = {100, 250, 500, 750, 1000, 2000, 3000, 5000, 7000, 10000};
+
+    PopupWindow popupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_layout);
 
-        // get extras
-        String name;
-        Bundle extras = getIntent().getExtras();
-
-        if (extras != null) {
-            isEdit = true;
-            name = extras.getString("name");
-            editItem = MainActivity.data.get(name);
+        if (thereAreExtras()) {
+            extractExtras();
         }
+
         getSupportActionBar().setTitle("");
         initViews();
         if (!isEdit) setDefaultDist();
+    }
+
+    private void extractExtras() {
+        Bundle extras = getIntent().getExtras();
+        String name;
+        isEdit = true;
+        name = extras.getString("name");
+        currentItem = MainActivity.data.get(name);
+    }
+
+    private boolean thereAreExtras() {
+        return getIntent().getExtras() != null;
     }
 
     // Initialize all the views
@@ -75,14 +91,10 @@ public class EditLayout extends AppCompatActivity {
         findViewById(R.id.xCoordinatesLayout).setVisibility(View.INVISIBLE);
         findViewById(R.id.yCoordinatesLayout).setVisibility(View.INVISIBLE);
 
-        if (isEdit) { // if the user is editing an item set the values of the boxes to the current item
-            nameBox.setText(editItem.getName());
-            addressBox.setText(editItem.getAddress());
-            xCoordiantesBox.setText(String.valueOf(editItem.getLongitude()));
-            yCoordinatesBox.setText(String.valueOf(editItem.getLatitude()));
-            distanceTextView.setText(editItem.getAlarmDistance());
-            seekBar.setProgress(getDistFromFullValue(Integer.parseInt(editItem.getAlarmDistance())));
-            getDistance();
+        popupWindow = buildInfoWindow();
+
+        if (isEdit) {
+            putSavedData();
         }
 
         snackbar.getView().setBackgroundColor(Color.TRANSPARENT);
@@ -95,6 +107,7 @@ public class EditLayout extends AppCompatActivity {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 getDistance();
+                updateImages(progress);
             }
 
             @Override
@@ -107,9 +120,34 @@ public class EditLayout extends AppCompatActivity {
         });
     }
 
+    private void updateImages(int progress) {
+        ImageView arrow = findViewById(R.id.arrowImageView);
+
+        int horizontalIncreaseInPixels = 25 * progress;
+
+        ViewGroup.MarginLayoutParams arrowLayoutParams = (ViewGroup.MarginLayoutParams) arrow.getLayoutParams();
+
+        arrowLayoutParams.width = 70 + horizontalIncreaseInPixels;
+        arrow.setScaleX((float) (1.5 + progress * 0.4));
+        arrow.setLayoutParams(arrowLayoutParams);
+    }
+
+    private void putSavedData() {
+        nameBox.setText(currentItem.getName());
+        addressBox.setText(currentItem.getAddress());
+        xCoordiantesBox.setText(String.valueOf(currentItem.getLongitude()));
+        yCoordinatesBox.setText(String.valueOf(currentItem.getLatitude()));
+        distanceTextView.setText(currentItem.getAlarmDistance());
+        seekBar.setProgress(getDistFromFullValue(Integer.parseInt(currentItem.getAlarmDistance())));
+        getDistance();
+    }
+
 
     private void setDefaultDist() {
-        // get the value from the settings
+        if (Settings.allEntries == null) { // We have some errors here. allEntries is null
+            return;
+        }
+
         try{
             seekBar.setProgress(Integer.parseInt(String.valueOf(Settings.allEntries.get("default_distance"))));
         } catch (Exception e) {
@@ -122,21 +160,19 @@ public class EditLayout extends AppCompatActivity {
      * Save the new data in file, after checked all properties are valid
      */
     public void saveData() {
-        String x, y;
+        if (isEdit) {
+            MainActivity.data.remove(currentItem.getName());
+        }
 
-        if (isEdit) { // remove the original and save the new one
-            MainActivity.data.remove(editItem.getName());
-        } ;
         geocoder = new Geocoder(this, Locale.getDefault());
 
         String[] qord = extractAddressAndCoordinates();
-        x = qord[0];
-        y = qord[1];
+        String x = qord[0], y = qord[1];
 
-        // get fields
         String name = nameBox.getText().toString().replaceAll(":", "");
-        // check for empty fields
-        if (name.isEmpty() || x.isEmpty() || y.isEmpty()) {
+        String address = addressBox.getText().toString();
+
+        if (isAddress && (name.isEmpty() || address.isEmpty()) || !isAddress && (x.isEmpty() || y.isEmpty() || name.isEmpty())) {
             ((TextView) snackbarView.findViewById(R.id.error_message)).setText("Please fill all the fields");
             snackbar.show();
             return;
@@ -149,14 +185,17 @@ public class EditLayout extends AppCompatActivity {
         }
 
         int distance = getDistance();
-        // Get address from coordinates
 
-        // address is curently empty untill we add the google maps api
+        saveItem(x, y, name, distance);
+
+        Toast.makeText(this, "Location Saved!", Toast.LENGTH_SHORT).show();
+        finish();
+    }
+
+    private void saveItem(String x, String y, String name, int distance) {
         MainActivity.data.put(name, new ItemData(name, address, x, y, String.valueOf(distance)));
 
         Functions.SaveData(this, MainActivity.data);
-        Toast.makeText(this, "Location Saved!", Toast.LENGTH_SHORT).show();
-        finish();
     }
 
 
@@ -164,52 +203,71 @@ public class EditLayout extends AppCompatActivity {
      * extracts the address and coordinates from the boxes of the location settings
      * that the user enterd, if the user entered an address it will get the coordinates
      * from the address and vice versa
+     *
      * @return the coordinates of the location
      */
     private String[] extractAddressAndCoordinates() {
-        String x = "", y = "";
+        String x, y;
+        List<Address> addresses;
+        List<Address> coordinatesOfAddress;
 
         if (isAddress) {
-            try { // try and extract the coordinates from the address
-                addresses = geocoder.getFromLocationName(addressBox.getText().toString(), 1);
-                if (addresses.size() == 0) { // no address found
-                    ((TextView) snackbarView.findViewById(R.id.error_message)).setText("Address not found");
-                    snackbar.show();
-                    return new String[]{x, y};
-                }
-                else if (addresses.size() > 0) { // get long and lad
-                    address = addresses.get(0).getAddressLine(0);
-                    x = String.valueOf(addresses.get(0).getLatitude());
-                    y = String.valueOf(addresses.get(0).getLongitude());
-                }
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        // get the address from the coordinates
-        else {
-            x = xCoordiantesBox.getText().toString();
-            y = yCoordinatesBox.getText().toString();
-            try { // get address
-                addresses = geocoder.getFromLocation(Double.parseDouble(x), Double.parseDouble(y), 1);
-            }
-            catch (IOException ioException) {
-                ioException.printStackTrace();
+            address = addressBox.getText().toString();
+            try {
+                coordinatesOfAddress = geocoder.getFromLocationName(addressBox.getText().toString(), 1);
+            } catch (Exception e) {
+                return new String[]{"0", "0"};
             }
 
-            // No data found
-            if (addresses.size() == 0) {
-                address = "Not Found";
+            if (notFound(coordinatesOfAddress)) {
+                return new String[]{"0", "0"};
+            }
+
+            x = String.valueOf(coordinatesOfAddress.get(0).getLatitude());
+            y = String.valueOf(coordinatesOfAddress.get(0).getLongitude());
+
+            return new String[]{x, y};
+        } else {
+            String[] coords = getCoordsFromBoxes();
+            double xDouble = Double.parseDouble(coords[0]);
+            double yDouble = Double.parseDouble(coords[1]);
+
+            try {
+                addresses = geocoder.getFromLocation(xDouble, yDouble, 1);
+            } catch (Exception e) {
+                address = "Not found";
+
+                return new String[]{coords[0], coords[1]};
+            }
+
+            if (notFound(addresses)) {
+                address = "Not found";
             } else {
-                address = addresses.get(0).getCountryName() + ", " + address;
+                address = addresses.get(0).getCountryName() + ", " + addresses.get(0).getAddressLine(0);
             }
+
+            return new String[]{coords[0], coords[1]};
         }
-        return new String[]{x, y};
     }
 
-    // get the distance from the seekbar, set it to correct value and update textview
+    private String[] getCoordsFromBoxes() {
+        String xVal = ((TextInputEditText) findViewById(R.id.xCoordinatesBox)).getText().toString();
+        String yVal = ((TextInputEditText) findViewById(R.id.yCoordinatesBox)).getText().toString();
+
+        if (xVal.equals("")) {
+            xVal = "0";
+        }
+        if (yVal.equals("")) {
+            yVal = "0";
+        }
+
+        return new String[]{xVal, yVal};
+    }
+
+    private boolean notFound(List<Address> list) {
+        return list.size() == 0;
+    }
+
     private int getDistance() {
         int dist = seekBar.getProgress();
         dist = distances[dist];
@@ -217,6 +275,7 @@ public class EditLayout extends AppCompatActivity {
         // change the meter sign to km if needed
         String distance;
         int dupe = dist;
+
         if (dupe >= 1000) {
             dupe /= 1000;
 
@@ -279,5 +338,47 @@ public class EditLayout extends AppCompatActivity {
         findViewById(R.id.xCoordinatesLayout).setVisibility(View.INVISIBLE);
         findViewById(R.id.addressLayout).setVisibility(View.VISIBLE);
         isAddress = true;
+    }
+
+    private PopupWindow buildInfoWindow() {
+        View popupView = LayoutInflater.from(this).inflate(R.layout.info_layout, null);
+
+        // Find views inside the popup layout
+        Button okButton = popupView.findViewById(R.id.ok_button);
+
+        // Create the PopupWindow
+        PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+        // Set a background drawable to create the appearance of a rectangle window
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+
+        // Set the elevation to create a shadow effect
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            popupWindow.setElevation(10); // You can adjust the elevation value based on your preference
+        }
+
+        // Dismiss the PopupWindow when the OK button is clicked
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+
+        // Set an OnDismissListener to make the dim overlay invisible when the PopupWindow is dismissed
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                findViewById(R.id.dim_overlay).setVisibility(View.INVISIBLE);
+            }
+        });
+
+        return popupWindow;
+    }
+
+
+    public void ShowDistanceInfo(View view) {
+        (findViewById(R.id.dim_overlay)).setVisibility(View.VISIBLE);
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 }

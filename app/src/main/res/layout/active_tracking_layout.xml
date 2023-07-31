@@ -20,9 +20,9 @@
 
     <ImageView
         android:id="@+id/locationIcon"
-        android:layout_width="28dp"
-        android:layout_height="28dp"
-        android:layout_marginEnd="10dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
+        android:layout_marginEnd="5dp"
         android:src="@drawable/sensors_24"
         app:layout_constraintBottom_toBottomOf="@+id/activeLocation"
         app:layout_constraintEnd_toStartOf="@+id/activeLocation"
@@ -33,30 +33,37 @@
         android:id="@+id/activeLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="80dp"
         android:text="Active:"
         android:textColor="@color/DarkGreen"
-        android:textSize="20sp"
+        android:textSize="10sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
+        tools:layout_editor_absoluteX="341dp"
+        tools:layout_editor_absoluteY="6dp" />
 
     <TextView
         android:id="@+id/locationName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
+        android:layout_marginStart="44dp"
         android:maxWidth="120dp"
         android:text="School"
-        android:textColor="@color/black"
+        android:textColor="#08689C"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="@+id/activeLocation"
-        app:layout_constraintStart_toEndOf="@+id/activeLocation"
-        app:layout_constraintTop_toTopOf="@+id/activeLocation" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Divider -->
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_baseline_location_on_24"
+        app:tint="#08689C"
+        app:layout_constraintBottom_toBottomOf="@+id/locationName"
+        app:layout_constraintEnd_toEndOf="@+id/distanceIcon"
+        app:layout_constraintStart_toStartOf="@+id/distanceIcon"
+        app:layout_constraintTop_toTopOf="@+id/locationName" />
+
     <View
         android:id="@+id/view"
         android:layout_width="400dp"
@@ -75,22 +82,22 @@
         android:layout_marginTop="15dp"
         android:maxWidth="290dp"
         android:text="Distance: 100 meters"
-        android:textColor="@color/purple_500"
+        android:textColor="#054466"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/activeLocation"
+        app:layout_constraintStart_toStartOf="@+id/locationName"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <ImageView
         android:id="@+id/distanceIcon"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:layout_marginEnd="10dp"
         android:src="@drawable/ic_baseline_straighten_24"
         app:layout_constraintBottom_toBottomOf="@+id/distanceTextView"
-        app:layout_constraintEnd_toStartOf="@+id/activeLocation"
+        app:layout_constraintEnd_toStartOf="@+id/distanceTextView"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/distanceTextView"
-        app:tint="@color/purple_500" />
+        app:tint="#054466" />
 
 
     <TextView
@@ -100,22 +107,22 @@
         android:layout_marginTop="15dp"
         android:maxWidth="290dp"
         android:text="Estimated arrival time: 10 hours (god damn)"
-        android:textColor="@color/MediumSlateBlue"
+        android:textColor="@color/purple_500"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/activeLocation"
+        app:layout_constraintStart_toStartOf="@+id/distanceTextView"
         app:layout_constraintTop_toBottomOf="@+id/distanceTextView" />
 
     <ImageView
         android:id="@+id/timeIcon"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:layout_marginEnd="10dp"
         android:src="@drawable/access_time_24"
         app:layout_constraintBottom_toBottomOf="@+id/estimatedText"
-        app:layout_constraintEnd_toStartOf="@+id/activeLocation"
+        app:layout_constraintEnd_toEndOf="@+id/distanceIcon"
+        app:layout_constraintStart_toStartOf="@+id/distanceIcon"
         app:layout_constraintTop_toTopOf="@+id/estimatedText"
-        app:tint="@color/MediumSlateBlue" />
+        app:tint="@color/purple_500" />
 
     <TextView
         android:id="@+id/activeTimeText"
@@ -124,21 +131,21 @@
         android:layout_marginTop="15dp"
         android:maxWidth="290dp"
         android:text="Active time: 00:01:20"
-        android:textColor="@color/DarkOrange"
+        android:textColor="#075E8C"
         android:textSize="18sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="@+id/activeLocation"
+        app:layout_constraintStart_toStartOf="@+id/estimatedText"
         app:layout_constraintTop_toBottomOf="@+id/estimatedText" />
 
     <ImageView
         android:id="@+id/activeTimeIcon"
         android:layout_width="28dp"
         android:layout_height="28dp"
-        android:layout_marginEnd="10dp"
         android:src="@drawable/hourglass_bottom_24"
         app:layout_constraintBottom_toBottomOf="@+id/activeTimeText"
-        app:layout_constraintEnd_toStartOf="@+id/activeTimeText"
+        app:layout_constraintEnd_toEndOf="@+id/timeIcon"
+        app:layout_constraintStart_toStartOf="@+id/timeIcon"
         app:layout_constraintTop_toTopOf="@+id/activeTimeText"
-        app:tint="@color/DarkOrange" />
+        app:tint="#075E8C" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
