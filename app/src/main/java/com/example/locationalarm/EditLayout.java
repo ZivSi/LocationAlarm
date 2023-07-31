@@ -1,14 +1,20 @@
 package com.example.locationalarm;
 
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.location.Geocoder;
+import android.os.Build;
 import android.os.Bundle;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,6 +48,8 @@ public class EditLayout extends AppCompatActivity {
 
     ItemData currentItem;
     final int[] distances = {100, 250, 500, 750, 1000, 2000, 3000, 5000, 7000, 10000};
+
+    PopupWindow popupWindow;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +91,8 @@ public class EditLayout extends AppCompatActivity {
         findViewById(R.id.xCoordinatesLayout).setVisibility(View.INVISIBLE);
         findViewById(R.id.yCoordinatesLayout).setVisibility(View.INVISIBLE);
 
+        popupWindow = buildInfoWindow();
+
         if (isEdit) {
             putSavedData();
         }
@@ -111,10 +121,7 @@ public class EditLayout extends AppCompatActivity {
     }
 
     private void updateImages(int progress) {
-        ImageView person, location, arrow;
-        person = findViewById(R.id.personImageView);
-        location = findViewById(R.id.locationImageView);
-        arrow = findViewById(R.id.arrowImageView);
+        ImageView arrow = findViewById(R.id.arrowImageView);
 
         int horizontalIncreaseInPixels = 25 * progress;
 
@@ -327,5 +334,47 @@ public class EditLayout extends AppCompatActivity {
         findViewById(R.id.xCoordinatesLayout).setVisibility(View.INVISIBLE);
         findViewById(R.id.addressLayout).setVisibility(View.VISIBLE);
         isAddress = true;
+    }
+
+    private PopupWindow buildInfoWindow() {
+        View popupView = LayoutInflater.from(this).inflate(R.layout.info_layout, null);
+
+        // Find views inside the popup layout
+        Button okButton = popupView.findViewById(R.id.ok_button);
+
+        // Create the PopupWindow
+        PopupWindow popupWindow = new PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT, true);
+
+        // Set a background drawable to create the appearance of a rectangle window
+        popupWindow.setBackgroundDrawable(new ColorDrawable(Color.WHITE));
+
+        // Set the elevation to create a shadow effect
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            popupWindow.setElevation(10); // You can adjust the elevation value based on your preference
+        }
+
+        // Dismiss the PopupWindow when the OK button is clicked
+        okButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+
+        // Set an OnDismissListener to make the dim overlay invisible when the PopupWindow is dismissed
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                findViewById(R.id.dim_overlay).setVisibility(View.INVISIBLE);
+            }
+        });
+
+        return popupWindow;
+    }
+
+
+    public void ShowDistanceInfo(View view) {
+        (findViewById(R.id.dim_overlay)).setVisibility(View.VISIBLE);
+        popupWindow.showAtLocation(view, Gravity.CENTER, 0, 0);
     }
 }

@@ -2,228 +2,242 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/mainEditLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/Background"
-    android:padding="20dp"
     tools:context=".EditLayout">
 
-    <TextView
-        android:id="@+id/headText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Location Settings"
-        android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
-        android:textColor="@color/purple_700"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <!-- Name of location -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/nameBoxLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/mainEditLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:boxStrokeColor="@color/purple_500"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/headText">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/nameBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Enter location name"
-            android:inputType="textPersonName"
-            android:lines="1"
-            android:maxLength="30"
-            android:maxLines="1" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-
-    <com.google.android.material.button.MaterialButtonToggleGroup
-        android:id="@+id/toggleGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        app:checkedButton="@id/addressToggle"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameBoxLayout"
-        app:selectionRequired="true"
-        app:singleSelection="true">
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/addressToggle"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="showAddressInput"
-            android:text="Address"
-            app:icon="@drawable/ic_baseline_home_24"
-            app:strokeColor="@color/purple_900" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/coordinatesToggle"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="showCoordinatesInput"
-            android:text="Coordinates"
-            app:icon="@drawable/ic_baseline_my_location_24"
-            app:strokeColor="@color/purple_900" />
-    </com.google.android.material.button.MaterialButtonToggleGroup>
-
-
-    <!-- X of location -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/xCoordinatesLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="130dp"
-        app:boxStrokeColor="@color/purple_500"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameBoxLayout">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/xCoordinatesBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="X coordinates (latitude)"
-            android:inputType="numberDecimal"
-            android:lines="1"
-            android:maxLines="1"
-            tools:layout_editor_absoluteX="25dp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-    <!-- address of location -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/addressLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="130dp"
-        app:boxStrokeColor="@color/purple_500"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nameBoxLayout">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/addressBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Address"
-            android:inputType="text"
-            android:lines="1"
-            android:maxLines="1"
-            tools:layout_editor_absoluteX="25dp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <!-- Y of location -->
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/yCoordinatesLayout"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:boxStrokeColor="@color/purple_500"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/xCoordinatesLayout">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/yCoordinatesBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:ems="10"
-            android:hint="Y coordinates (longtitude)"
-            android:inputType="numberDecimal"
-            android:lines="1"
-            android:maxLines="1"
-            tools:layout_editor_absoluteX="25dp" />
-
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <TextView
-        android:id="@+id/distanceTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="64dp"
-        android:text="Distance: 100M"
-        android:textColor="@color/purple_900"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/yCoordinatesLayout" />
-
-    <SeekBar
-        android:id="@+id/seekBar"
-        style="@style/Widget.AppCompat.SeekBar.Discrete"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:max="9"
-        android:progress="2"
-        android:progressTint="@color/black"
-        android:thumbTint="@color/purple_700"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/distanceTextView" />
-
-    <ImageButton
-        android:id="@+id/infoButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="5dp"
+        android:layout_height="match_parent"
         android:background="@color/Background"
-        android:src="@drawable/ic_baseline_info_24"
-        app:layout_constraintBottom_toBottomOf="@+id/distanceTextView"
-        app:layout_constraintEnd_toStartOf="@+id/distanceTextView"
-        app:layout_constraintTop_toTopOf="@+id/distanceTextView" />
+        android:padding="20dp">
 
-    <ImageView
-        android:id="@+id/personImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
-        android:src="@drawable/person"
-        app:layout_constraintEnd_toStartOf="@+id/arrowImageView"
-        app:layout_constraintTop_toTopOf="@+id/arrowImageView" />
 
-    <ImageView
-        android:id="@+id/arrowImageView"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
-        android:scaleY="1.5"
-        android:scaleX="1.5"
-        android:layout_marginTop="80dp"
-        android:src="@drawable/two_sides_arrow"
-        app:tint="?attr/colorControlNormal"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/seekBar" />
+        <TextView
+            android:id="@+id/headText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Location Settings"
+            android:textAppearance="@style/TextAppearance.Material3.HeadlineMedium"
+            android:textColor="@color/purple_700"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <ImageView
-        android:id="@+id/locationImageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="15dp"
-        android:src="@drawable/ic_baseline_location_on_24"
-        app:layout_constraintStart_toEndOf="@+id/arrowImageView"
-        app:layout_constraintTop_toTopOf="@+id/arrowImageView" />
+        <!-- Name of location -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/nameBoxLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:boxStrokeColor="@color/purple_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/headText">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/nameBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="location name"
+                android:inputType="textPersonName"
+                android:lines="1"
+                android:maxLength="30"
+                android:maxLines="1" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.button.MaterialButtonToggleGroup
+            android:id="@+id/toggleGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            app:checkedButton="@id/addressToggle"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nameBoxLayout"
+            app:selectionRequired="true"
+            app:singleSelection="true">
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/addressToggle"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="showAddressInput"
+                android:text="Address"
+                app:icon="@drawable/ic_baseline_home_24"
+                app:strokeColor="@color/purple_900" />
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/coordinatesToggle"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:onClick="showCoordinatesInput"
+                android:text="Coordinates"
+                app:icon="@drawable/ic_baseline_my_location_24"
+                app:strokeColor="@color/purple_900" />
+        </com.google.android.material.button.MaterialButtonToggleGroup>
+
+
+        <!-- X of location -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/xCoordinatesLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="130dp"
+            app:boxStrokeColor="@color/purple_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nameBoxLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/xCoordinatesBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="X coordinates (latitude)"
+                android:inputType="numberDecimal"
+                android:lines="1"
+                android:maxLines="1"
+                tools:layout_editor_absoluteX="25dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+        <!-- address of location -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/addressLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="130dp"
+            app:boxStrokeColor="@color/purple_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/nameBoxLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/addressBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Address"
+                android:inputType="text"
+                android:lines="1"
+                android:maxLines="1"
+                tools:layout_editor_absoluteX="25dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- Y of location -->
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/yCoordinatesLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            app:boxStrokeColor="@color/purple_500"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/xCoordinatesLayout">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/yCoordinatesBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:ems="10"
+                android:hint="Y coordinates (longtitude)"
+                android:inputType="numberDecimal"
+                android:lines="1"
+                android:maxLines="1"
+                tools:layout_editor_absoluteX="25dp" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <TextView
+            android:id="@+id/distanceTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="64dp"
+            android:text="Distance: 100M"
+            android:textColor="@color/purple_900"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/yCoordinatesLayout" />
+
+        <SeekBar
+            android:id="@+id/seekBar"
+            style="@style/Widget.AppCompat.SeekBar.Discrete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:max="9"
+            android:progress="2"
+            android:progressTint="@color/black"
+            android:thumbTint="@color/purple_700"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/distanceTextView" />
+
+        <ImageButton
+            android:id="@+id/infoButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="5dp"
+            android:background="@color/Background"
+            android:onClick="ShowDistanceInfo"
+            android:src="@drawable/ic_baseline_info_24"
+            app:layout_constraintBottom_toBottomOf="@+id/distanceTextView"
+            app:layout_constraintEnd_toStartOf="@+id/distanceTextView"
+            app:layout_constraintTop_toTopOf="@+id/distanceTextView" />
+
+        <ImageView
+            android:id="@+id/personImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="15dp"
+            android:src="@drawable/person"
+            app:layout_constraintEnd_toStartOf="@+id/arrowImageView"
+            app:layout_constraintTop_toTopOf="@+id/arrowImageView" />
+
+        <ImageView
+            android:id="@+id/arrowImageView"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginTop="80dp"
+            android:scaleX="1.5"
+            android:scaleY="1.5"
+            android:src="@drawable/two_sides_arrow"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/seekBar"
+            app:tint="?attr/colorControlNormal" />
+
+        <ImageView
+            android:id="@+id/locationImageView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="15dp"
+            android:src="@drawable/ic_baseline_location_on_24"
+            app:layout_constraintStart_toEndOf="@+id/arrowImageView"
+            app:layout_constraintTop_toTopOf="@+id/arrowImageView" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <!-- Dim overlay -->
+    <View
+        android:id="@+id/dim_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone" />
 </androidx.constraintlayout.widget.ConstraintLayout>
