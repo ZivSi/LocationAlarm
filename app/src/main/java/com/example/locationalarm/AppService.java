@@ -19,6 +19,8 @@ import androidx.annotation.Nullable;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 
+import java.util.Objects;
+
 
 /*
 Service that asks every couple of seconds to update the current location.
@@ -66,7 +68,6 @@ public class AppService extends Service {
         super.onCreate();
         stopSelf = false;
         createNotificationChannel();
-
         this.context = this;
     }
 
@@ -83,22 +84,26 @@ public class AppService extends Service {
         this.destLongitude = temp[1];
         this.distanceAlert = intent.getIntExtra(MainActivity.DISTANCE_TAG, 100);
 
-
+        intent.setAction(START_TRACKING);// TODO: check if correct
         // Add missing permissions
         boolean permissionGranted = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
-
-        if (!permissionGranted || intent == null) {
-            return START_NOT_STICKY;
+        // TODO: fix this if statement of setAction
+        if (!permissionGranted || intent.getAction() == null) { // for some reason intent.getAction() is null
+            Toast.makeText(this, "Permission not granted", Toast.LENGTH_LONG).show();
+            return START_NOT_STICKY;// TODO: not working
         }
 
         switch (serviceIntent.getAction()) {
             case START_TRACKING:
                 String[] coordinates = getDestination(intent);
                 int distnace = getDistanceAlert(intent);
-                startLocationLoop(this, new LocationFinder(coordinates[0], coordinates[1], this), distnace);
+                startLocationLoop(this, new LocationFinder(coordinates[1], coordinates[0], this), distnace);
                 break;
 
+            default:
+                Toast.makeText(this, "Action not recognized", Toast.LENGTH_LONG).show();
 
+        }
         return START_STICKY;
     }
 
@@ -109,16 +114,13 @@ public class AppService extends Service {
     private String[] getDestination(Intent intent) {
         String val = intent.getStringExtra(COORDINATED_TAG);
 
-        if (val == ",") {
+        if (Objects.equals(val, ",")) {
             showToast("Destination is null!");
 
             return new String[]{"0", "0"};
         }
 
         return val.split(",");
-        // Start loop
-        startLocationLoop(this, locationFinder, distanceAlert);
-        Toast.makeText(this, "Location active", Toast.LENGTH_SHORT).show();
     }
 
     private void init() {
@@ -143,12 +145,6 @@ public class AppService extends Service {
         this.locationFinder.stopLocationUpdates();
     }
 
-
-    @Nullable
-    @Override
-    public IBinder onBind(Intent intent) {
-        return null;
-    }
 
     private void showToast(final String message) {
         Handler toastHandler = new Handler(Looper.getMainLooper());
@@ -179,6 +175,7 @@ public class AppService extends Service {
                 if (distanceAlert >= locationFinder.getDistanceFromUserToDestination()) {
                     // Stop service
                     stopSelf = true;
+                    // TODO: check if need this here or just close (using the ondestroy method)
                     locationFinder.stopLocationUpdates();
 
                     arrivalBroadcastIntent.putExtra("hasArrived", true);
@@ -199,7 +196,7 @@ public class AppService extends Service {
 
                 // Sleep for 5 seconds
                 try {
-                    Thread.sleep(5000);
+                    Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -207,9 +204,13 @@ public class AppService extends Service {
         });
         tr.setDaemon(true);
         tr.start();
-                sleep();
-            }
-        }).start();
+        sleep();
+    }
+
+    @Nullable
+    @Override
+    public IBinder onBind(Intent intent) {
+        return null;
     }
 
     private void sleep() {

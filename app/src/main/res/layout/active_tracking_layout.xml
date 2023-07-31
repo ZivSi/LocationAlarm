@@ -20,8 +20,8 @@
 
     <ImageView
         android:id="@+id/locationIcon"
-        android:layout_width="18dp"
-        android:layout_height="18dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
         android:layout_marginEnd="5dp"
         android:src="@drawable/sensors_24"
         app:layout_constraintBottom_toBottomOf="@+id/activeLocation"
@@ -33,12 +33,12 @@
         android:id="@+id/activeLocation"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Active:"
+        android:text="Active"
         android:textColor="@color/DarkGreen"
-        android:textSize="10sp"
+        android:textSize="20sp"
         android:textStyle="bold"
-        tools:layout_editor_absoluteX="341dp"
-        tools:layout_editor_absoluteY="6dp" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/locationName"
@@ -128,12 +128,14 @@
         android:id="@+id/activeTimeText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="12dp"
         android:maxWidth="290dp"
         android:text="Active time: 00:01:20"
         android:textColor="#075E8C"
         android:textSize="18sp"
         android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/estimatedText"
         app:layout_constraintTop_toBottomOf="@+id/estimatedText" />
 

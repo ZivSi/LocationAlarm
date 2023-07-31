@@ -131,7 +131,6 @@ public class MainActivity extends AppCompatActivity {
     // ! DEPRICATED function. use the one in app service.java
     public static void startLocationActiveMode(View view) {
         // TODO: check if service is already running and if so, don't start it again
-        Log.i("uuuuuuuuuuppppppppppppppddddddddate", "this is test:" + "\n");
 
         Thread tr = new Thread(() -> {
             while (Functions.isServiceRunning(view.getContext(), new AppService())) {

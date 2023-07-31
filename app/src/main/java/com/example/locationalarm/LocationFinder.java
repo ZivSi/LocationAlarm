@@ -76,12 +76,12 @@ public class LocationFinder extends ActivityCompat {
         double latDistance = Math.toRadians(dest_lat - user_lat); // turn degrees to radians
         double lonDistance = Math.toRadians(dest_long - user_long);
         double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2) // take in the earth curvature to the equation
-                + Math.cos(Math.toRadians(user_lat)) * Math.cos(Math.toRadians(dest_lat)) * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+                + Math.cos(Math.toRadians(user_lat)) * Math.cos(Math.toRadians(dest_lat))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
         double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 
         return (R * c * 1000); // Convert to meters
     }
-
 
     /**
      * Get the absolute distance between the user and the destination using `calcDistance`
@@ -92,7 +92,7 @@ public class LocationFinder extends ActivityCompat {
 
         double lat1 = Double.parseDouble(latitude);
         double long1 = Double.parseDouble(longitude);
-
+        Log.d("Location Update::::::", "User Latitude: " + latitude + " User Longitude: " + longitude);
         // calculate the distance between the user and the destination
         double distance = calcDistance(lat1, Double.parseDouble(destLatitude), long1, Double.parseDouble(destLongitude));
         return Math.abs((int) distance); // absolute value of the distance
