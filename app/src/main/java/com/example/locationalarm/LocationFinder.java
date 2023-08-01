@@ -92,7 +92,7 @@ public class LocationFinder extends ActivityCompat {
 
         double lat1 = Double.parseDouble(latitude);
         double long1 = Double.parseDouble(longitude);
-        Log.d("Location Update::::::", "User Latitude: " + latitude + " User Longitude: " + longitude);
+        Log.d("location", "get destination");
         // calculate the distance between the user and the destination
         double distance = calcDistance(lat1, Double.parseDouble(destLatitude), long1, Double.parseDouble(destLongitude));
         return Math.abs((int) distance); // absolute value of the distance
@@ -164,7 +164,6 @@ public class LocationFinder extends ActivityCompat {
      * Init to the location callback object
      */
     public void setLocationCallback() {
-        // With every update of the location, the callback will be called
         this.locationCallback = new LocationCallback() {
             @Override
             public void onLocationResult(LocationResult locationResult) {

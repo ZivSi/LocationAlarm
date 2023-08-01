@@ -220,11 +220,11 @@ public class RecyclerAdapter extends RecyclerView.Adapter<RecyclerAdapter.ViewHo
 
     public void startService(Context context, ItemData item) {
         Intent intent = new Intent(context, ActiveTracking.class);
+
         intent.putExtra("name", item.getName());
         intent.putExtra(AppService.COORDINATED_TAG, item.getLatitude() + "," + item.getLongitude());
         intent.putExtra(AppService.DISTANCE_TAG, Integer.parseInt(item.getAlarmDistance()));
 
-        intent.setAction(AppService.START_TRACKING);
         context.startActivity(intent);
     }
 

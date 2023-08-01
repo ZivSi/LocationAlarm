@@ -57,14 +57,13 @@ public class ActiveTracking extends AppCompatActivity {
 
         Functions.checkLocationActive(this);
 
-        // start location tracking
-        // Set the dest variables in the service, and start the service
-        locationIntent = new Intent(getApplicationContext(), AppService.class);
 
-        // Put data which coordinates to go to and the distance to alert
+        locationIntent = new Intent(getApplicationContext(), AppService.class);
+        locationIntent.setAction(AppService.START_TRACKING);
+
         locationIntent.putExtra(MainActivity.COORDINATED_TAG, coordinates);
         locationIntent.putExtra(MainActivity.DISTANCE_TAG, distanceAlert);
-        ComponentName locationService = getApplicationContext().startService(locationIntent);
+        startService(locationIntent);
     }
 
     private void initViews() {

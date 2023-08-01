@@ -35,7 +35,6 @@ public class AppService extends Service {
     String destLongitude;
     int distanceAlert;
     LocationFinder locationFinder;
-    Intent serviceIntent;
     Context context;
 
     boolean notificationActive = false;
@@ -68,35 +67,29 @@ public class AppService extends Service {
         super.onCreate();
         stopSelf = false;
         createNotificationChannel();
+
         this.context = this;
+
+        System.out.println("onCreate service called");
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         super.onStartCommand(intent, flags, startId);
 
-        // Get data from intent
-        this.serviceIntent = intent;
 
-        // Get destination location and distance alert from intent
-        String[] temp = intent.getStringExtra(MainActivity.COORDINATED_TAG).split(",");
-        this.destLatitude = temp[0];
-        this.destLongitude = temp[1];
-        this.distanceAlert = intent.getIntExtra(MainActivity.DISTANCE_TAG, 100);
-
-        intent.setAction(START_TRACKING);// TODO: check if correct
-        // Add missing permissions
         boolean permissionGranted = ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
         // TODO: fix this if statement of setAction
         if (!permissionGranted || intent.getAction() == null) { // for some reason intent.getAction() is null
             Toast.makeText(this, "Permission not granted", Toast.LENGTH_LONG).show();
-            return START_NOT_STICKY;// TODO: not working
+            return START_NOT_STICKY;
         }
 
-        switch (serviceIntent.getAction()) {
+        switch (intent.getAction()) {
             case START_TRACKING:
                 String[] coordinates = getDestination(intent);
                 int distnace = getDistanceAlert(intent);
+
                 startLocationLoop(this, new LocationFinder(coordinates[1], coordinates[0], this), distnace);
                 break;
 
@@ -123,26 +116,12 @@ public class AppService extends Service {
         return val.split(",");
     }
 
-    private void init() {
-        String dest = this.serviceIntent.getStringExtra(COORDINATED_TAG);
-        this.destLatitude = String.valueOf(Double.parseDouble(dest.split(",")[0]));
-        this.destLongitude = String.valueOf(Double.parseDouble(dest.split(",")[1]));
-
-        // Get distance alert
-        this.distanceAlert = this.serviceIntent.getIntExtra(DISTANCE_TAG, 1000);
-
-        this.locationFinder = new LocationFinder(destLongitude + "", destLatitude + "", this);
-    }
-
-
     @Override
     public void onDestroy() {
         super.onDestroy();
+        locationFinder.stopLocationUpdates();
         stopSelf = true;
         stopForeground(true);
-
-        // Stop location updates
-        this.locationFinder.stopLocationUpdates();
     }
 
 
@@ -160,19 +139,21 @@ public class AppService extends Service {
     /**
      * Start checking location on loop
      */
-    private void startLocationLoop(Context context, LocationFinder locationFinder, int distanceAlert) {
+    private void startLocationLoop(Context context, LocationFinder locFinder, int distanceAlert) {
         // TODO: make this a thread that runs in the background
+        locationFinder = locFinder;
         Thread tr = new Thread(() -> {
             Looper.prepare();
             Intent distanceBroadcastIntent = new Intent("com.example.locationalarm.distance");
             Intent arrivalBroadcastIntent = new Intent("com.example.locationalarm.hasArrived");
             while (!stopSelf) {
                 locationFinder.getLocation();
-                distanceBroadcastIntent.putExtra("distance", locationFinder.getDistanceFromUserToDestination());
+                int distance = locationFinder.getDistanceFromUserToDestination();
+                distanceBroadcastIntent.putExtra("distance", distance);
                 sendBroadcast(distanceBroadcastIntent);
                 String message;
 
-                if (distanceAlert >= locationFinder.getDistanceFromUserToDestination()) {
+                if (distanceAlert >= distance) {
                     // Stop service
                     stopSelf = true;
                     // TODO: check if need this here or just close (using the ondestroy method)
