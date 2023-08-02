@@ -101,7 +101,8 @@ public class ActiveTracking extends AppCompatActivity {
                 timer.cancel();
                 stopService(locationIntent);
                 Toast.makeText(getApplicationContext(), "You have arrived", Toast.LENGTH_LONG).show();
-                Functions.startAlarm(context);
+                Context cont = getApplicationContext();
+                Functions.startAlarm(cont);
                 finish();
             }
         };
@@ -135,7 +136,13 @@ public class ActiveTracking extends AppCompatActivity {
 
     public void updateDistance(int distance) {
         this.distance = distance;
-        distanceTextView.setText("Distance: " +  distance + " meters");
+        if (distance >= 1000){
+            distance = distance / 1000;
+            distanceTextView.setText("Distance: " +  distance + " kilometers");
+        }
+        else{
+            distanceTextView.setText("Distance: " +  distance + " meters");
+        }
     }
 
     public void updateTime(){

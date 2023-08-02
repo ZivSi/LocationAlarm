@@ -2,7 +2,9 @@ package com.example.locationalarm;
 
 
 import android.app.ActivityManager;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -278,24 +280,21 @@ turn a hashmap of string and itemdata into an arraylist of itemdata
 
 
     static void startAlarm(Context context) {
+        Intent intent = new Intent(context, MyAlarmService.class);
+        context.startService(intent);
+//        Intent alarm = new Intent(AlarmClock.ACTION_SET_TIMER);
+//        alarm.putExtra(AlarmClock.EXTRA_LENGTH, 1);
+//        alarm.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+//        alarm.putExtra(AlarmClock.EXTRA_MESSAGE, "You have arrived!");
 
-        Intent alarm = new Intent(AlarmClock.ACTION_SET_TIMER);
-        alarm.putExtra(AlarmClock.EXTRA_LENGTH, 1);
-        alarm.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
-        alarm.putExtra(AlarmClock.EXTRA_MESSAGE, "You have arrived!");
+//        try {
+//            context.startActivity(alarm);
+//
+//        }
+//        catch (Exception e) {
+//            Toast.makeText(context, "No alarm app found", Toast.LENGTH_LONG).show();
+//        }
 
-        try {
-            context.startActivity(alarm);
-
-        }
-        catch (Exception e) {
-            Toast.makeText(context, "No alarm app found", Toast.LENGTH_LONG).show();
-        }
-        // vibrate for 2 seconds
-        if (Settings.getVibrate(context)) {
-            final Vibrator vibrator = (Vibrator) context.getSystemService(Context.VIBRATOR_SERVICE);
-            vibrator.vibrate(2000);
-        }
 
     }
 

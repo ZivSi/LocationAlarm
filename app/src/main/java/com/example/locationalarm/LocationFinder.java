@@ -10,6 +10,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.os.Looper;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.core.app.ActivityCompat;
 
@@ -116,6 +117,11 @@ public class LocationFinder extends ActivityCompat {
                     geocoder = new Geocoder(context, Locale.getDefault());
 
                     List<Address> addresses = geocoder.getFromLocation(location.getLatitude(), location.getLongitude(), 1);
+
+                    if (addresses.size() == 0) {
+                        Toast.makeText(context, "No address found", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
 
                     latitude = String.valueOf(addresses.get(0).getLatitude());
                     longitude = String.valueOf(addresses.get(0).getLongitude());

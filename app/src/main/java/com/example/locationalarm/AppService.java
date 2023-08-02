@@ -156,14 +156,13 @@ public class AppService extends Service {
                 if (distanceAlert >= distance) {
                     // Stop service
                     stopSelf = true;
-                    // TODO: check if need this here or just close (using the ondestroy method)
                     locationFinder.stopLocationUpdates();
 
                     arrivalBroadcastIntent.putExtra("hasArrived", true);
                     sendBroadcast(arrivalBroadcastIntent);
-                    message = "You are close to your destination\n. You are Xm from your destination";
+                    message = "Distance from destination: " + distance + "\nYou are close to your destination.";
                 } else {
-                    message = "You are not close to your destination. Relax";
+                    message = "Distance from destination: " + distance + "\nNot close to your destination. Relax";
                 }
 
                 if (notificationActive) {
