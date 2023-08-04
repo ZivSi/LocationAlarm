@@ -137,8 +137,8 @@ public class ActiveTracking extends AppCompatActivity {
     public void updateDistance(int distance) {
         this.distance = distance;
         if (distance >= 1000){
-            distance = distance / 1000;
-            distanceTextView.setText("Distance: " +  distance + " kilometers");
+            float dist = (float)distance / 1000;
+            distanceTextView.setText("Distance: " +  dist + " kilometers");
         }
         else{
             distanceTextView.setText("Distance: " +  distance + " meters");

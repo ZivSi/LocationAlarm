@@ -160,9 +160,9 @@ public class AppService extends Service {
 
                     arrivalBroadcastIntent.putExtra("hasArrived", true);
                     sendBroadcast(arrivalBroadcastIntent);
-                    message = "Distance from destination: " + distance + "\nYou are close to your destination.";
+                    message = "Distance from destination: " + distance + " meters\nYou are close to your destination.";
                 } else {
-                    message = "Distance from destination: " + distance + "\nNot close to your destination. Relax";
+                    message = "Distance from destination: " + distance + " meters\nNot close to your destination. Relax";
                 }
 
                 if (notificationActive) {
