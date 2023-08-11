@@ -172,7 +172,6 @@ public class AppService extends Service {
                 }
 
                 Log.d("Location Update", "Distance from destination: " + locationFinder.getDistanceFromUserToDestination());
-                Log.d("Location Update", "Destination location: " + destLatitude + ", " + destLongitude);
 
                 // Sleep for 5 seconds
                 try {
@@ -181,7 +180,12 @@ public class AppService extends Service {
                     e.printStackTrace();
                 }
             }
+            // start alarm
+            Toast.makeText(getApplicationContext(), "You have arrived", Toast.LENGTH_LONG).show();
+            Context cont = getApplicationContext();
+            Functions.startAlarm(cont);
         });
+
         tr.setDaemon(true);
         tr.start();
         sleep();

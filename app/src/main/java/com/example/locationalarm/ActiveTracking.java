@@ -102,7 +102,6 @@ public class ActiveTracking extends AppCompatActivity {
                 stopService(locationIntent);
                 Toast.makeText(getApplicationContext(), "You have arrived", Toast.LENGTH_LONG).show();
                 Context cont = getApplicationContext();
-                Functions.startAlarm(cont);
                 finish();
             }
         };
