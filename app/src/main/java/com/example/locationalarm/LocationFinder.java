@@ -152,6 +152,7 @@ public class LocationFinder extends ActivityCompat {
 
         } else if (accuracy <= 60) {
             Log.d("Location Update", "Accuracy: Very Low");
+            Toast.makeText(context, "Location accuracy is very low", Toast.LENGTH_SHORT).show();
         }
     }
 

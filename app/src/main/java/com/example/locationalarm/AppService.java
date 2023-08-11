@@ -4,7 +4,9 @@ import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
+import android.app.TaskStackBuilder;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -140,15 +142,20 @@ public class AppService extends Service {
      * Start checking location on loop
      */
     private void startLocationLoop(Context context, LocationFinder locFinder, int distanceAlert) {
-        // TODO: make this a thread that runs in the background
+
         locationFinder = locFinder;
         Thread tr = new Thread(() -> {
+            boolean hasArived = false;
             Looper.prepare();
             Intent distanceBroadcastIntent = new Intent("com.example.locationalarm.distance");
             Intent arrivalBroadcastIntent = new Intent("com.example.locationalarm.hasArrived");
+
+            locationFinder.getLocation(); // saves new location in the LocationFinder object
+            int distance = locationFinder.getDistanceFromUserToDestination();
+
             while (!stopSelf) {
-                locationFinder.getLocation();
-                int distance = locationFinder.getDistanceFromUserToDestination();
+                locationFinder.getLocation(); // saves new location in the LocationFinder object
+                distance = locationFinder.getDistanceFromUserToDestination();
                 distanceBroadcastIntent.putExtra("distance", distance);
                 sendBroadcast(distanceBroadcastIntent);
                 String message;
@@ -156,13 +163,14 @@ public class AppService extends Service {
                 if (distanceAlert >= distance) {
                     // Stop service
                     stopSelf = true;
+                    hasArived = true;
                     locationFinder.stopLocationUpdates();
 
                     arrivalBroadcastIntent.putExtra("hasArrived", true);
                     sendBroadcast(arrivalBroadcastIntent);
-                    message = "Distance from destination: " + distance + " meters\nYou are close to your destination.";
+                    message = "Distance: " + distance + " meters\nYou are close to your destination.";
                 } else {
-                    message = "Distance from destination: " + distance + " meters\nNot close to your destination. Relax";
+                    message = "Distance: " + distance + " meters";
                 }
 
                 if (notificationActive) {
@@ -171,19 +179,25 @@ public class AppService extends Service {
                     showNotification(message);
                 }
 
-                Log.d("Location Update", "Distance from destination: " + locationFinder.getDistanceFromUserToDestination());
+                Log.d("Location Update", "Distance from destination: " + distance + " meters");
 
                 // Sleep for 5 seconds
                 try {
-                    Thread.sleep(3000);
+                    if (1000 >= distance)
+                        Thread.sleep(1500);
+                    else
+                        Thread.sleep(3000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
             }
             // start alarm
-            Toast.makeText(getApplicationContext(), "You have arrived", Toast.LENGTH_LONG).show();
-            Context cont = getApplicationContext();
-            Functions.startAlarm(cont);
+            if (hasArived){
+                Toast.makeText(getApplicationContext(), "You have arrived", Toast.LENGTH_LONG).show();
+                Context cont = getApplicationContext();
+                Functions.startAlarm(cont);
+            }
+
         });
 
         tr.setDaemon(true);
@@ -214,17 +228,19 @@ public class AppService extends Service {
             notificationManager.createNotificationChannel(channel);
         }
 
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID).setContentTitle("Location Service").setContentText(message).setSmallIcon(R.drawable.ic_baseline_location_on_24).setPriority(NotificationCompat.PRIORITY_HIGH).setAutoCancel(false);
-
-        Notification notification = builder.build();
-
-        notificationManager.notify(NOTIFICATION_ID, notification);
+        updateNotification(message);
 
         notificationActive = true;
     }
 
     private void updateNotification(String newMessage) {
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID).setContentTitle("Location Service").setContentText(newMessage).setSmallIcon(R.drawable.ic_baseline_location_on_24).setPriority(NotificationCompat.PRIORITY_HIGH).setAutoCancel(false);
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
+                .setContentTitle("Location Service")
+                .setContentText(newMessage)
+                .setSmallIcon(R.drawable.ic_baseline_location_on_24)
+                .setPriority(NotificationCompat.PRIORITY_HIGH)
+                .setOngoing(true)
+                .setAutoCancel(false);
 
         Notification notification = builder.build();
 

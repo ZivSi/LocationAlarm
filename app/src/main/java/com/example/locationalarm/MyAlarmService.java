@@ -69,8 +69,7 @@ public class MyAlarmService extends Service {
 
             Notification notification = new NotificationCompat.Builder(this, channelId)
                     .setContentTitle("Timer Service")
-                    .setContentText("Running in the background")
-                    .setSmallIcon(R.drawable.icon_edit)
+                    .setSmallIcon(R.drawable.ic_baseline_location_on_24)
                     .build();
 
             startForeground(1, notification);
